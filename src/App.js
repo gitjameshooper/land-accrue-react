@@ -1,29 +1,24 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import  Navbar from './components/navbar.component';
-import  Home from './components/home.component';
-import  User from './components/user.component';
-import  State from './components/state.component';
+import  Header from './components/header/header.component';
+import  Home from './components/home/home.component';
+import  Login from './components/login/login.component';
+import  Comps from './components/comps/comps.component';
 
 
-import './app.css';
+import './App.scss';
 
 function App() {
     return (
-      <div>
       <Router>
-       
-        <Navbar />
-        <br />
-        <Route path="/" exact component={Home} />
-        <Route path="/state" exact component={State} />
-        <Route path="/user" exact component={User} />
-
+        <Header />
+        <div className="container logo">
+          <Route path="/" exact component={Home} />
+          <Route path="/comps" exact component={Comps} />
+          <Route path="/login" exact component={Login} />
+        </div>
       </Router>
-    
-      </div>
-
     );
 }
 

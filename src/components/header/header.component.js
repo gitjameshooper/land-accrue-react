@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import './header.scss';
 
-export default class Navbar extends Component {
+export default class Header extends Component {
 
     render() {
         return (
+            <header>
             <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
 				<Link to="/" className="navbar-brand">Home</Link>
 				
@@ -14,15 +16,15 @@ export default class Navbar extends Component {
 						 <Link to="/" className="navbar-link">Home</Link>
 						 </li>		
 						 <li className="navbar-item">
-						 <Link to="/user" className="navbar-link">User</Link>
+						 <Link to="/login" className="navbar-link">Login</Link>
 						 </li>		
 						 <li className="navbar-item">
-						 <Link to="/state" className="navbar-link">State</Link>
+						 <Link to="/comps" className="navbar-link">Comps</Link>
 						 </li>
 					</ul>
 				</div>
-
 			</nav>
+			</header>
         )
     }
 }
