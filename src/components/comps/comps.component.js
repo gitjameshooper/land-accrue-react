@@ -36,8 +36,8 @@ export default class State extends Component {
 
     render() {
         return (
-            <div className="container">
-            State Component {this.state.stateName}
+            <div className="container comps-component">
+            CompsComponent {this.state.stateName}
             <select required className="form-control" value={this.state.stateName} onChange={this.onChangeState}>
             {
                 this.state.states.map(function (state) {
