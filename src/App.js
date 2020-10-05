@@ -10,7 +10,7 @@ import  Home from './components/home/home.component';
 import  Login from './components/login/login.component';
 import  Comps from './components/comps/comps.component';
 import './App.scss';
-import { loadUser } from './actions/auth.actions'
+import { loadUser } from './actions/user.actions'
 
 
 const initialState = {};

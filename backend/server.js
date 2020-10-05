@@ -18,11 +18,9 @@ connection.once('open', () => {
 })
 
 const statesRouter = require('./routes/states');
-const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 
 app.use('/states', statesRouter);
-app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 
 app.listen(port, () => {
