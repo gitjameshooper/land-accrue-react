@@ -1,13 +1,14 @@
 const router = require('express').Router();
-let State = require('../models/state.model');
+const State = require('../models/state.model');
+const auth = require('../middleware/auth');
 
-router.route('/').get((req, res) => {
+router.get('/', auth, (req, res) => {
 	State.find()
 	.then(states => res.json(states))
 	.catch(err => res.status(400).json(`Error: ${err}`));
 });
 
-router.route('/add').post((req, res) => {
+router.post('/add', auth, (req, res) => {
 	const state = req.body.state;
 	const abbv = req.body.abbv;
 	const county = req.body.county;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -10,6 +10,7 @@ import  Home from './components/home/home.component';
 import  Login from './components/login/login.component';
 import  Comps from './components/comps/comps.component';
 import './App.scss';
+import { loadUser } from './actions/auth.actions'
 
 
 const initialState = {};
@@ -25,7 +26,11 @@ const store = createStore(
 
 
 
-function App() {
+class App extends Component {
+  componentDidMount(){
+    store.dispatch(loadUser());
+  }
+  render() {
     return (
       <Provider store={store}>
       <Router>
@@ -38,6 +43,7 @@ function App() {
       </Router>
       </Provider>
     );
+  }
 }
 
 export default App;

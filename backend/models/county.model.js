@@ -10,6 +10,4 @@ const countySchema = new Schema({
 	}
 })
 
-const County = mongoose.model('County', stateSchema);
-
-module.exports = County;
+module.exports = County = mongoose.model('County', stateSchema);
