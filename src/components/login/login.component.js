@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { loginUser} from '../../actions/user.actions';
 import './login.scss';
 
-class Login extends Component {
+export default class Login extends Component {
   
-    // onSubmit(e) {
-    // 	e.preventDefault();
-    // 	console.log(e);
-    //      this.props.loginUser();
-    // }
+    constructor (props){
+        super(props);
+
+      
+
+    
+    }
    onSubmit = data => console.log(data);
 
     render() {
@@ -54,8 +54,3 @@ class Login extends Component {
         )
     }
 }
-
- const mapStateToProps = state => ({
-       	 users: state.users
-       })
-export default connect(mapStateToProps, {loginUser})(Login);
