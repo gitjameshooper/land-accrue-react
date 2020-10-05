@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './header.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faUser } from '@fortawesome/free-solid-svg-icons'
 
 export default class Header extends Component {
 
@@ -18,7 +18,7 @@ export default class Header extends Component {
 						 <Link to="/" className="navbar-link">Home</Link>
 						 </li>		
 						 <li className="navbar-item">
-						 <Link to="/login" className="navbar-link">Login</Link>
+						 <Link to="/login" className="navbar-link">Login <FontAwesomeIcon icon={faUser} /></Link>
 						 </li>		
 						 <li className="navbar-item">
 						 <Link to="/comps" className="navbar-link">Comps</Link>
