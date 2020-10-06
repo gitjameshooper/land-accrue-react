@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const stateSchema = new Schema({
+const usStateSchema = new Schema({
 
 	name:{
 		type: String,
@@ -23,4 +23,4 @@ const stateSchema = new Schema({
 	}
 })
 
-module.exports = State  = mongoose.model('State', stateSchema);
+module.exports = USState  = mongoose.model('USState', usStateSchema);

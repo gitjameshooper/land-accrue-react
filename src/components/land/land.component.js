@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import Upload from './upload/upload.component';
 import axios from 'axios';
+import './land.scss';
 
-export default class Comps extends Component {
+export default class Land extends Component {
 	constructor (props){
 		super(props);
 
-		this.onChangeState = this.onChangeState.bind(this);
+		// this.onChangeState = this.onChangeState.bind(this);
 		this.state = {
 			states: [],
 			stateName : '',
@@ -16,33 +18,33 @@ export default class Comps extends Component {
 	
 	}
 
-	onChangeState(e) {
-		this.setState({
-			stateName: e.target.value
-		});
+	// onChangeState(e) {
+	// 	this.setState({
+	// 		stateName: e.target.value
+	// 	});
 
-	}
+	// }
  
-    componentDidMount(){    	
-		axios.get('http://localhost:5000/states')
-		.then(res => {
-			if(res.data.length > 0){
-				console.log(res.data);
-				this.setState({states: res.data.map(state => state.name)});
-			}
-		 });
-    }
+    // componentDidMount(){    	
+		// axios.get('http://localhost:5000/states')
+		// .then(res => {
+		// 	if(res.data.length > 0){
+		// 		console.log(res.data);
+		// 		this.setState({states: res.data.map(state => state.name)});
+		// 	}
+		//  });
+    // }
 
     render() {
     	// const states = this.props.states;
-    	const states = this.props.states.map(state => (
-    		<div><p key={state.id}>{state.name}</p><p>{state.abbv}</p></div>
-        ));
+    	// const states = this.props.states.map(state => (
+    	// 	<div><p key={state.id}>{state.name}</p><p>{state.abbv}</p></div>
+     //    ));
         return (
-            <div className="container comps-component">
-             Comps Component
-            {states}
-             
+            <div className="land-component row">
+             Land Component
+            
+             <Upload />
      
             </div>
             

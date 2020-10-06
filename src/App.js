@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import  Header from './components/header/header.component';
 import  Home from './components/home/home.component';
 import  Login from './components/login/login.component';
-import  Comps from './components/comps/comps.component';
+import  Land from './components/land/land.component';
 import './App.scss';
 
 
@@ -16,7 +16,7 @@ class App extends Component {
         <Header />
         <div className="container logo">
           <Route path="/" exact component={Home} />
-          <Route path="/comps" exact component={Comps} />
+          <Route path="/land" exact component={Land} />
           <Route path="/login" exact component={Login} />
         </div>
       </Router>
