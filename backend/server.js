@@ -17,10 +17,10 @@ connection.once('open', () => {
 	console.log('MongoDB connected');
 })
 
-const statesRouter = require('./routes/states');
+const usStatesRouter = require('./routes/us-states');
 const usersRouter = require('./routes/users');
 
-app.use('/states', statesRouter);
+app.use('/us-states', usStatesRouter);
 app.use('/users', usersRouter);
 
 app.listen(port, () => {

@@ -18,10 +18,10 @@ export default class Header extends Component {
 						 <Link to="/" className="navbar-link">Home</Link>
 						 </li>		
 						 <li className="navbar-item">
-						 <Link to="/login" className="navbar-link">Login <FontAwesomeIcon icon={faUser} /></Link>
+						 <Link to="/login" className="navbar-link">Admin Login <FontAwesomeIcon icon={faUser} /></Link>
 						 </li>		
 						 <li className="navbar-item">
-						 <Link to="/comps" className="navbar-link">Comps</Link>
+						 <Link to="/land" className="navbar-link">Land</Link>
 						 </li>
 					</ul>
 				</div>

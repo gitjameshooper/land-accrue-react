@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const State = require('../models/state.model');
+const USState = require('../models/us-state.model');
 const auth = require('../middleware/auth');
 
 router.get('/', auth, (req, res) => {
-	State.find()
-	.then(states => res.json(states))
+	USState.find()
+	.then(usStates => res.json(usStates))
 	.catch(err => res.status(400).json(`Error: ${err}`));
 });
 
@@ -13,14 +13,14 @@ router.post('/add', auth, (req, res) => {
 	const abbv = req.body.abbv;
 	const county = req.body.county;
 
-	const newState = new State({
+	const newState = new USState({
 		state,
 		abbv,
 		county
 	});
 
 	newState.save()
-	.then(() => res.json('State Added'))
+	.then(() => res.json('US State Added'))
 	.catch(err => res.status(400).json(`Error: ${err}`))
 
 });
