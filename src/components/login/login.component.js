@@ -4,11 +4,7 @@ import './login.scss';
 export default class Login extends Component {
   
     constructor (props){
-        super(props);
-
-      
-
-    
+        super(props);    
     }
    onSubmit = data => console.log(data);
 
