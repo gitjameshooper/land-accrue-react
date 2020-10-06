@@ -23,4 +23,4 @@ const usStateSchema = new Schema({
 	}
 })
 
-module.exports = USState  = mongoose.model('USState', usStateSchema);
+module.exports = USState  = mongoose.model('us-state', usStateSchema);
