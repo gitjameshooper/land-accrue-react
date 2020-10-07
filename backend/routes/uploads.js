@@ -1,14 +1,38 @@
 const router = require('express').Router();
 const multer  = require('multer');
-const upload = multer({ dest: 'uploads/' })
- 
 
  
-router.post('/csv', upload.single('buy.csv'), function (req, res, next, err) {
+
+	      let storage = multer.diskStorage({
+			  destination: function (req, file, cb) {
+			  	console.log(req.body.county);
+			    cb(null, 'csv/'+req.body.county)
+			  },
+			  filename: function (req, file, cb) {
+			  	console.log(file.fieldname);
+			    cb(null, file.fieldname + '-' + Date.now())
+			  }
+			})
+ let upload = multer({ storage: storage });
+router.post('/csv', upload.array('buy.csv','sold.csv'),(req, res, next)  => {
+ 		// console.log(req.file);
+	 	// if(!req.file) return res.status(400).json({ msg: 'File does not exist'});
+	  //   res.status(200);
+	  // console.log(req.body);
+     //    let upload = multer({ dest: 'uploads/' }).single('buy.csv');
+	    //   upload(req, res, function (err) {
+	    //   	console.log(req.body);
+			  //   if (err instanceof multer.MulterError) {
+			  //     // A Multer error occurred when uploading.
+			  //   } else if (err) {
+			  //     // An unknown error occurred when uploading.
+			  //   }
+			 
+			  //   // Everything went fine.
+			  // })
+
  
-	 
-	console.log(req.body);
-    console.log(req.file);
+
   // req.file is the `avatar` file
   // req.body will hold the text fields, if there were any
 })
