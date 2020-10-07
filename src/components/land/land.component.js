@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Upload from './upload/upload.component';
 import axios from 'axios';
 import './land.scss';
+import Grid from '@material-ui/core/Grid';
 
 export default class Land extends Component {
     constructor(props) {
@@ -19,7 +20,9 @@ export default class Land extends Component {
 
 
     }
+    onShowLandSubmit() {
 
+    }
     onChangeUsState(e) {
         this.setState({
             stateName: e.target.value
@@ -55,19 +58,35 @@ export default class Land extends Component {
         ));
 
         return (
-            <div className="land-component row">
-             <h2>Land Component</h2>
-              <h3>Show Land</h3>
-                <select required className="form-control" value={this.state.stateName} onChange={this.onChangeUsState}>
-                {usStates}
-                  </select>
-                <select required className="form-control" value={this.state.countyName} onChange={this.onChangeCounty}>
+
+            <Grid container className="land-component" spacing={3}>
+                <Grid item xs={12}>
+                    <h2>Land Component</h2>
+                </Grid>
+                <Grid item xs={12}>
+                    <h3>Show Land</h3>
+                    <select required className="form-control" value={this.state.stateName} onChange={this.onChangeUsState}>
+                        {usStates}
+                    </select>
+              
+                   <select required className="form-control" value={this.state.countyName} onChange={this.onChangeCounty}>
                        {counties}
                   </select>
+                  <button onClick={this.onShowLand}>Show Land</button>
+                    </Grid>
+        <Grid item xs={12}>
+              
+   
+             
                 
              <Upload />
+        </Grid>
+        </Grid>
+
+            
+
      
-            </div>
+
 
         )
 

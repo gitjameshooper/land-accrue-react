@@ -18,9 +18,11 @@ connection.once('open', () => {
 })
 
 const usStatesRouter = require('./routes/us-states');
+const uploadsRouter = require('./routes/uploads');
 const usersRouter = require('./routes/users');
 
 app.use('/us-states', usStatesRouter);
+app.use('/uploads', uploadsRouter);
 app.use('/users', usersRouter);
 
 app.listen(port, () => {
