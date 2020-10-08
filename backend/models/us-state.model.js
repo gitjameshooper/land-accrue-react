@@ -2,6 +2,18 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
+const countySchema = new Schema({
+
+	name:{
+		type: String,
+		require: true,
+		unique: true,
+		trim: true,
+		minlength: 1,
+		auto: true
+	}
+})
+
 const usStateSchema = new Schema({
 
 	name:{
@@ -19,8 +31,8 @@ const usStateSchema = new Schema({
 		minlength: 2
 	},
 	counties: {
-		type: Object
+		type: [countySchema]
 	}
-})
+},{ versionKey: false })
 
 module.exports = USState  = mongoose.model('us-state', usStateSchema);

@@ -16,7 +16,8 @@ export default class Upload extends Component {
             buyLandFile: null,
             soldLandFile: null,
             usStates: USstates,
-            usState: 'TX',
+            usStateName: 'Texas',
+            usStateAbbv: 'TX',
             countyName: '',
             countyNameErr: '',
             buyLandFileErr: '',
@@ -29,7 +30,8 @@ export default class Upload extends Component {
 
     }
     onChangeState(e) {
-        this.setState({ usState: e.target.value });
+        this.setState({ usStateName: e.target.value });
+        this.setState({ usStateAbbv: e.target.options[e.target.options.selectedIndex].getAttribute('data-abbv') });
     }
     onChangeCounty(e) {
         this.setState({ countyName: e.target.value });
@@ -69,7 +71,8 @@ export default class Upload extends Component {
                 headers: { 'content-type': 'multipart/form-data' }
             }
             formData.append('county', this.state.countyName);
-            formData.append('state', this.state.usState);
+            formData.append('usStateName', this.state.usStateName);
+            formData.append('usStateAbbv', this.state.usStateAbbv);
             // Update the formData object 
             formData.append(
                 'buy.csv',
@@ -93,7 +96,7 @@ export default class Upload extends Component {
     render() {
         const usStates = this.state.usStates.map(state => (
 
-            <option value={state.abbv}  key={state.abbv}>{state.name}</option>
+            <option value={state.name} data-abbv={state.abbv} key={state.abbv}>{state.name}</option>
 
         ));
         return (
@@ -101,7 +104,7 @@ export default class Upload extends Component {
 
               <h3>Upload CSV Files</h3>
               <form noValidate onSubmit={this.onSubmitFiles}>
-               <select id="us-state" className="form-control" onChange={this.onChangeState} value={this.state.usState}>
+               <select id="us-state" className="form-control" onChange={this.onChangeState} value={this.state.usStateName}>
                 {usStates}
               </select>
                 <input type="text" className="form-control" onChange={this.onChangeCounty} name={this.state.countyName}  placeholder="County Name" aria-describedby="basic-addon2"/>
