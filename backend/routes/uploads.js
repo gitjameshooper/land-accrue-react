@@ -1,54 +1,44 @@
 const router = require('express').Router();
-const multer  = require('multer');
+const multer = require('multer');
+const fs = require("fs"); 
 
- 
 
-	      let storage = multer.diskStorage({
-			  destination: function (req, file, cb) {
-			  	console.log(req.body.county);
-			    cb(null, 'csv/'+req.body.county)
-			  },
-			  filename: function (req, file, cb) {
-			  	console.log(file.fieldname);
-			    cb(null, file.fieldname + '-' + Date.now())
-			  }
-			})
- let upload = multer({ storage: storage });
-router.post('/csv', upload.array('buy.csv','sold.csv'),(req, res, next)  => {
- 		// console.log(req.file);
-	 	// if(!req.file) return res.status(400).json({ msg: 'File does not exist'});
-	  //   res.status(200);
-	  // console.log(req.body);
-     //    let upload = multer({ dest: 'uploads/' }).single('buy.csv');
-	    //   upload(req, res, function (err) {
-	    //   	console.log(req.body);
-			  //   if (err instanceof multer.MulterError) {
-			  //     // A Multer error occurred when uploading.
-			  //   } else if (err) {
-			  //     // An unknown error occurred when uploading.
-			  //   }
-			 
-			  //   // Everything went fine.
-			  // })
 
- 
-
-  // req.file is the `avatar` file
-  // req.body will hold the text fields, if there were any
+let storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        let path = `csv/${req.body.state}/${req.body.county}`;
+        // create directory if it doesnt exist
+        if (!fs.existsSync(path)) {
+            fs.mkdir(path, { recursive: true }, (err) => {
+                if (err) throw err;
+            });
+        }
+        cb(null, path)
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.fieldname);
+    }
 })
- 
- 
-// var cpUpload = upload.fields([{ name: 'avatar', maxCount: 1 }, { name: 'gallery', maxCount: 8 }])
-// app.post('/cool-profile', cpUpload, function (req, res, next) {
-//   // req.files is an object (String -> Array) where fieldname is the key, and the value is array of files
-//   //
-//   // e.g.
-//   //  req.files['avatar'][0] -> File
-//   //  req.files['gallery'] -> Array
-//   //
-//   // req.body will contain the text fields, if there were any
-// })
- 
+let upload = multer({ storage: storage });
+router.post('/csv', upload.fields([{ name: 'buy.csv', maxCount: 1 }, { name: 'sold.csv', maxCount: 1 }]), (req, res, next) => {
+    // console.log(req.file);
+    // if(!req.file) return res.status(400).json({ msg: 'File does not exist'});
+    //   res.status(200);
+    // console.log(req.body);
+    //    let upload = multer({ dest: 'uploads/' }).single('buy.csv');
+    //   upload(req, res, function (err) {
+    //   	console.log(req.body);
+    //   if (err instanceof multer.MulterError) {
+    //     // A Multer error occurred when uploading.
+    //   } else if (err) {
+    //     // An unknown error occurred when uploading.
+    //   }
+
+    //   // Everything went fine.
+    // })
+
+})
+
 
 
 
