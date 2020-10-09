@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const multer = require('multer');
+const USState = require('../models/us-state.model');
 const fs = require("fs");
 const _ = require('lodash');
 const csvToJson = require('csvtojson');
@@ -27,31 +28,73 @@ router.post('/csv', upload.fields([{ name: 'buy.csv', maxCount: 1 }, { name: 'so
     // if(!req.file) return res.status(400).json({ msg: 'File does not exist'});
     let usStateAbbv = req.body.usStateAbbv.toLowerCase(),
         usStateName = req.body.usStateName.toLowerCase(),
-        county = req.body.county.toLowerCase();
+        countyName = req.body.county.toLowerCase();
+    enterData(usStateName, usStateAbbv, countyName);
     // Add error handling
     // Find state in DB, enter state if it does NOT exist
-    let options = { upsert: true };
-    USState.findOneAndUpdate({
-    	    name: usStateName,
-            abbv: usStateAbbv,
-            counties: {
-                $elemMatch: {
-                    'name': county
-                }
-            }
-        }, {
-        	name: usStateName,
-            abbv: usStateAbbv,
-            $push: {
-                counties: { 'name': county }
-            }
 
-        }, options, (error, result) => {
-            if (error) return;
+    // USState.findOne({ name: usStateName, abbv: usStateAbbv })
+    //     .then(d => {
+    //         if (!d) {
+    //             console.log('State not found');
+    //             const newState = new USState({
+    //                 name: usStateName,
+    //                 abbv: usStateAbbv,
+    //                 counties: [{ name: countyName }]
+    //             });
+    //             console.log(newState);
+    //             newState.save()
+    //                 .then(() => res.json('US State Added'))
+    //                 .catch(err => res.status(400).json(`Error: ${err}`))
+    //         }
+    //         return USState.findOne({
+    //             name: usStateName,
+    //             abbv: usStateAbbv,
+    //             counties: {
+    //                 $elemMatch: {
+    //                     'name': countyName
+    //                 }
+    //             }
+    //         }).exec();
 
-            // do something with the document
-        })
-        .then(usState => console.log(usState));
+    //     }).then(d => {
+    //         if (!d) {
+    //             console.log('County not found');
+    //             USState.updateOne({
+    //                     name: usStateName,
+    //                     abbv: usStateAbbv
+    //                 }, {
+    //                     $push: {
+    //                         counties: { 'name': countyName }
+    //                     }
+    //                 }).save()
+    //                 .then(() => res.json('County Added'))
+    //                 .catch(err => res.status(400).json(`Error: ${err}`))
+    //         }
+    //         console.log(d)
+    //     });
+    // let options = { upsert: true,  new: true, setDefaultsOnInsert: true  };
+    // USState.findOneAndUpdate({
+    // 	name: usStateName,
+    //     abbv: usStateAbbv,
+    // counties: {
+    //    $elemMatch: {
+    //        'name': countyName
+    //    }
+    // }
+    //     }, {
+    //     	   name: usStateName,
+    //         abbv: usStateAbbv,
+    //         $addToSet: {
+    //             counties: { 'name': countyName }
+    //         }
+
+    //     }, options, (error, result) => {
+    //         if (error) return;
+
+    //         // do something with the document
+    //     })
+    //     .then(usState => console.log(usState));
     // Find county in DB, enter county if it does NOT exist
     // Get county by object id and enter data into counties by countyID  
     // compareComps(req.body.state, req.body.county);
@@ -60,6 +103,81 @@ router.post('/csv', upload.fields([{ name: 'buy.csv', maxCount: 1 }, { name: 'so
 
 })
 
+const findState = (usStateName, usStateAbbv, countyName) => {
+    return USState.findOne({ name: usStateName, abbv: usStateAbbv }).exec()
+}
+
+const getCountyId = (usState, countyName) => {
+    let countyId = null;
+    usState.counties.forEach((county) => {
+        if (county.name === countyName) {
+            console.log('county found');
+            countyId = county._id;
+        }
+    });
+    if (!countyId) {
+    	console.log(usState);
+        return USState.findOneAndUpdate({
+            name: usState.name,
+            abbv: usState.abbv,
+        }, {
+            $addToSet: {
+                counties: { 'name': countyName }
+            }
+        },{new: true}, (err, doc)=> {
+        	console.log(doc.counties);
+        	doc.counties.forEach((county) => {
+		        if (county.name === countyName) {
+		            console.log('county found');
+		            countyId = county._id;
+		        }
+		    });
+		    return countyId;
+        });
+    }
+    console.log(countyId);
+    return countyId;
+
+}
+
+
+// Check for state in DB, enter state and county if it does NOT exist
+// Return county object ID  
+// if state does exist  check county for a match. 
+// if match 
+// return county object ID
+// else 
+// enter new county and 
+// return object id
+
+async function enterData(usStateName, usStateAbbv, countyName) {
+    try {
+        let usState = await findState(usStateName, usStateAbbv).then((usState) => {
+
+            if (!usState) {
+                console.log('state does not exist');
+                let newState = new USState({
+                    name: usStateName,
+                    abbv: usStateAbbv,
+                    counties: [{ name: countyName }]
+                });
+                console.log(newState);
+                return newState.save((err, doc) => {
+                    if (err) console.error(err);
+                    console.log('state addded');
+                });
+            }
+            return usState;
+        }).then(usState => getCountyId(usState, countyName)).then(d => console.log(d));
+
+
+
+    } catch (e) {
+        console.log(e);
+    } finally {
+        console.log('\u001b[32m%s\x1b\u001b[0m', 'End of the line');
+    }
+}
 
 function enterDataDB(data, filename) {
     return new Promise((res, req) => {
