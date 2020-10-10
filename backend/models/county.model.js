@@ -29,7 +29,7 @@ const totalProperty = new Schema({
 		trim: true,
 		minlength: 1
 	}
-})
+},{ versionKey: false})
 
 
 const countySchema = new Schema({
@@ -61,6 +61,6 @@ const countySchema = new Schema({
 		type: [totalProperty],
 
 	},
-})
+},{ versionKey: false})
 
 module.exports = County = mongoose.model('County', countySchema);
