@@ -6,7 +6,6 @@ const fs = require("fs");
 const _ = require('lodash');
 const csvToJson = require('csvtojson');
 
-console.log('sync');
 
 let storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -25,14 +24,16 @@ let storage = multer.diskStorage({
 })
 let upload = multer({ storage: storage });
 router.post('/csv', upload.fields([{ name: 'buy.csv', maxCount: 1 }, { name: 'sold.csv', maxCount: 1 }]), (req, res, next) => {
+    if (!req.files) return res.status(400).json({ msg: 'Files do not exist' });
 
-    // if(!req.file) return res.status(400).json({ msg: 'File does not exist'});
     let usStateAbbv = req.body.usStateAbbv.toLowerCase(),
         usStateName = req.body.usStateName.toLowerCase(),
         countyName = req.body.county.toLowerCase();
-    addData(usStateName, usStateAbbv, countyName);
 
-    // Add error handling
+    addData(usStateName, usStateAbbv, countyName).then(a => {
+        return res.status(200).json({ msg: 'Data Entered' });
+    });
+
 
 })
 
@@ -42,7 +43,6 @@ function getCountyId(usState, countyName) {
         let countyId = null;
         usState.counties.forEach((county) => {
             if (county.name === countyName) {
-                console.log('county found');
                 countyId = county._id;
                 res(countyId);
             }
@@ -59,33 +59,23 @@ function getCountyId(usState, countyName) {
             }, { new: true }, (err, doc) => {
                 doc.counties.forEach((county) => {
                     if (county.name === countyName) {
-                        console.log('county added');
                         countyId = county._id;
                         res(countyId);
                     }
                 });
-
-            }).exec();
+            });
         }
     });
 }
 
 function addProperties(name, usCounty, data) {
-    return new Promise((res, rej) => {
-        let properties = [];
+    let properties = [];
 
-        data.forEach((property) => {
-
-            properties.push(property);
-        })
-        usCounty[name] = properties;
-        usCounty.save((err, result) => {
-        	console.log('Total props added');
-			console.log(err);
-            res(result);
-        });
-    });
-
+    data.forEach((property) => {
+        properties.push(property);
+    })
+    usCounty[name] = properties;
+    return usCounty.save();
 }
 
 
@@ -363,51 +353,26 @@ function mergeData(buyData, soldData) {
 
 async function addData(usStateName, usStateAbbv, countyName) {
     try {
-        // Check for state. if not enter state into DB with county
-        let usState = await USState.findOne({ name: usStateName, abbv: usStateAbbv }).exec();
-        if (!usState) {
-            console.log('state does not exist');
-            let newState = await new USState({
-                name: usStateName,
-                abbv: usStateAbbv,
-                counties: [{ name: countyName }]
-            }).save((err, doc) => {
-                if (err) console.log(err);
-                console.log('state added');
-                usState = doc;
-            });
-        }
-        // Check for county in us-states collection. if not enter county and get id
+        // Check for state in us-states collection. if null enter state into DB with county
+        let usState = await USState.findOne({ name: usStateName, abbv: usStateAbbv }).exec() ||
+            await new USState({ name: usStateName, abbv: usStateAbbv, counties: [{ name: countyName, stateAbbv: usStateAbbv }] }).save();
+        // Check for county in us-states collection. if null enter county and get id
         let countyId = await getCountyId(usState, countyName);
-        // Check for county in counties collection. if no enter county 
-        let usCounty = await County.findOne({ 'countyId': countyId }).exec();
-        if (!usCounty) {
-            console.log('county does not exist');
-            const newCounty = new County({
-                name: countyName,
-                countyId: countyId
-            }).save((err, doc) => {
-                if (err) console.log(err);
-                console.log('county added 2');
-                usCounty = doc;
-            });
-        }
+        // Check for county in counties collection. if null enter county 
+        let usCounty = await County.findOne({ 'countyId': countyId }).exec() ||
+            await new County({ name: countyName, countyId: countyId, stateAbbv: usStateAbbv }).save();
+
         // Add Buy and sold properties into counties collection in DB
         let buyData = await csvToJson().fromFile(`./csv/${usStateAbbv}/${countyName}/buy.csv`).then((data) => formatBuyData(data));
         let soldData = await csvToJson().fromFile(`./csv/${usStateAbbv}/${countyName}/sold.csv`).then((data) => formatSoldData(data));
-        let totalData = await mergeData(buyData, soldData).then((data) => addProperties('totalProperties', usCounty, data));
-
-        return totalData;
+        // Merge data by making calculations
+        return await mergeData(buyData, soldData).then((data) => addProperties('totalProperties', usCounty, data));
     } catch (e) {
         console.log(e);
+        return e;
     } finally {
         console.log('\u001b[32m%s\x1b\u001b[0m', 'End of the line');
     }
 }
-
-
-
-
-console.log('sync-end');
 
 module.exports = router;

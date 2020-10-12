@@ -650,6 +650,13 @@ const countySchema = new Schema({
         trim: true,
         minlength: 1
     },
+    stateAbbv:  {
+        type: String,
+        require: true,
+        unique: false,
+        trim: true,
+        minlength: 2
+    },
     countyId: {
         type: String,
         require: true,
