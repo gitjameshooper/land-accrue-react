@@ -32,81 +32,15 @@ router.post('/csv', upload.fields([{ name: 'buy.csv', maxCount: 1 }, { name: 'so
         countyName = req.body.county.toLowerCase();
     enterData(usStateName, usStateAbbv, countyName);
     // Add error handling
-    // Find state in DB, enter state if it does NOT exist
 
-    // USState.findOne({ name: usStateName, abbv: usStateAbbv })
-    //     .then(d => {
-    //         if (!d) {
-    //             console.log('State not found');
-                // const newState = new USState({
-                //     name: usStateName,
-                //     abbv: usStateAbbv,
-                //     counties: [{ name: countyName }]
-                // });
-                // console.log(newState);
-                // newState.save()
-                //     .then(() => res.json('US State Added'))
-                //     .catch(err => res.status(400).json(`Error: ${err}`))
-    //         }
-    //         return USState.findOne({
-    //             name: usStateName,
-    //             abbv: usStateAbbv,
-    //             counties: {
-    //                 $elemMatch: {
-    //                     'name': countyName
-    //                 }
-    //             }
-    //         }).exec();
 
-    //     }).then(d => {
-    //         if (!d) {
-    //             console.log('County not found');
-    //             USState.updateOne({
-    //                     name: usStateName,
-    //                     abbv: usStateAbbv
-    //                 }, {
-    //                     $push: {
-    //                         counties: { 'name': countyName }
-    //                     }
-    //                 }).save()
-    //                 .then(() => res.json('County Added'))
-    //                 .catch(err => res.status(400).json(`Error: ${err}`))
-    //         }
-    //         console.log(d)
-    //     });
-    // let options = { upsert: true,  new: true, setDefaultsOnInsert: true  };
-    // USState.findOneAndUpdate({
-    // 	name: usStateName,
-    //     abbv: usStateAbbv,
-    // counties: {
-    //    $elemMatch: {
-    //        'name': countyName
-    //    }
-    // }
-    //     }, {
-    //     	   name: usStateName,
-    //         abbv: usStateAbbv,
-    //         $addToSet: {
-    //             counties: { 'name': countyName }
-    //         }
-
-    //     }, options, (error, result) => {
-    //         if (error) return;
-
-    //         // do something with the document
-    //     })
-    //     .then(usState => console.log(usState));
-    // Find county in DB, enter county if it does NOT exist
-    // Get county by object id and enter data into counties by countyID  
     // compareComps(req.body.state, req.body.county);
-
+// enter in buy properties into county
+// enter in sold properties into county
 
 
 })
 
-const findState = (usStateName, usStateAbbv, countyName) => {
-    return USState.findOne({ name: usStateName, abbv: usStateAbbv }).exec();
-}
 
 const getCountyId = (usState, countyName) => {
     return new Promise((res, rej) => {
@@ -140,50 +74,47 @@ const getCountyId = (usState, countyName) => {
         }
     });
 }
-const enterCountyData = (countyId, countyName) => {
-    County.findOne({ 'countyId': countyId }).then(county => {
-    	console.log(county);
-    	// check for county : add county
-    	if(!county){
-    		console.log('County does not exist');
-                const newCounty = new County({
-                    name: countyName,
-                    countyId: countyId
-                });
-            return newCounty.save()
-                    .then(() => res.json('County Added'))
-                    .catch(err => res.status(400).json(`Error: ${err}`))
-		}
-        console.log('county does exist');
-        return county;
 
-    });
+const addBuyProperties = (usCounty) => {
+
 }
-// check for county by id 
-// does not exist Enter county into counties
-// enter in buy properties into county
-// enter in sold properties into county
+
+
 
 async function enterData(usStateName, usStateAbbv, countyName) {
     try {
-        let usState = await findState(usStateName, usStateAbbv).then((usState) => {
-
-            if (!usState) {
+    	// Check for state. if not enter state into DB with county
+    	let usState = await USState.findOne({ name: usStateName, abbv: usStateAbbv }).exec();
+			if (!usState) {
                 console.log('state does not exist');
-                let newState = new USState({
+                let newState = await new USState({
                     name: usStateName,
                     abbv: usStateAbbv,
                     counties: [{ name: countyName }]
-                });
-                console.log(newState);
-                return newState.save((err, doc) => {
-                    if (err) console.error(err);
-                    console.log('state addded');
+                }).save((err, doc) => {
+                    if (err) console.log(err);
+                     console.log('state added');
+                    usState = doc;
                 });
             }
-            return usState;
-        }).then(usState => getCountyId(usState, countyName)).then(countyId => enterCountyData(countyId, countyName)).then(a => console.log(a));
-
+         // Check for county in us-states collection. if not enter county and get id
+        let countyId = await getCountyId(usState, countyName);
+        // Check for county in counties collection. if no enter county 
+        let usCounty = await County.findOne({ 'countyId': countyId }).exec();
+        		if (!usCounty) {
+                console.log('county does not exist');
+                const newCounty = new County({
+                    name: countyName,
+                    countyId: countyId
+                }).save((err, doc) => {
+                    if (err) console.log(err);
+                    console.log('county added 2');
+                    usCounty = doc;
+                });
+            }
+         let buyProps = addBuyProperties(usCounty);
+            console.log(usCounty);
+            return usCounty;
 
 
     } catch (e) {
