@@ -7,6 +7,7 @@ const usCountySchema = new Schema({
 	name:{
 		type: String,
 		require: true,
+		unique: false,
 		trim: true,
 		minlength: 1,
 		auto: true

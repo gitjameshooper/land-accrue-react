@@ -30,19 +30,13 @@ router.post('/csv', upload.fields([{ name: 'buy.csv', maxCount: 1 }, { name: 'so
     let usStateAbbv = req.body.usStateAbbv.toLowerCase(),
         usStateName = req.body.usStateName.toLowerCase(),
         countyName = req.body.county.toLowerCase();
-    enterData(usStateName, usStateAbbv, countyName);
+    addData(usStateName, usStateAbbv, countyName);
+
     // Add error handling
-
-
-    // compareComps(req.body.state, req.body.county);
-// enter in buy properties into county
-// enter in sold properties into county
-
-
 })
 
 
-const getCountyId = (usState, countyName) => {
+function getCountyId(usState, countyName) {
     return new Promise((res, rej) => {
         let countyId = null;
         usState.counties.forEach((county) => {
@@ -75,63 +69,27 @@ const getCountyId = (usState, countyName) => {
     });
 }
 
-const addBuyProperties = (usCounty) => {
-
-}
-
-
-
-async function enterData(usStateName, usStateAbbv, countyName) {
-    try {
-    	// Check for state. if not enter state into DB with county
-    	let usState = await USState.findOne({ name: usStateName, abbv: usStateAbbv }).exec();
-			if (!usState) {
-                console.log('state does not exist');
-                let newState = await new USState({
-                    name: usStateName,
-                    abbv: usStateAbbv,
-                    counties: [{ name: countyName }]
-                }).save((err, doc) => {
-                    if (err) console.log(err);
-                     console.log('state added');
-                    usState = doc;
-                });
-            }
-         // Check for county in us-states collection. if not enter county and get id
-        let countyId = await getCountyId(usState, countyName);
-        // Check for county in counties collection. if no enter county 
-        let usCounty = await County.findOne({ 'countyId': countyId }).exec();
-        		if (!usCounty) {
-                console.log('county does not exist');
-                const newCounty = new County({
-                    name: countyName,
-                    countyId: countyId
-                }).save((err, doc) => {
-                    if (err) console.log(err);
-                    console.log('county added 2');
-                    usCounty = doc;
-                });
-            }
-         let buyProps = addBuyProperties(usCounty);
-            console.log(usCounty);
-            return usCounty;
-
-
-    } catch (e) {
-        console.log(e);
-    } finally {
-        console.log('\u001b[32m%s\x1b\u001b[0m', 'End of the line');
-    }
-}
-
-function enterDataDB(data, filename) {
-    return new Promise((res, req) => {
-
-        console.log(data);
-        res("Entering data");
-        console.log('Enter Mongo db data');
+function addProperties(type, usCounty, data) {
+    return new Promise((res, rej) => {
+        let properties = [];
+        data.forEach((property) => {
+            properties.push(property);
+        })
+        usCounty[type] = properties;
+        usCounty.save((err, result) => {
+            console.log(err);
+            res(result);
+        });
     });
+
 }
+
+
+function getFormattedDate() {
+    let date = new Date();
+    return ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
+}
+
 
 function formatSoldData(csv) {
     return new Promise((res, rej) => {
@@ -225,23 +183,52 @@ function formatBuyData(csv) {
     });
 }
 
-function getFormattedDate() {
-    let date = new Date();
-    return ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear();
-}
 
 
-// Compare Land Comps
-async function compareComps(state, county) {
+async function addData(usStateName, usStateAbbv, countyName) {
     try {
-        let buyD = await csvToJson().fromFile(`./csv/${state}/${county}/buy.csv`).then((data) => formatBuyData(data)).then((data) => enterDataDB(data, 'buy'));
-        soldD = await csvToJson().fromFile(`./csv/${state}/${county}/sold.csv`).then((data) => formatSoldData(data)).then((data) => enterDataDB(data, 'sold'));
+        // Check for state. if not enter state into DB with county
+        let usState = await USState.findOne({ name: usStateName, abbv: usStateAbbv }).exec();
+        if (!usState) {
+            console.log('state does not exist');
+            let newState = await new USState({
+                name: usStateName,
+                abbv: usStateAbbv,
+                counties: [{ name: countyName }]
+            }).save((err, doc) => {
+                if (err) console.log(err);
+                console.log('state added');
+                usState = doc;
+            });
+        }
+        // Check for county in us-states collection. if not enter county and get id
+        let countyId = await getCountyId(usState, countyName);
+        // Check for county in counties collection. if no enter county 
+        let usCounty = await County.findOne({ 'countyId': countyId }).exec();
+        if (!usCounty) {
+            console.log('county does not exist');
+            const newCounty = new County({
+                name: countyName,
+                countyId: countyId
+            }).save((err, doc) => {
+                if (err) console.log(err);
+                console.log('county added 2');
+                usCounty = doc;
+            });
+        }
+        // Add properties into counties collection in DB
+        let buyD = await csvToJson().fromFile(`./csv/${usStateAbbv}/${countyName}/buy.csv`).then((data) => formatBuyData(data)).then((data) => addProperties('buy', usCounty, data));
+        let soldD = await csvToJson().fromFile(`./csv/${usStateAbbv}/${countyName}/sold.csv`).then((data) => formatSoldData(data)).then((data) => addProperties('sold', buyD, data));
+        return soldD;
     } catch (e) {
         console.log(e);
     } finally {
-        console.log('\u001b[32m%s\x1b\u001b[0m', 'All Files Ready and Compared Comps Complete');
+        console.log('\u001b[32m%s\x1b\u001b[0m', 'End of the line');
     }
 }
+
+
+
 
 console.log('sync-end');
 
