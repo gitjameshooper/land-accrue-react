@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import Upload from './upload/upload.component';
+import DataTable from './table/table.component';
 import axios from 'axios';
 import './land.scss';
 import Grid from '@material-ui/core/Grid';
+
+
 
 export default class Land extends Component {
     constructor(props) {
@@ -12,6 +15,7 @@ export default class Land extends Component {
         this.onChangeCounty = this.onChangeCounty.bind(this);
         this.onShowLandSubmit = this.onShowLandSubmit.bind(this);
         this.state = {
+            tableLoading: false,
             usStates: [],
             usStateName: 'texas',
             usStateAbbv: 'tx',
@@ -24,13 +28,17 @@ export default class Land extends Component {
 
     }
     onShowLandSubmit() {
+        this.setState({ tableLoading: true});
         axios.get(`http://localhost:5000/counties/${this.state.countyId}`)
             .then(res => {
                 if (res.data.length > 0) {
-                    this.setState({ properties: res.data[0].totalProperties.map(property => property) });
-
+                    this.setState({ properties: res.data[0].totalProperties.map(property => property), tableLoading: false});
                 }
-            })
+
+            }).catch(err => {
+                // what now?
+                console.log(err);
+            });
     }
     onChangeUsState(e) {
         let abbv = e.target.options[e.target.options.selectedIndex].getAttribute('data-abbv');
@@ -57,6 +65,9 @@ export default class Land extends Component {
                     this.setState({ usStates: res.data.map(usState => usState) });
                     this.setState({ counties: res.data.filter(usState => usState.abbv === this.state.usStateAbbv).map(usState => usState.counties).flatMap(county => county) });
                 }
+            }).catch(err => {
+                // what now?
+                console.log(err);
             });
     }
 
@@ -71,10 +82,10 @@ export default class Land extends Component {
             <option key={county._id} value={county.name} data-county-id={county._id}>{county.name}</option>
         ));
 
-        const properties = this.state.properties.map((property) => (
+        // const properties = this.state.properties.map((property) => (
 
-            <tr><td>{property.estValue3}</td><td>{property['SITUS CITY']}</td><td>{property['SITUS STATE']}</td><td>{property['SITUS ZIP CODE']}</td></tr>
-        ));
+        //     <tr><td>{property.estValue3}</td><td>{property['SITUS CITY']}</td><td>{property['SITUS STATE']}</td><td>{property['SITUS ZIP CODE']}</td></tr>
+        // ));
 
         return (
 
@@ -93,16 +104,7 @@ export default class Land extends Component {
                   <button onClick={this.onShowLandSubmit}>Show Land</button>
                     </Grid>
                     <Grid item xs={12}>
-                    <table>
-                      <tr>
-    <th>Firstname</th>
-    <th>Lastname</th>
-    <th>Age</th>
-    <th>pizza</th>
-  </tr>
-
-                    {properties}
-                    </table>
+                 <DataTable isLoading={this.state.tableLoading} countyName={this.state.countyName} stateAbbv={this.state.usStateAbbv} propertyData={this.state.properties} />
                     </Grid>
         <Grid item xs={12}>
               
@@ -110,12 +112,6 @@ export default class Land extends Component {
              <Upload />
         </Grid>
         </Grid>
-
-
-
-
-
-
         )
 
     }
