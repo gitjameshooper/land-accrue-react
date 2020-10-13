@@ -1,0 +1,10 @@
+ @import './../../../variables.scss';
+ table.MuiTable-root {
+     tr[level="0"] {
+         background: #ccc;
+     }
+
+     tr[level="1"] {
+         background: $secondary-color;
+     }
+ }
