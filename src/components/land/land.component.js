@@ -10,51 +10,70 @@ export default class Land extends Component {
 
         this.onChangeUsState = this.onChangeUsState.bind(this);
         this.onChangeCounty = this.onChangeCounty.bind(this);
+        this.onShowLandSubmit = this.onShowLandSubmit.bind(this);
         this.state = {
             usStates: [],
             usStateName: 'texas',
-            stateAbbv: 'tx',
+            usStateAbbv: 'tx',
             countyName: 'travis',
-            counties: []
+            countyId: '5f84d120e777edead6a09fa6',
+            counties: [],
+            properties: []
         }
 
 
     }
     onShowLandSubmit() {
+        axios.get(`http://localhost:5000/counties/${this.state.countyId}`)
+            .then(res => {
+                if (res.data.length > 0) {
+                    this.setState({ properties: res.data[0].totalProperties.map(property => property) });
 
+                }
+            })
     }
     onChangeUsState(e) {
+        let abbv = e.target.options[e.target.options.selectedIndex].getAttribute('data-abbv');
         this.setState({
-            stateName: e.target.value
+            usStateName: e.target.value,
+            usStateAbbv: abbv
         });
+        this.setState({ counties: this.state.usStates.filter(usState => usState.abbv === abbv).map(usState => usState.counties).flatMap(county => county) });
+
     }
 
     onChangeCounty(e) {
         this.setState({
-            countyName: e.target.value
+            countyName: e.target.value,
+            countyId: e.target.options[e.target.options.selectedIndex].getAttribute('data-county-id')
         });
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/us-states')
+        axios.get(`http://localhost:5000/us-states`)
             .then(res => {
 
                 if (res.data.length > 0) {
-                    this.setState({ usStates: res.data.map(usState => usState.name) });
-                    this.setState({ counties: res.data.filter(usState => usState.abbv === this.state.stateAbbv).map(usState => usState.counties.map(county => county.name))});
+                    this.setState({ usStates: res.data.map(usState => usState) });
+                    this.setState({ counties: res.data.filter(usState => usState.abbv === this.state.usStateAbbv).map(usState => usState.counties).flatMap(county => county) });
                 }
             });
     }
 
     render() {
-        console.log(this.state.counties);
         const usStates = this.state.usStates.map((usState) => (
-            <option key={usState} value={usState}>{usState}</option>
+
+            <option key={usState._id} value={usState.name} data-abbv={usState.abbv} >{usState.name}</option>
         ));
 
         const counties = this.state.counties.map((county) => (
 
-            <option key={county} value={county}>{county}</option>
+            <option key={county._id} value={county.name} data-county-id={county._id}>{county.name}</option>
+        ));
+
+        const properties = this.state.properties.map((property) => (
+
+            <tr><td>{property.estValue3}</td><td>{property['SITUS CITY']}</td><td>{property['SITUS STATE']}</td><td>{property['SITUS ZIP CODE']}</td></tr>
         ));
 
         return (
@@ -65,27 +84,36 @@ export default class Land extends Component {
                 </Grid>
                 <Grid item xs={12}>
                     <h3>Show Land</h3>
-                    <select required className="form-control" value={this.state.stateName} onChange={this.onChangeUsState}>
+                    <select required className="form-control" value={this.state.usStateName} onChange={this.onChangeUsState}>
                         {usStates}
                     </select>
-              
                    <select required className="form-control" value={this.state.countyName} onChange={this.onChangeCounty}>
-                       {counties}
+                   {counties}
                   </select>
-                  <button onClick={this.onShowLand}>Show Land</button>
+                  <button onClick={this.onShowLandSubmit}>Show Land</button>
+                    </Grid>
+                    <Grid item xs={12}>
+                    <table>
+                      <tr>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th>Age</th>
+    <th>pizza</th>
+  </tr>
+
+                    {properties}
+                    </table>
                     </Grid>
         <Grid item xs={12}>
               
    
-             
-                
              <Upload />
         </Grid>
         </Grid>
 
-            
 
-     
+
+
 
 
         )
