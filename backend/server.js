@@ -20,10 +20,12 @@ connection.once('open', () => {
 const usStatesRouter = require('./routes/us-states');
 const uploadsRouter = require('./routes/uploads');
 const usersRouter = require('./routes/users');
+const countiesRouter = require('./routes/counties');
 
 app.use('/us-states', usStatesRouter);
 app.use('/uploads', uploadsRouter);
 app.use('/users', usersRouter);
+app.use('/counties', countiesRouter);
 
 app.listen(port, () => {
 	console.log(`Server is running on port: ${port}`);
