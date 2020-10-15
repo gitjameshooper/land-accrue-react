@@ -6,6 +6,7 @@ import CloseIcon  from '@material-ui/icons/Close';
 import HomeIcon from '@material-ui/icons/Home';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import LandscapeIcon from '@material-ui/icons/Landscape';
+import logo from './../../../assets/img/la-mtn-logo.png';
 import './navbar.scss';
 
 export default function NavBar() {
@@ -16,8 +17,8 @@ export default function NavBar() {
  
   return (
     <div className="navbar">
-       <Link to="#" className="menu-bars"> <MenuIcon onClick={showSideBar} /> </Link>
-
+       <Link to="#" className="menu-bars" onClick={showSideBar}> <MenuIcon  /> </Link>
+       <img className="la-logo" src={logo} alt="Logo" />
       <nav className={sideBar ? 'nav-menu active' : 'nav-menu'}>
         <ul className="nav-menu-items" onClick={showSideBar} >
           <li className="navbar-toggle nav-text"><CloseIcon /></li>

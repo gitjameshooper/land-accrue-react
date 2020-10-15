@@ -19,8 +19,8 @@ export default class Land extends Component {
             usStates: [],
             usStateName: 'texas',
             usStateAbbv: 'tx',
-            countyName: 'travis',
-            countyId: '5f84d120e777edead6a09fa6',
+            countyName: 'hunt',
+            countyId: '5f87ab33865ca01abaad9c3c',
             counties: [],
             properties: []
         }
@@ -28,11 +28,20 @@ export default class Land extends Component {
 
     }
     onShowLandSubmit() {
-        this.setState({ tableLoading: true});
+        this.setState({ tableLoading: true });
         axios.get(`http://localhost:5000/counties/${this.state.countyId}`)
             .then(res => {
                 if (res.data.length > 0) {
-                    this.setState({ properties: res.data[0].totalProperties.map(property => property), tableLoading: false});
+
+                    res.data[0].totalProperties.forEach(property => {
+                        if (property.soldArr) {
+                            property.soldArr.forEach((soldProperty) => {
+                                soldProperty['parentId'] = property['_id'];
+                                res.data[0].totalProperties.push(soldProperty);
+                            });
+                        }
+                    })
+                    this.setState({ properties: res.data[0].totalProperties.map(property => property), tableLoading: false });
                 }
 
             }).catch(err => {
@@ -82,36 +91,32 @@ export default class Land extends Component {
             <option key={county._id} value={county.name} data-county-id={county._id}>{county.name}</option>
         ));
 
-        // const properties = this.state.properties.map((property) => (
-
-        //     <tr><td>{property.estValue3}</td><td>{property['SITUS CITY']}</td><td>{property['SITUS STATE']}</td><td>{property['SITUS ZIP CODE']}</td></tr>
-        // ));
-
         return (
 
-            <Grid container className="land-component" spacing={3}>
-                <Grid item xs={12}>
-                    <h2>Land Component</h2>
-                </Grid>
-                <Grid item xs={12}>
-                    <h3>Show Land</h3>
+            <Grid container className="land-component">
+                <Grid item xs={6} className="top-blocks">
+                    <h3>Load Land</h3>
+                    <p>How to use:</p>
+                    <ol>
+                        <li>Select a State. This will populate the counties</li>
+                        <li>Then Select a County</li>
+                        <li>Click the Land Button to load the land into the table</li>
+                    </ol>
                     <select required className="form-control" value={this.state.usStateName} onChange={this.onChangeUsState}>
                         {usStates}
                     </select>
                    <select required className="form-control" value={this.state.countyName} onChange={this.onChangeCounty}>
                    {counties}
                   </select>
-                  <button onClick={this.onShowLandSubmit}>Show Land</button>
-                    </Grid>
-                    <Grid item xs={12}>
-                 <DataTable isLoading={this.state.tableLoading} countyName={this.state.countyName} stateAbbv={this.state.usStateAbbv} propertyData={this.state.properties} />
-                    </Grid>
-        <Grid item xs={12}>
-              
-   
-             <Upload />
-        </Grid>
-        </Grid>
+                  <button className="la-btn" onClick={this.onShowLandSubmit}>Load Land</button>
+                </Grid>
+                <Grid item xs={6} className="top-blocks">
+                    <Upload />
+                </Grid>
+                <Grid item xs={12} className="bottom-block">
+                    <DataTable isLoading={this.state.tableLoading} countyName={this.state.countyName} stateAbbv={this.state.usStateAbbv} propertyData={this.state.properties} />
+                </Grid>
+            </Grid>
         )
 
     }

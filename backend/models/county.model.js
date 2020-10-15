@@ -527,13 +527,13 @@ const totalProperty = new Schema({
         unique: false,
         trim: true
     },
-    "pricePerAcre":  {
+    "finalPPA":  {
         type: Number,
         require: true,
         unique: false,
         trim: true
     },
-    "avgPPA":  {
+    "avgPPA1":  {
         type: Number,
         require: true,
         unique: false,
@@ -551,7 +551,7 @@ const totalProperty = new Schema({
         unique: false,
         trim: true
     },
-    "estValue":  {
+    "estValue1":  {
         type: Number,
         require: true,
         unique: false,
@@ -564,12 +564,6 @@ const totalProperty = new Schema({
         trim: true
     },
     "estValue3":  {
-        type: Number,
-        require: true,
-        unique: false,
-        trim: true
-    },
-    "offer":  {
         type: Number,
         require: true,
         unique: false,
@@ -599,13 +593,13 @@ const totalProperty = new Schema({
         unique: false,
         trim: true
     },
-    "jasonOffer":  {
+    "finalOffer":  {
         type: Number,
         require: true,
         unique: false,
         trim: true
     },
-    "jasonEstValue":  {
+    "finalEstValue":  {
         type: Number,
         require: true,
         unique: false,
@@ -625,12 +619,6 @@ const totalProperty = new Schema({
     },
     "propertyLink": {
         type: String,
-        require: true,
-        unique: false,
-        trim: true
-    },
-    "estimatedValue":  {
-        type: Number,
         require: true,
         unique: false,
         trim: true
