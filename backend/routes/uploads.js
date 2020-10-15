@@ -103,7 +103,7 @@ function formatSoldData(csv) {
                 'PRICE PER ACRE': Math.round(Number(priceArr[0]) / (o['LOT SIZE'] / acreSquareFeet)),
                 'LATITUDE': o['LATITUDE'],
                 'LONGITUDE': o['LONGITUDE'],
-                'URL': o['URL (SEE http://www.redfin.com/buy-a-home/comparative-market-analysis FOR INFO ON PRICING)'],
+                'URL': o['URL (SEE http://www.redfin.com/buy-a-home/comparative-market-analysis FOR INFO ON PRICING)'] || '',
                 'distance': 0
             })
         })
@@ -151,20 +151,19 @@ function formatBuyData(csv) {
                 'MARKET IMPROVEMENT VALUE': Number(marketImproveValueArr[0]),
                 'date': getFormattedDate(),
                 'id': 0,
-                'pricePerAcre': 0,
-                'avgPPA': 0,
+                'finalPPA': 0,
+                'avgPPA1': 0,
                 'avgPPA2': 0,
                 'avgPPA3': 0,
-                'estValue': 0,
+                'estValue1': 0,
                 'estValue2': 0,
                 'estValue3': 0,
-                'offer': 0,
                 'offer1': 0,
                 'offer2': 0,
                 'offer3': 0,
                 'offerPPA': 0,
-                'jasonOffer': 0,
-                'jasonEstValue': 0,
+                'finalOffer': 0,
+                'finalEstValue': 0,
                 'statusColor': '',
                 'marketValueFlag': false,
                 // 'propertyLink': 'https://www.google.com/search?q='+o['SITUS FULL ADDRESS'].trim().replace(/[ ]/g,'+').replace('++','+')
@@ -277,8 +276,8 @@ function mergeData(buyData, soldData) {
                 totalPPADistance = sortedDistanceSoldArr[0]['PRICE PER ACRE'];
                 totalPPADistanceDivider = 1;
             }
-
-            buyData[bk]['avgPPA'] = totalPPADistance / totalPPADistanceDivider;
+         
+            buyData[bk]['avgPPA1'] = Math.round(totalPPADistance / totalPPADistanceDivider) == 'number' ? Math.round(totalPPADistance / totalPPADistanceDivider) : 0;
 
 
             // 3 middle with avg. Price per Acre
@@ -295,56 +294,57 @@ function mergeData(buyData, soldData) {
                 totalPPAMiddle = sortedPPASoldArr[1]['PRICE PER ACRE'];
                 totalPPAMiddleDivider = 1;
             }
-            buyData[bk]['avgPPA2'] = totalPPAMiddle / totalPPAMiddleDivider;
+
+            buyData[bk]['avgPPA2'] = Math.round(totalPPAMiddle / totalPPAMiddleDivider) == 'number' ? Math.round(totalPPAMiddle / totalPPAMiddleDivider) : 0;
 
             // All 5 avg. Price per Acre
-            buyData[bk]['avgPPA3'] = totalPricePerAcre > 0 ? Math.round(totalPricePerAcre / soldArr.length) : 0;
+            buyData[bk]['avgPPA3'] = Math.round(totalPricePerAcre / soldArr.length) == 'number' ? Math.round(totalPricePerAcre / soldArr.length) : 0;
 
             // Flood Zone TRUE-> discount 25%
             // if (buyData[bk]['IN FLOOD ZONE']) {
-            //     buyData[bk]['avgPPA'] *= .75;
+            //     buyData[bk]['avgPPA1'] *= .75;
             //     buyData[bk]['avgPPA2'] *= .75;
             //     buyData[bk]['avgPPA3'] *= .75;
             // }
 
             // Calculates Estimated Values and Offers
-            buyData[bk]['estValue'] = Math.round(buyData[bk]['avgPPA'] * buyData[bk]['LOT ACREAGE']);
+            buyData[bk]['estValue1'] = Math.round(buyData[bk]['avgPPA1'] * buyData[bk]['LOT ACREAGE']);
             buyData[bk]['estValue2'] = Math.round(buyData[bk]['avgPPA2'] * buyData[bk]['LOT ACREAGE'])
             buyData[bk]['estValue3'] = Math.round(buyData[bk]['avgPPA3'] * buyData[bk]['LOT ACREAGE'])
-            buyData[bk]['offer1'] = Math.floor((buyData[bk]['estValue'] * .50) / 100) * 100;
+            buyData[bk]['offer1'] = Math.floor((buyData[bk]['estValue1'] * .50) / 100) * 100;
             buyData[bk]['offer2'] = Math.floor((buyData[bk]['estValue2'] * .50) / 100) * 100;
             buyData[bk]['offer3'] = Math.floor((buyData[bk]['estValue3'] * .50) / 100) * 100;
-            buyData[bk]['offerPPA'] = Math.round(buyData[bk]['offer'] / buyData[bk]['LOT ACREAGE']);
+            buyData[bk]['offerPPA'] = Math.round(buyData[bk]['offer1'] / buyData[bk]['LOT ACREAGE']);
+
 
 
             // Add status color based off the amount of sold propeties
             if (soldArr.length > 3) {
                 buyData[bk]['statusColor'] = 'green';
-                buyData[bk]['offer'] = buyData[bk]['offer2'];
-                buyData[bk]['estimatedValue'] = buyData[bk]['estValue2'];
+                buyData[bk]['finalOffer'] = buyData[bk]['offer2'];
+                buyData[bk]['finalEstValue'] = buyData[bk]['estValue2'];
 
             } else if (soldArr.length <= 3 && soldArr.length > 1) {
                 buyData[bk]['statusColor'] = 'yellow';
-                buyData[bk]['offer'] = buyData[bk]['offer3']
-                buyData[bk]['estimatedValue'] = buyData[bk]['estValue3'];
+                buyData[bk]['finalOffer'] = buyData[bk]['offer3']
+                buyData[bk]['finalEstValue'] = buyData[bk]['estValue3'];
             } else {
                 buyData[bk]['statusColor'] = 'red';
-                buyData[bk]['offer'] = buyData[bk]['offer3']
-                buyData[bk]['estimatedValue'] = buyData[bk]['estValue3'];
+                buyData[bk]['finalOffer'] = buyData[bk]['offer3']
+                buyData[bk]['finalEstValue'] = buyData[bk]['estValue3'];
             }
 
             // Calculate Price Per Acre
-            buyData[bk]['pricePerAcre'] = Math.round(buyData[bk]['estimatedValue'] / buyData[bk]['LOT ACREAGE']);
+            buyData[bk]['finalPPA'] = Math.round(buyData[bk]['finalEstValue'] / buyData[bk]['LOT ACREAGE']) == 'number' ? Math.round(buyData[bk]['finalEstValue'] / buyData[bk]['LOT ACREAGE']) : 0;
             // MARKET TOTAL VALUE vs Estimated Value
-            buyData[bk]['marketValueFlag'] = (buyData[bk]['statusColor'] !== 'red') && (buyData[bk]['MARKET TOTAL VALUE'] / buyData[bk]['estValue']) > 2 ? true : false;
+            buyData[bk]['marketValueFlag'] = (buyData[bk]['statusColor'] !== 'red') && (buyData[bk]['MARKET TOTAL VALUE'] / buyData[bk]['estValue1']) > 2 ? true : false;
 
             if (buyData[bk]['marketValueFlag']) {
                 buyData[bk]['statusColor'] = 'red';
             }
 
-            buyDataAll[bk] = buyData[bk];
-
         });
+
         res(_.differenceBy(buyData, dupArr, 'id'));
     });
 }

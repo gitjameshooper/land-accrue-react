@@ -100,7 +100,7 @@ export default class Upload extends Component {
 
         ));
         return (
-            <div className="upload-component row">
+            <div className="upload-component">
 
               <h3>Upload CSV Files</h3>
               <form noValidate onSubmit={this.onSubmitFiles}>
@@ -112,10 +112,10 @@ export default class Upload extends Component {
                <label>Buy Land CSV <br /><span className="error">*{this.state.soldLandFileErr}</span><input type="file" id="buy-land" name="buyLand" accept=".csv" onChange={this.onChangeFile} /> </label>
                <label>Sold Land CSV <br /><span className="error">*{this.state.buyLandFileErr}</span><input type="file" id="sold-land" name="soldLand" accept=".csv" onChange={this.onChangeFile} /> </label>
             
-                <button type="submit">
+                <button className="la-btn" type="submit">
                   Upload Files
                 </button> 
-                <p>Note: You can only upload .csv files</p>
+                <p>Note: You can only upload .csv files. Uploaded files will overwrite any previous files for that county</p>
                 </form>
 
             </div>

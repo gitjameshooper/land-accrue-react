@@ -1,5 +1,5 @@
 import React, { Component, forwardRef } from 'react';
-import MaterialTable, { MTablePagination } from 'material-table';
+import MaterialTable, { MTableBodyRow } from 'material-table';
 import './table.scss';
 
 import AddBox from '@material-ui/icons/AddBox';
@@ -46,63 +46,53 @@ export default class DataTable extends Component {
         super(props);
 
     }
+    numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }  
     render() {
-        console.log(this.props.propertyData);
-        this.props.propertyData.forEach(property => {
-            if (property.soldArr) {
-                property.soldArr.forEach((soldProperty) => {
-                    soldProperty['parentId'] = property['_id'];
-                    this.props.propertyData.push(soldProperty);
-                });
-            }
-        })
 
         return (
+          <div className="table-component">
             <MaterialTable
             isLoading={this.props.isLoading}
-          //   components={{
-
-          //   Pagination: props =>  
-          //   // console.log(props)
-          //   (
-          //     <MTablePagination {...props}   />)
-          
-          // }}
-      icons={tableIcons}
-      title={this.props.countyName + ', '+this.props.stateAbbv+ ' Land'}
-      data={this.props.propertyData}
-      columns={[
-        { title: 'Status', field: 'statusColor' },
-        { title: 'Owner Name/Distance(mi)', field: 'OWNER MAILING NAME', render: rowData => rowData['OWNER MAILING NAME'] ? rowData['OWNER MAILING NAME'] : `${rowData['distance']}(mi)` },
-        { title: 'Address', field: 'SITUS FULL ADDRESS', render: rowData => rowData['SITUS STREET ADDRESS'] ? rowData['SITUS STREET ADDRESS'] : rowData['ADDRESS'] },
-        { title: 'Lot Acreage', field: 'LOT ACREAGE' },
-        { title: 'Avg. PPA', field: 'avgPPA', render: rowData => rowData['avgPPA'] ? rowData['avgPPA'] : rowData['PRICE PER ACRE'] },    
-        { title: 'Sold Price', field: 'SOLD PRICE'},
-        { title: 'EST Value', field: 'estValue', type: 'numeric' },
-        { title: 'EST Value2', field: 'estValue2', type: 'numeric' },
-        { title: 'EST Value3', field: 'estValue3', type: 'numeric' },
-        { title: 'Final Offer', field: 'jasonOffer', type: 'numeric' }
-      
-      ]}
-      parentChildData={(row, rows) => rows.find(a => a['_id'] === row.parentId)}
-      options={{
-        selection: true,
-      }}
-       localization={{
-        pagination: {
-            labelDisplayedRows: '{from}-{to} of {count}',
-            labelRowsPerPage: 50,
-            rowsPerPage: 100
-        }
-      }}
-      actions={[
-        {
-          tooltip: 'Remove All Selected Users',
-          icon: 'delete',
-          onClick: (evt, data) => alert('You want to delete ' + data.length + ' rows')
-        }
-      ]}
-    />
+            icons={tableIcons}
+            title={this.props.countyName + ', '+this.props.stateAbbv+ ' Land'}
+            data={this.props.propertyData}
+            columns={[
+              { title: 'Status', field: 'statusColor' },
+              { title: 'Owner Name/Distance(mi)', field: 'OWNER MAILING NAME', render: rowData => rowData['OWNER MAILING NAME'] ? rowData['OWNER MAILING NAME'] : `${rowData['distance']}(mi)` },
+              { title: 'Address', field: 'SITUS FULL ADDRESS', render: rowData => rowData['SITUS STREET ADDRESS'] ? rowData['SITUS STREET ADDRESS'] : rowData['ADDRESS'] },
+              { title: 'Lot Acreage', field: 'LOT ACREAGE' },
+              { title: 'Avg. PPA', field: 'avgPPA1', render: rowData => rowData['avgPPA1'] ? `$${rowData['avgPPA1']}` : `$${rowData['PRICE PER ACRE']}` },    
+              { title: 'Sold Price', field: 'SOLD PRICE'},
+              { title: 'EST Value', field: 'estValue1', type: 'numeric' },
+              { title: 'EST Value2', field: 'estValue2', type: 'numeric' },
+              { title: 'EST Value3', field: 'estValue3', type: 'numeric' },
+              { title: 'Final Offer', field: 'jasonOffer', type: 'numeric' }
+            
+            ]}
+            parentChildData={(row, rows) => rows.find(a => a['_id'] === row.parentId)}
+            options={{
+              selection: true,
+              pageSize: 25,
+              pageSizeOptions: [25,50,100,200]
+            }}
+             localization={{
+              pagination: {
+                  labelDisplayedRows: '{from}-{to} of {count}',
+                  labelRowsPerPage: 50,
+                  rowsPerPage: 100
+              }
+            }}
+            actions={[
+              {
+                tooltip: 'Remove All Selected Users',
+                icon: 'delete',
+                onClick: (evt, data) => alert('You want to delete ' + data.length + ' rows')
+              }
+            ]}
+          />
+          </div>
         )
     }
 }

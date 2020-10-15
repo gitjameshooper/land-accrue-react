@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './header.scss';
 import NavBar from './navbar/navbar.component';
 
+
 export default class Header extends Component {
 
     constructor(props) {
@@ -13,6 +14,7 @@ export default class Header extends Component {
     render() {
         return (
             <header>
+            
             <NavBar />
 
 			</header>

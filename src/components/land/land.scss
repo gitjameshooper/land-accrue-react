@@ -1,3 +1,27 @@
-.comps-component{
+@import '../../variables.scss';
 
+.land-component {
+    .top-blocks {
+        background: $pcolor3;
+        padding: 30px;
+            box-shadow: 1px 1px 5px #000;
+
+        .la-btn {
+            border: none;
+            background: $pcolor6;
+            color: $pcolor1;
+            padding: 10px;
+            margin: 15px;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            cursor: pointer;
+            outline: none;
+            float: right;
+            font-weight: bold;
+        }
+    }
+
+    .bottom-block {
+        box-shadow: 1px 1px 5px #000;
+    }
 }
