@@ -14,6 +14,7 @@ export default class Land extends Component {
         this.onChangeUsState = this.onChangeUsState.bind(this);
         this.onChangeCounty = this.onChangeCounty.bind(this);
         this.onShowLandSubmit = this.onShowLandSubmit.bind(this);
+        this.loadLandOptions = this.loadLandOptions.bind(this);
         this.state = {
             tableLoading: false,
             usStates: [],
@@ -32,7 +33,7 @@ export default class Land extends Component {
         axios.get(`http://localhost:5000/counties/${this.state.countyId}`)
             .then(res => {
                 if (res.data.length > 0) {
-
+                    // Add Sold properties to totalproperties(parent) for table view
                     res.data[0].totalProperties.forEach(property => {
                         if (property.soldArr) {
                             property.soldArr.forEach((soldProperty) => {
@@ -66,7 +67,8 @@ export default class Land extends Component {
         });
     }
 
-    componentDidMount() {
+    loadLandOptions() {
+        console.log('load states');
         axios.get(`http://localhost:5000/us-states`)
             .then(res => {
 
@@ -78,6 +80,10 @@ export default class Land extends Component {
                 // what now?
                 console.log(err);
             });
+    }
+
+    componentDidMount() {
+        this.loadLandOptions();
     }
 
     render() {
@@ -111,7 +117,7 @@ export default class Land extends Component {
                   <button className="la-btn" onClick={this.onShowLandSubmit}>Load Land</button>
                 </Grid>
                 <Grid item xs={6} className="top-blocks">
-                    <Upload />
+                    <Upload reloadLandOptions={this.loadLandOptions}/>
                 </Grid>
                 <Grid item xs={12} className="bottom-block">
                     <DataTable isLoading={this.state.tableLoading} countyName={this.state.countyName} stateAbbv={this.state.usStateAbbv} propertyData={this.state.properties} />

@@ -305,7 +305,7 @@ function mergeData(buyData, soldData) {
             buyData[bk]['offer2'] = Math.floor((buyData[bk]['estValue2'] * .50) / 100) * 100;
             buyData[bk]['offer3'] = Math.floor((buyData[bk]['estValue3'] * .50) / 100) * 100;
             buyData[bk]['offerPPA'] = Math.round(buyData[bk]['offer'] / buyData[bk]['LOT ACREAGE']);
-
+            console.log(buyData[bk]['estValue']);
 
             // Add status color based off the amount of sold propeties
             if (soldArr.length > 3) {
