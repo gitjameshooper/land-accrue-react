@@ -9,6 +9,7 @@ const theme = createMuiTheme({
     typography: {
         fontFamily: `"Montserrat", "Roboto", "Helvetica", "Arial", sans-serif`,
         fontSize: 25,
+
     },
     overrides: {
         MuiCssBaseline: {
