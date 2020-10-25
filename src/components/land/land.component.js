@@ -99,8 +99,8 @@ export default class Land extends Component {
 
         return (
 
-            <Grid container className="land-component">
-                <Grid item xs={6} className="top-blocks">
+            <Grid container component="land" className="land-component">
+                <Grid item xs={12} md={6} className="top-blocks">
                     <h3>Load Land</h3>
                     <p>How to use:</p>
                     <ol>
@@ -116,7 +116,7 @@ export default class Land extends Component {
                   </select>
                   <button className="la-btn" onClick={this.onShowLandSubmit}>Load Land</button>
                 </Grid>
-                <Grid item xs={6} className="top-blocks">
+                <Grid item xs={12} md={6} className="top-blocks">
                     <Upload reloadLandOptions={this.loadLandOptions}/>
                 </Grid>
                 <Grid item xs={12} className="bottom-block">

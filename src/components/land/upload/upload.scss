@@ -4,4 +4,10 @@
 	.error{
 		color: red;
 	}
+	.MuiLinearProgress-root{
+		display: none;
+		&.active{
+			display: block;
+		}
+	}
 }

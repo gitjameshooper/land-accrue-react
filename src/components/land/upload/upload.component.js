@@ -5,6 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import axios from 'axios';
 import './upload.scss';
 import USstates from '../../../assets/json/us-states.json';
@@ -13,6 +14,7 @@ export default class Upload extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            showProgressBar: false,
             buyLandFile: null,
             soldLandFile: null,
             usStates: USstates,
@@ -68,7 +70,13 @@ export default class Upload extends Component {
             // Create an object of formData 
             const formData = new FormData();
             const config = {
-                headers: { 'content-type': 'multipart/form-data' }
+                headers: { 'content-type': 'multipart/form-data' },
+                onDownloadProgress: progressEvent => {
+                    let percentCompleted = Math.floor(progressEvent.loaded / progressEvent.total);
+                    console.log(percentCompleted);
+                    console.log(progressEvent);
+                }
+
             }
             formData.append('county', this.state.countyName);
             formData.append('usStateName', this.state.usStateName);
@@ -83,10 +91,12 @@ export default class Upload extends Component {
                 this.state.soldLandFile
             );
             
+            this.setState({ showProgressBar: true });
             // Send Files to backend API
             axios.post("http://localhost:5000/uploads/csv", formData, config).then(response => {
                     console.log(response);
                     this.props.reloadLandOptions();
+                    this.setState({ showProgressBar: false, countyName: '' });
                 })
                 .catch(error => {
                     console.log(error);
@@ -113,12 +123,13 @@ export default class Upload extends Component {
                <span className="error">*{this.state.countyNameErr}</span>
                <label>Buy Land CSV <br /><span className="error">*{this.state.soldLandFileErr}</span><input type="file" id="buy-land" name="buyLand" accept=".csv" onChange={this.onChangeFile} /> </label>
                <label>Sold Land CSV <br /><span className="error">*{this.state.buyLandFileErr}</span><input type="file" id="sold-land" name="soldLand" accept=".csv" onChange={this.onChangeFile} /> </label>
-            
+                
                 <button className="la-btn" type="submit">
                   Upload Files
                 </button> 
                 <p>Note: You can only upload .csv files. Uploaded files will overwrite any previous files for that county</p>
                 </form>
+                <LinearProgress className={this.state.showProgressBar ? "active" : "hidden"} />
 
             </div>
         )
