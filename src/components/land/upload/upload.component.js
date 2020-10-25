@@ -82,9 +82,11 @@ export default class Upload extends Component {
                 'sold.csv',
                 this.state.soldLandFile
             );
+            
             // Send Files to backend API
             axios.post("http://localhost:5000/uploads/csv", formData, config).then(response => {
                     console.log(response);
+                    this.props.reloadLandOptions();
                 })
                 .catch(error => {
                     console.log(error);

@@ -74,6 +74,7 @@ export default class DataTable extends Component {
             parentChildData={(row, rows) => rows.find(a => a['_id'] === row.parentId)}
             options={{
               selection: true,
+              draggable: false,
               pageSize: 25,
               pageSizeOptions: [25,50,100,200]
             }}

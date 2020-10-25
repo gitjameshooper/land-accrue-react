@@ -13,6 +13,19 @@
      .MuiToolbar-root {
          background: $pcolor2;
          color: $pcolor3;
+
+         //     .MTableToolbar-searchField-10 {
+         //         color: $pcolor1;
+         //     }
+
+         //     // .MuiInput-underline:before {
+
+         //     //     border-bottom: 1px solid $pcolor1;
+         //     // }
+         //     .MuiIconButton-label {
+         //        cursor: pointer;
+         //         color: $pcolor1;
+         //     }
      }
 
      table {
@@ -20,6 +33,20 @@
              background: $pcolor2;
              color: $pcolor3;
          }
+
+         .MuiTableSortLabel-root.MuiTableSortLabel-active {
+             color: $pcolor5;
+         }
+
+         .MuiTableSortLabel-root:hover {
+             color: $pcolor5;
+             text-decoration: underline;
+         }
+         .MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active .MuiTableSortLabel-icon{
+            color: $pcolor5;
+         }
+
+
 
          &.MuiTable-root {
              tr[level="0"] {
@@ -37,13 +64,21 @@
          }
 
          tbody {
-         	.MuiTableRow-root {
-         		height: 80px !important;
-         	}
-             // .MuiTableCell-root.MuiTableCell-body {
-             //     vertical-align: top;
-             //     padding-top: 20px !important;
-             // }
+             .MuiTableRow-root {
+                 height: 80px !important;
+                 background: $pcolor2;
+
+                 .MuiTableCell-root.MuiTableCell-body {
+                     color: $pcolor1;
+                 }
+             }
+
+         }
+
+         .MuiTableFooter-root {
+             .MuiTypography-root.MuiTypography-caption {
+                 color: $pcolor1;
+             }
          }
      }
  }
