@@ -1,0 +1,31 @@
+@import '../../variables.scss';
+
+.about-component {
+    h1 {
+        color: purple;
+        font-size: 3.6rem;
+        margin: 30px auto;
+        font-weight: bold;
+    }
+
+    h2 {
+        font-size: 2.4rem;
+        font-weight: bold;
+    }
+
+    .map-image {
+        img {
+            object-fit: cover;
+            width: 100%;
+        }
+    }
+
+    .jason-image {
+        img {
+            object-fit: cover;
+            width: 100%;
+        }
+
+
+    }
+}
