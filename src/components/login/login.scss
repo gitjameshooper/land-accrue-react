@@ -1,4 +1,22 @@
 @import '../../variables.scss';
-.login-component{
-	
+
+.login-component {
+	height: 100vh;
+    .land-image {
+        background: url('../../assets/img/land-bg.jpg') no-repeat;
+        background-size: cover;
+
+    }
+    .MuiAvatar-circle{
+        background-color: $pcolor5;
+    }
+    form{
+    	button{
+    		background: $pcolor5;
+    		color: $pcolor1;
+    		&:hover{
+    			color: $pcolor5;
+    		}
+    	}
+    }
 }

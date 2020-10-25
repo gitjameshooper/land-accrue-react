@@ -1,6 +1,6 @@
 Notes/Things I need to do
 
-15. Add font percentage globally with em pn text
+15. Add font percentage globally with em  text
 14. CHange loading gif animation
 13. Fix data coming in formatting and only adding what is needed for final output
 12. Create icons for status green yellow red

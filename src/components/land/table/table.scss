@@ -1,10 +1,6 @@
  @import '../../../variables.scss';
 
  .table-component {
-     // div {
-     //     background: $pcolor2;
-     //     color: $pcolor3;
-     // }
 
      h6.MuiTypography-h6 {
          text-transform: uppercase;
@@ -13,6 +9,32 @@
      .MuiToolbar-root {
          background: $pcolor2;
          color: $pcolor3;
+
+         svg.MuiSvgIcon-root {
+             color: $pcolor1;
+         }
+
+         input {
+             color: $pcolor1;
+         }
+
+         .MuiInput-underline {
+
+
+             &:before {
+                 border-bottom: 1px solid $pcolor1;
+             }
+
+             &:hover:not(.Mui-disabled):before {
+                 border-bottom: 2px solid $pcolor1;
+             }
+
+             &:after {
+
+                 border-bottom: 2px solid $pcolor5;
+
+             }
+         }
 
          //     .MTableToolbar-searchField-10 {
          //         color: $pcolor1;
@@ -42,8 +64,9 @@
              color: $pcolor5;
              text-decoration: underline;
          }
-         .MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active .MuiTableSortLabel-icon{
-            color: $pcolor5;
+
+         .MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active .MuiTableSortLabel-icon {
+             color: $pcolor5;
          }
 
 
