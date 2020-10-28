@@ -2,30 +2,153 @@
 
 .about-component {
     h1 {
-        color: purple;
+        color: $pcolor6;
         font-size: 3.6rem;
         margin: 30px auto;
         font-weight: bold;
     }
 
     h2 {
+        color: $pcolor6;
         font-size: 2.4rem;
         font-weight: bold;
     }
 
-    .map-image {
+    .btn {
+        color: $white;
+        background: $pcolor5;
+        padding: 10px 20px;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 0 3px $black;
+        margin: 20px 10px;
+    }
+
+    .item-1 {
+
+        .wrapper {
+            position: relative;
+            border: 6px solid $pcolor6;
+            margin: 30px 10px 0px;
+            margin: 0;
+            padding: 15px 30px 30px 30px;
+            height: 100%;
+
+            h2 {
+                background: $pcolor1;
+                display: inline-block;
+                position: relative;
+                top: -32px;
+                margin: 0;
+                padding: 0 15px;
+            }
+
+            .contact {
+
+
+                img {
+                    max-width: 200px;
+                    position: absolute;
+                    left: -85px;
+                    top: 324px;
+                    transform: rotate(89deg);
+                }
+            }
+
+
+        }
+
+
+
+
+    }
+
+    .item-2 {
+        position: relative;
+
+        span {
+            background: $pcolor5;
+            color: $white;
+            position: relative;
+            display: inline-block;
+            padding: 5px 15px;
+            bottom: 75px;
+            text-align: center;
+            border-right: 5px solid $pcolor6;
+        }
+
         img {
+            box-shadow: 0 0 10px $pcolor2;
+            object-fit: cover;
+            width: 100%;
+        }
+
+
+    }
+
+    .item-3 {
+        background: $pcolor6;
+
+        img {
+            box-shadow: 0 0 20px $black;
             object-fit: cover;
             width: 100%;
         }
     }
 
-    .jason-image {
+    .item-4 {
+        background: $pcolor6;
+        color: $pcolor1;
+
+        .wrapper {
+            border: 6px solid $pcolor1;
+            margin: 30px 10px 0px;
+            margin: 0;
+            padding: 15px 30px 30px 30px;
+            height: 100%;
+
+            h2 {
+                background: $pcolor6;
+                color: $pcolor1;
+                display: inline-block;
+                position: relative;
+                top: -32px;
+                margin: 0;
+                padding: 0 15px;
+            }
+
+
+        }
+    }
+
+    .item-5 {
+        .wrapper {
+            border: 6px solid $pcolor6;
+            margin: 30px 10px 0px;
+            margin: 0;
+            padding: 15px 30px 30px 30px;
+            height: 100%;
+
+            h2 {
+                background: $pcolor1;
+                display: inline-block;
+                position: relative;
+                top: -32px;
+                margin: 0;
+                padding: 0 15px;
+            }
+
+
+        }
+    }
+
+
+
+    .item-6 {
         img {
+            box-shadow: 0 0 20px $black;
             object-fit: cover;
             width: 100%;
         }
-
-
     }
 }
