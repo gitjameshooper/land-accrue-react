@@ -1,21 +1,33 @@
-Notes/Things I need to do
+Notes/Todo Items
 
-15. Add font percentage globally with em  text
-14. CHange loading gif animation
-13. Fix data coming in formatting and only adding what is needed for final output
-12. Create icons for status green yellow red
-10. Make sure everything is mobile responsive and rendering correctly cross browser 
-9. Make menu Nav with better animation/transitioin
-7. Home View: add content about what the app does and Land Accrue
-6. Verify admin login works with JWT token and routes are protected for writing
-5. Find a color theme 
+
+About Page:
+1. Get more copy content
+2. Spruce up the design, shapes/colors
+3. Change loading gif animation
+
+Admin Login Page:
+
+1. Finalize data coming in formatting and only adding what is needed for final output
+2. Create icons for status green yellow red
+3. Verify admin login works with JWT token and routes are protected for writing to DB
+
+Land Page:
+1. Spruce up the design
+2. Maybe change load land based off the select
+3. Set state for County and US State after land loads
 4. Finish view for land data
-  -Open up all items button. 
-  -Close all items button
+  -Make an open up all items button. 
+  -Make a close all items button
   -Create download button for CSV output
-3. Create unit tests with Jest and Enzyme
-2. Setting up local and prod environments
-1. Find hosting solution
+
+
+Global:
+1 Create a Footer Component 
+2 Create unit tests with Jest and Enzyme
+3 Setting up local and prod environments
+4 Make sure everything is mobile responsive and rendering correctly cross browser 
+5 Find hosting solution
    -Add as a subdomain to landaccrue.com
    -Add concurrently package to run back and front in 1 cmd with npm
    -Clean up build with Dev dependencies(for build) and dependencies (needed at run time)
