@@ -61,7 +61,7 @@ export default class About extends Component {
               What does the pricing app do
             </Typography>
           <Typography variant="body1" component="p">
-               The pricing app compares land that Land Accrue is interested in buying vs recently sold property in the same state and county. It uses the coordinates(longititude and latitude) to find the closests properties based on location. Then it uses the acreage size and sold price to calculate the best offer price for the prospect property.
+               The pricing app compares land that Land Accrue is interested in buying vs recently sold property in the same state and county. It uses the coordinates(longititude and latitude) to find the closests properties based on location. It does this by extending out concentric circles based off miles from the buy property. Then it uses the acreage size and sold price to calculate the best offer price for the prospect property.
         </Typography>
          <a className="btn" href="./land" target="_self">See it in action</a>
         </div>
@@ -75,7 +75,8 @@ export default class About extends Component {
 
               
         <Typography variant="body1" component="p">
-        You can load land to see how the app works. You will only be able to read data. Only admins can write to Land Accrue database.
+        You can load land comparables into the table based off of the state and county. The table consists of the buy properties with each of them having a dropdown list of the sold comparable properties.
+        You will only be able to read the table data. Only admins can write to Land Accrue database.
         </Typography>
         </div>
           </Grid> 

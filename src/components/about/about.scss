@@ -6,6 +6,7 @@
         font-size: 3.6rem;
         margin: 30px auto;
         font-weight: bold;
+        font-family: 'Oxygen', sans-serif;
     }
 
     h2 {
@@ -15,12 +16,12 @@
     }
 
     .btn {
-        color: $white;
+        color: $pcolor1;
         background: $pcolor5;
         padding: 10px 20px;
         text-decoration: none;
         display: inline-block;
-        box-shadow: 0 0 3px $black;
+        box-shadow: 0 0 3px $pcolor0;
         margin: 20px 10px;
         &:active{
             transform: scale(.95);
@@ -71,7 +72,7 @@
 
         span {
             background: $pcolor5;
-            color: $white;
+            color: $pcolor1;
             position: relative;
             display: inline-block;
             padding: 5px 15px;
@@ -93,7 +94,7 @@
         background: $pcolor6;
 
         img {
-            box-shadow: 0 0 20px $black;
+            box-shadow: 0 0 20px $pcolor0;
             object-fit: cover;
             width: 100%;
         }
@@ -149,7 +150,7 @@
 
     .item-6 {
         img {
-            box-shadow: 0 0 20px $black;
+            box-shadow: 0 0 20px $pcolor0;
             object-fit: cover;
             width: 100%;
         }
