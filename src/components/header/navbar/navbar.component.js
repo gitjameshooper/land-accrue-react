@@ -17,14 +17,14 @@ export default function NavBar() {
  
   return (
     <div className="navbar">
-       <Link to="#" className="menu-bars" onClick={showSideBar}> <MenuIcon  /> </Link>
-       <img className="la-logo" src={logo} alt="Logo" />
+       <Link to="#" className="menu-bars nav-item" onClick={showSideBar}> <MenuIcon  /> </Link>
+       <Link className="la-logo" to="/"><img  src={logo} alt="Logo" /></Link>
       <nav className={sideBar ? 'nav-menu active' : 'nav-menu'}>
         <ul className="nav-menu-items" onClick={showSideBar} >
-          <li className="navbar-toggle nav-text"><CloseIcon /></li>
-          <li className="nav-text"><Link to="/" className="navbar-link"><span><RoomIcon /></span>About</Link></li>
-          <li className="nav-text"><Link to="/login" className="navbar-link"><span><SupervisorAccountIcon /></span>Admin Login </Link></li>
-          <li className="nav-text"><Link to="/land" className="navbar-link"><span><LandscapeIcon /></span>Land</Link></li>
+          <li className="navbar-toggle nav-item"><CloseIcon /></li>
+          <li className="nav-item"><Link to="/" className="nav-link"><RoomIcon className="icons"/><span className="nav-text">About<span className="bot-border"></span></span></Link></li>
+          <li className="nav-item"><Link to="/login" className="nav-link"><SupervisorAccountIcon className="icons"/><span className="nav-text">Admin Login<span className="bot-border"></span></span></Link></li>
+          <li className="nav-item"><Link to="/land" className="nav-link"><LandscapeIcon className="icons"/><span className="nav-text">Land<span className="bot-border"></span></span></Link></li>
           </ul>
 
       </nav>

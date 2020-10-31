@@ -1,5 +1,15 @@
 @import '../../../variables.scss';
 
+@keyframes drawBorder {
+    from {
+        max-width: 0%;
+    }
+
+    to {
+        max-width: 100%;
+    }
+}
+
 .navbar {
     background-color: $pcolor6;
     height: 80px;
@@ -12,10 +22,14 @@
     }
 
     .la-logo {
-        width: 200px;
         margin: 0 auto;
         position: relative;
         left: -23px;
+
+        img {
+            width: 200px;
+
+        }
     }
 
     .menu-bars {
@@ -40,7 +54,7 @@
         position: fixed;
         top: 0;
         left: -100%;
-        transition: all 2500ms;
+        transition: all 1800ms;
         z-index: 11;
 
 
@@ -53,11 +67,12 @@
             width: 100%;
             padding: 0;
             margin: 0;
+            box-shadow: 0 0 15px $pcolor0;
 
-            .nav-text {
-                display: flex;
-                justify-content: start;
-                align-items: center;
+            .nav-item {
+                // display: flex;
+                // justify-content: start;
+                // align-items: center;
                 list-style: none;
                 height: 60px;
                 margin: 0;
@@ -74,25 +89,45 @@
                     padding: 20px;
                 }
 
-                span {
+                .icons {
                     margin-right: 5px;
                     position: relative;
-                    top: 1px;
+                    bottom: 2px;
                 }
 
-                a {
+                .nav-link {
                     text-decoration: none;
-                    color: #f5f5f5;
+                    color: $pcolor1;
                     font-size: 1.8rem;
                     width: 100%;
                     display: flex;
                     align-items: center;
                     padding: 20px;
                     cursor: pointer;
+                    border-bottom: 0;
+                    left: 0;
+
+                    .bot-border {
+                        height: 2px;
+                        width: 100%;
+                        max-width: 0%;
+                        background-color: $pcolor1;
+                        display: block;
+                    }
 
                     &:hover {
                         background-color: $pcolor5;
+
+                        .bot-border {
+
+                            animation: drawBorder 500ms ease forwards;
+                        }
+
+
                     }
+
+
+
                 }
             }
         }
