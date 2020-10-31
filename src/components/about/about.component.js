@@ -70,7 +70,7 @@ export default class About extends Component {
           <Grid item xs={12} sm={8} md={8} className="item-5">
           <div className="wrapper">
              <Typography variant="h2" component="h2" gutterBottom="true">
-              What can you do
+              What you can do
             </Typography>
 
               
