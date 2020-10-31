@@ -62,12 +62,10 @@ export default class DataTable extends Component {
               { title: 'Status', field: 'statusColor' },
               { title: 'Owner Name/Distance(mi)', field: 'OWNER MAILING NAME', render: rowData => rowData['OWNER MAILING NAME'] ? rowData['OWNER MAILING NAME'] : `${rowData['distance']}(mi)` },
               { title: 'Address', field: 'SITUS FULL ADDRESS', render: rowData => rowData['SITUS STREET ADDRESS'] ? rowData['SITUS STREET ADDRESS'] : rowData['ADDRESS'] },
-              { title: 'Lot Acreage', field: 'LOT ACREAGE' },
+              { title: 'Lot Acreage', field: 'LOT ACREAGE', type: 'numeric'},
               { title: 'Avg. PPA', field: 'avgPPA1', render: rowData => rowData['avgPPA1'] ? `$${rowData['avgPPA1']}` : `$${rowData['PRICE PER ACRE']}` },    
-              { title: 'Sold Price', field: 'SOLD PRICE'},
-              { title: 'EST Value', field: 'estValue1', type: 'numeric' },
-              { title: 'EST Value2', field: 'estValue2', type: 'numeric' },
-              { title: 'EST Value3', field: 'estValue3', type: 'numeric' },
+              { title: 'Sold Price', field: 'SOLD PRICE', type: 'numeric'},
+              { title: 'EST Values', field: 'estValue1', type: 'numeric', render: rowData =>  rowData['estValue1'] ? `1: $${rowData['estValue1']}   2: $${rowData['estValue2']}   3: $${rowData['estValue3']}` : '' },
               { title: 'Final Offer', field: 'jasonOffer', type: 'numeric' }
             
             ]}

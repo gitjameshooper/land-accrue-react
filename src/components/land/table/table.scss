@@ -78,7 +78,8 @@
              }
 
              tr[level="1"] {
-                 background-color: rgba(69, 69, 69, .5);
+                 background-color: $pcolor4;
+                 border-left: 10px solid $pcolor5;
              }
 
              .MuiSvgIcon-root {
