@@ -15,6 +15,10 @@
         font-weight: bold;
     }
 
+    p {
+        font-size: 1.8rem;
+    }
+
     .btn {
         color: $pcolor1;
         background: $pcolor5;
@@ -23,15 +27,26 @@
         display: inline-block;
         box-shadow: 0 0 3px $pcolor0;
         margin: 20px 10px;
-        &:active{
+
+        &:active {
             transform: scale(.95);
         }
     }
 
+    .link {
+        color: $pcolor5;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     .item-1 {
+        position: relative;
 
         .wrapper {
-            position: relative;
+
             border: 6px solid $pcolor6;
             margin: 30px 10px 0px;
             margin: 0;
@@ -47,19 +62,30 @@
                 padding: 0 15px;
             }
 
+
+
+            h3 {
+                font-size: 2rem;
+                font-weight: bold;
+                border-bottom: 2px solid $pcolor6;
+            }
+
             .contact {
-
-
-                img {
-                    max-width: 200px;
-                    position: absolute;
-                    left: -85px;
-                    top: 324px;
-                    transform: rotate(89deg);
-                }
+                margin: 40px auto 0;
+                width: 100%;
+                max-width: 280px;
             }
 
 
+
+        }
+
+        .logo-icon {
+            max-width: 200px;
+            position: absolute;
+            left: -47px;
+            top: 350px;
+            transform: rotate(89deg);
         }
 
 
@@ -103,8 +129,10 @@
     .item-4 {
         background: $pcolor6;
         color: $pcolor1;
+        position: relative;
 
         .wrapper {
+
             border: 6px solid $pcolor1;
             margin: 30px 10px 0px;
             margin: 0;
@@ -122,11 +150,25 @@
             }
 
 
+
+
         }
+
+        .logo-icon {
+            max-width: 200px;
+            position: absolute;
+            right: -42px;
+            top: 270px;
+            transform: scaleX(-1) rotate(89deg);
+        }
+
     }
 
     .item-5 {
+        position: relative;
+
         .wrapper {
+
             border: 6px solid $pcolor6;
             margin: 30px 10px 0px;
             margin: 0;
@@ -142,7 +184,14 @@
                 padding: 0 15px;
             }
 
+        }
 
+        .logo-icon {
+            max-width: 200px;
+            position: absolute;
+            right: -46px;
+            top: 159px;
+            transform: scaleX(-1) rotate(89deg);
         }
     }
 
