@@ -44,9 +44,9 @@ export default function Login(props) {
     const [error, setError] = useState({ status: false, msg: '' });
     const [progressBar, setProgressBar] = useState(false);
 
-    // if (storeState.loggedIn) {
-    //     return <Redirect to={redirect} />
-    // }
+    if (storeState.loggedIn) {
+        return <Redirect to={redirect} />
+    }
 
     const onChangeEmail = (e) => {
         setEmail({ ...email, address: e.target.value, err: '' });
