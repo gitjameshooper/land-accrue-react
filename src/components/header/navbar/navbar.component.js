@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { Context } from './../../../store';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon  from '@material-ui/icons/Close';
 import RoomIcon from '@material-ui/icons/Room';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import LandscapeIcon from '@material-ui/icons/Landscape';
 import logo from './../../../assets/img/la-mtn-logo.png';
@@ -11,7 +13,7 @@ import './navbar.scss';
 
 export default function NavBar() {
   const [sideBar, setSideBar] = React.useState(null);
-
+  const [storeState, setStoreState] = useContext(Context);
   const showSideBar = () => setSideBar(!sideBar); 
 
  
@@ -28,6 +30,9 @@ export default function NavBar() {
           </ul>
 
       </nav>
+      {storeState.loggedIn &&
+        <AccountBoxIcon />
+      }<p>{storeState.adminName}</p>
     </div>
   );
 }

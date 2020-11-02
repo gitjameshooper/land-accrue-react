@@ -5,44 +5,83 @@ const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
 
 // @route Post /
-// @desc Auth user
+// @desc Auth user when logging in
 // @access Public
-router.post('/', (req,res) => {
-	const { email, password } = req.body.user;
-	// Fields Required
-	if(!email || !password){
-		return res.status(400).json({msg: 'Please Enter all fields'});
-	}
+router.post('/auth', (req, res) => {
 
-	// Check for existing user
-	User.findOne({ email })
-	.then(user => {
-		if(!user) return res.status(400).json({ msg: 'User does not exist'});
+    const { email, password } = req.body;
 
-		// Validate password
-		bcrypt.compare(password, user.password)
-			.then(isMatch => {
-				if(!isMatch) return res.status(400).json({ msg: 'Invalid Creds'});
-					jwt.sign({ id: user.id}, process.env.JWT_SECRET, { expiresIn: 3600}, (err, token) => {
-						if(err) throw err;
-						res.json({ user: { id: user.id, name: user.name, email: user.email}, token})
-						
-					});
-			})
-	});
+    if (!email || !password) {
+        return res.status(400).json({ status: false, msg: 'Missing fields' });
+    }
 
+    // Check for existing user
+    User.findOne({ email })
+        .then(user => {
+            if (!user) return res.status(400).json({ status: false, msg: 'User does not exist' }).end();
+
+            // Validate password
+            bcrypt.compare(password, user.password)
+                .then(isMatch => {
+                    if (!isMatch) return res.status(400).json({ status: false, msg: 'Invalid password' });
+                    jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+                        if (err) throw err;
+                        res.json({ status: true, user: { id: user.id, name: user.name, email: user.email }, token })
+
+                    });
+                })
+        });
+
+});
+
+// @route Post /
+// @desc Create New Admin
+// @access Public
+router.post('/', (req, res) => {
+
+    const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+        return res.status(400).json({ msg: 'Missing fields' });
+    }
+
+    // Check for existing user
+    User.findOne({ email })
+        .then(user => {
+            if (user) return res.status(400).json({ msg: 'User already exists' });
+
+            let newUser = new User({
+                name: name,
+                email: email,
+                password: password
+            });
+
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newUser.password, salt, (err, hash) => {
+                    if (err) throw err;
+                    newUser.password = hash;
+                    newUser.save().then(user => {
+                        jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+                            if (err) throw err;
+
+                            res.json({token, user: {id: user.id, name: user.name, email: user.email}});
+                        });
+                    });
+                });
+            });
+        })
 });
 
 // @route GET /
-// @desc Get user data
+// @desc Get user data from token
 // @access Private
 router.get('/', auth, (req, res) => {
-	User.findById(req.user.id)
-		.select('-password')
-		.then(user => res.json(user));
+    User.findById(req.user.id)
+        .select('-password')
+        .then(user => res.json(user));
 });
 
- 
+
 
 
 module.exports = router;
