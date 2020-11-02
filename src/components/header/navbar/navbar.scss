@@ -22,15 +22,56 @@
     }
 
     .la-logo {
-        margin: 0 auto;
-        position: relative;
-        left: -23px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* text-align: center; */
+    width: 100vw;
 
         img {
             width: 200px;
 
         }
     }
+
+    .profile {
+        color: $pcolor1;
+            display: flex;
+
+        .MuiSvgIcon-root {
+            cursor: pointer;
+            margin: 23px;
+
+        }
+
+        .profile-box {
+            display: none;
+            background: $pcolor2;
+
+            position: absolute;
+            right: 10px;
+            top: 80px;
+            border: 1px solid $pcolor2;
+
+            &.active {
+                display: block;
+            }
+
+            .item {
+                margin: 0;
+                display: block;
+                text-align: center;
+                padding: 8px 25px;
+
+
+                &.hover:hover {
+                    background: $pcolor5;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
 
     .menu-bars {
         font-size: 2rem;

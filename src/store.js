@@ -23,11 +23,10 @@ const Store = ({ children }) => {
 
         axios.get("http://localhost:5000/users", config).then(res => {
 
-                setStoreState({...initialState, 'loggedIn': true });
-                console.log(res);
+                setStoreState({...initialState, loggedIn: true, adminName: res.data.name });
             })
-            .catch(error => {
-                console.log(error);
+            .catch(err => {
+                console.error(`${err.response.status}: ${err.response.data.msg}`);
             });
     }
     return (
