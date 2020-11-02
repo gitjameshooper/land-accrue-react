@@ -4,7 +4,10 @@ Notes/Todo Items
 About Page:
 1. Get more copy content
 2. Spruce up the design, shapes/colors
-3. Change loading gif animation
+3. Update logo from gray to white on item 4
+4. Change out can do image for a screenshot of the table
+5. Add a design to the contact info
+6. Talk about ranking of green, red, yellow
 
 Admin Login Page:
 
@@ -20,7 +23,12 @@ Land Page:
   -Make an open up all items button. 
   -Make a close all items button
   -Create download button for CSV output
+5. Add functionality to edit final offer price. only for admin
+6. Give total of Green Red, Yellow properties
+7. Give an info section of their ranking
 
+Backend:
+1. Update the http responses and error responses
 
 Global:
 1 Create a Footer Component 

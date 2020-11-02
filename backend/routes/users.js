@@ -12,21 +12,21 @@ router.post('/auth', (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return res.status(400).json({ msg: 'Missing fields' });
+        return res.status(400).json({ status: false, msg: 'Missing fields' });
     }
 
     // Check for existing user
     User.findOne({ email })
         .then(user => {
-            if (!user) return res.status(400).json({ msg: 'User does not exist' });
+            if (!user) return res.status(400).json({ status: false, msg: 'User does not exist' }).end();
 
             // Validate password
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
-                    if (!isMatch) return res.status(400).json({ msg: 'Invalid Creds' });
+                    if (!isMatch) return res.status(400).json({ status: false, msg: 'Invalid password' });
                     jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
                         if (err) throw err;
-                        res.json({ user: { id: user.id, name: user.name, email: user.email }, token })
+                        res.json({ status: true, user: { id: user.id, name: user.name, email: user.email }, token })
 
                     });
                 })
