@@ -16,15 +16,15 @@ export default class About extends Component {
         return (
 
 
-          <Grid container component="about" className="about-component" spacing={8}>
+          <Grid container component="section" className="about-component" spacing={8}>
               <Grid item xs={12}>
                   <Typography variant="h1" component="h1" align="center">
                     Welcome to the Land Accrue Pricing App
                   </Typography>
             </Grid>
-            <Grid item xs={12} sm={8} md={8} justifyContent="center" alignItems="center" className="item-1">
+            <Grid item xs={12} sm={8} md={8} className="item-1">
             <div className="wrapper">
-              <Typography variant="h2" component="h2" gutterBottom="true" noWrap>
+              <Typography variant="h2" component="h2" gutterBottom={true} noWrap>
               What is Land Accrue
             </Typography>
             <Typography variant="body1" component="p">
@@ -35,7 +35,7 @@ export default class About extends Component {
                 <a className="btn" href="https://www.landaccrue.com/" target="_new">Visit Land Accrue</a>
                  </Typography>
                  <div className="contact">
-                    <Typography variant="h3" component="h3" gutterBottom="false">
+                    <Typography variant="h3" component="h3" gutterBottom={false}>
                 Contact Us
                 </Typography>
                 <Typography variant="body1" component="p">
@@ -48,23 +48,23 @@ export default class About extends Component {
                  </div>
                 
           </div>
-          <img className="logo-icon" src={logoPurpleImg} />
+          <img className="logo-icon" alt="land accrue logo purple" src={logoPurpleImg} />
           </Grid>
 
           <Grid item className="item-2" xs={12} sm={4} md={4}>
           
-              <img src={jasonImg} />
+              <img alt="jason mayfield" src={jasonImg} />
               <span>Jason Mayfield<br />Land Guru</span>
           </Grid> 
           
           <Grid item className="item-3" xs={12} sm={4} md={4} >
 
-              <img src={mapImg} />
+              <img alt="county map" src={mapImg} />
               
           </Grid>   
           <Grid item xs={12} sm={8} md={8} className="item-4">
              <div className="wrapper">
-              <Typography variant="h2" component="h2" gutterBottom="true" noWrap>
+              <Typography variant="h2" component="h2" gutterBottom={true} noWrap>
               What does the pricing app do
             </Typography>
           <Typography variant="body1" component="p">
@@ -73,26 +73,27 @@ export default class About extends Component {
          <a className="btn" href="./land" target="_self">See it in action</a>
           
         </div>
-        <img className="logo-icon" src={logoWhiteImg} />
+        <img className="logo-icon" alt="land accrue logo white" src={logoWhiteImg} />
           </Grid> 
             
           <Grid item xs={12} sm={8} md={8} className="item-5">
           <div className="wrapper">
-             <Typography variant="h2" component="h2" gutterBottom="true" noWrap>
+             <Typography variant="h2" component="h2" gutterBottom={true} noWrap>
               What you can do
             </Typography>
 
               
         <Typography variant="body1" component="p">
         You can load land comparables into the table based off of the state and county. The table consists of the buy properties with each of them having a dropdown list of the sold comparable properties.
+        Each buy property is given a status(Green, Yellow, Red) based off of how many sold properties were found to give an accurate calculation of an estimated value.
         You will only be able to read the table data. Only admins can write to Land Accrue database.
         </Typography>
         
         </div>
-         <img className="logo-icon" src={logoPurpleImg} />
+         <img className="logo-icon" alt="land accrue logo purple" src={logoPurpleImg} />
           </Grid> 
           <Grid item className="item-6" xs={12} sm={4} md={4} >
-              <img src={youCanImg} />
+              <img alt="you can" src={youCanImg} />
               
           </Grid>   
          

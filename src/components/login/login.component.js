@@ -7,6 +7,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Checkbox from '@material-ui/core/Checkbox';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -83,13 +84,16 @@ export default function Login(props) {
                 email: email.address,
                 password: password.text
             }
+            setProgressBar(true);
             // Send Files to backend API
             axios.post("http://localhost:5000/users/auth", data, config).then(res => {
                     localStorage.setItem('token', res.data.token);
                     setStoreState({ ...storeState, loggedIn: true, adminName: res.data.user.name})
+                    setProgressBar(false);
                 })
                 .catch(err => {
                     setError({...error, status: !err.response.data.status, msg: err.response.data.msg})
+                    setProgressBar(false);
                     console.error(`${err.response.status}: ${err.response.data.msg}`);
                 });
         }
@@ -97,7 +101,7 @@ export default function Login(props) {
 
 
     return (
-        <Grid container component="section" className={classes.root, 'login-component'}>
+        <Grid container component="section" className={`${classes.root} login-component`}>
       <CssBaseline />
       <Grid item xs={false} sm={false} md={7} className="land-image" />
       <Grid item xs={12}  md={5} component={Paper} elevation={6} square>
@@ -108,6 +112,7 @@ export default function Login(props) {
           <Typography component="h1" variant="h5">
             Admin Login
           </Typography>
+          <LinearProgress className={progressBar ? "active" : "hidden"} />
            {error.status ? <p className="error">{error.msg}</p> : ''} 
           <form className={classes.form} noValidate onSubmit={onSubmitLogin}>
             <TextField

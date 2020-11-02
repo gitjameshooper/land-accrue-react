@@ -1,9 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { Context } from './../../../store';
 import { Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
-import CloseIcon  from '@material-ui/icons/Close';
+import CloseIcon from '@material-ui/icons/Close';
 import RoomIcon from '@material-ui/icons/Room';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
@@ -12,13 +11,19 @@ import logo from './../../../assets/img/la-mtn-logo.png';
 import './navbar.scss';
 
 export default function NavBar() {
-  const [sideBar, setSideBar] = React.useState(null);
-  const [storeState, setStoreState] = useContext(Context);
-  const showSideBar = () => setSideBar(!sideBar); 
+    const [sideBar, setSideBar] = useState(null);
+    const [profile, setProfile] = useState(null);
+    const [storeState, setStoreState] = useContext(Context);
+    const showSideBar = () => setSideBar(!sideBar);
+    const showProfile = () => setProfile(!profile);
 
- 
-  return (
-    <div className="navbar">
+    const onLogout = (e) => {
+      setStoreState({...storeState, loggedIn: false, adminName: ''});
+      localStorage.removeItem('token');
+    }
+
+    return (
+        <div className="navbar">
        <Link to="#" className="menu-bars nav-item" onClick={showSideBar}> <MenuIcon  /> </Link>
        <Link className="la-logo" to="/"><img  src={logo} alt="Logo" /></Link>
       <nav className={sideBar ? 'nav-menu active' : 'nav-menu'}>
@@ -30,10 +35,16 @@ export default function NavBar() {
           </ul>
 
       </nav>
-      {storeState.loggedIn &&
-        <AccountBoxIcon />
-      }<p>{storeState.adminName}</p>
+      {storeState.loggedIn && <div className="profile">
+       
+      
+        <AccountBoxIcon onClick={showProfile} />
+        <div className={profile ? 'profile-box active': 'profile-box'} onMouseLeave={showProfile} >
+        <span className="name-text item">{storeState.adminName}</span>
+        <span className="settings-text item hover">Settings</span>
+        <span className="logout item hover" onClick={onLogout}>Logout</span>
+        </div>
+      </div>}
     </div>
-  );
+    );
 }
- 

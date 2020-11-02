@@ -18,6 +18,21 @@
         margin: 0;
     }
 
+    .MuiLinearProgress-root {
+        display: none;
+        height: 3px;
+        width: 100%;
+        margin: 5px 0 0;
+
+        .MuiLinearProgress-barColorPrimary {
+            background-color: $pcolor5;
+        }
+
+        &.active {
+            display: block;
+        }
+    }
+
     form {
 
         .MuiFormLabel-root.Mui-focused,
