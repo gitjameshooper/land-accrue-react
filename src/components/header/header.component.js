@@ -1,23 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useContext } from 'react';
+import { Context } from './../../store';
 import './header.scss';
 import NavBar from './navbar/navbar.component';
 
 
-export default class Header extends Component {
+export default function Header(props) {
 
-    constructor(props) {
-        super(props);
-      
-    }
+    const [storeState, setStoreState] = useContext(Context);
 
-   
-    render() {
-        return (
-            <header>
-            
-            <NavBar />
 
-			</header>
-        )
-    }
+
+    return (
+         
+        <header>
+
+        <NavBar />
+
+    </header>
+    );
 }
