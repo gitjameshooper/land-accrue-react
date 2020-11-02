@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const initialState = {
-    loggedIn: false
+    loggedIn: false,
+    adminName: ''
 };
 
 export const Context = React.createContext();
@@ -22,7 +23,7 @@ const Store = ({ children }) => {
 
         axios.get("http://localhost:5000/users", config).then(res => {
 
-                setStoreState({ 'loggedIn': true });
+                setStoreState({...initialState, 'loggedIn': true });
                 console.log(res);
             })
             .catch(error => {

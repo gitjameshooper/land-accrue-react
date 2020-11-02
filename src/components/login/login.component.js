@@ -1,72 +1,78 @@
-import React, { Component, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Context } from './../../store';
 import { Redirect } from 'react-router-dom';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 import './login.scss';
 
 
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        margin: theme.spacing(8, 4),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+}));
 
-// const classes = useStyles();
-export default class Login extends Component {
+export default function Login(props) {
+    const classes = useStyles();
+    const redirect = '/land';
+    const [storeState, setStoreState] = useContext(Context);
+    const [email, setEmail] = useState({ address: '', err: '' });
+    const [password, setPassword] = useState({ text: '', err: '' });
+    const [error, setError] = useState({ status: false, msg: '' });
+    const [progressBar, setProgressBar] = useState(false);
 
-    constructor(props, useStyles) {
-        super(props);
+    // if (storeState.loggedIn) {
+    //     return <Redirect to={redirect} />
+    // }
 
-        this.state = {
-            redirect: '/land',
-            showProgressBar: false,
-            email: '',
-            password: '',
-            emailErr: '',
-            passwordErr: ''
-        }
-
-        this.onChangeEmail = this.onChangeEmail.bind(this);
-        this.onChangePassword = this.onChangePassword.bind(this);
-        this.onSubmitLogin = this.onSubmitLogin.bind(this);
+    const onChangeEmail = (e) => {
+        setEmail({ ...email, address: e.target.value, err: '' });
     }
 
 
-    onChangeEmail(e) {
-        if (e.target) {
-            this.setState({ email: e.target.value });
+    const onChangePassword = (e) => {
+        setPassword({ ...password, text: e.target.value, err: '' });
+    }
+    // Error Checking for all fields
+    const isValid = () => {
+        let isValid = true;
+        if (!email.address) {
+            setEmail({ ...email, err: 'Email required' });
+            isValid = false;
         }
+        if (!password.text) {
+            setPassword({ ...password, err: 'Password required' });
+            isValid = false;
+        }
+
+        return isValid;
     }
 
-    onChangePassword(e) {
-        if (e.target) {
-            this.setState({ password: e.target.value });
-        }
-    }
-
-    onSubmitLogin = (e) => {
+    const onSubmitLogin = (e) => {
         e.preventDefault();
-        // Error Checking for all fields
-        const isValid = () => {
-            let isValid = true;
-            if (!this.state.emailErr) {
-                this.setState({ emailErr: 'Email Blank' });
-                isValid = false;
-            }
-            if (!this.state.passwordErr) {
-                this.setState({ passwordErr: 'Password Blank' });
-                isValid = false;
-            }
-
-            return isValid;
-        }
-
 
         if (isValid()) {
 
@@ -74,43 +80,36 @@ export default class Login extends Component {
                 headers: { 'content-type': 'application/json' }
             }
             let data = {
-                email: this.state.email,
-                password: this.state.password
+                email: email.address,
+                password: password.text
             }
             // Send Files to backend API
             axios.post("http://localhost:5000/users/auth", data, config).then(res => {
-
                     localStorage.setItem('token', res.data.token);
-                    setStoreState({'loggedIn' : true})
-                    // this.setState({'redirect': '/land'})
-                    // this.props.reloadLandOptions();
-                    // this.setState({ showProgressBar: false, countyName: '' });
+                    setStoreState({ ...storeState, loggedIn: true, adminName: res.data.user.name})
                 })
-                .catch(error => {
-                    console.log(error);
+                .catch(err => {
+                    setError({...error, status: !err.response.data.status, msg: err.response.data.msg})
+                    console.error(`${err.response.status}: ${err.response.data.msg}`);
                 });
         }
     };
 
-    render() {
-       const [storeState, setStoreState] = useContext(Context);
 
-        if (storeState.loggedIn) {
-            return <Redirect to={this.state.redirect} />
-        }
-
-        return (
-            <Grid container component="section" className="login-component">
-      <Grid item xs={false} sm={4} md={7} className="land-image" />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className="pap">
-          <Avatar className="avatar">
+    return (
+        <Grid container component="section" className={classes.root, 'login-component'}>
+      <CssBaseline />
+      <Grid item xs={false} sm={false} md={7} className="land-image" />
+      <Grid item xs={12}  md={5} component={Paper} elevation={6} square>
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Admin Login
           </Typography>
-          <form className="login-form" noValidate onSubmit={this.onSubmitLogin}>
+           {error.status ? <p className="error">{error.msg}</p> : ''} 
+          <form className={classes.form} noValidate onSubmit={onSubmitLogin}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -121,8 +120,9 @@ export default class Login extends Component {
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={this.onChangeEmail}
+              onChange={onChangeEmail}
             />
+            {email.err ? <p className="error">{email.err}</p> : ''} 
             <TextField
               variant="outlined"
               margin="normal"
@@ -133,8 +133,9 @@ export default class Login extends Component {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange={this.onChangePassword}
+                onChange={onChangePassword}
             />
+            {password.err ? <p className="error">{password.err}</p> : ''} 
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -143,6 +144,8 @@ export default class Login extends Component {
               type="submit"
               fullWidth
               variant="contained"
+              color="primary"
+              className={classes.submit}
             >
               Log In
             </Button>
@@ -150,6 +153,6 @@ export default class Login extends Component {
         </div>
       </Grid>
     </Grid>
-        )
-    }
+
+    )
 }

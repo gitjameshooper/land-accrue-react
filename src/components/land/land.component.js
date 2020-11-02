@@ -86,8 +86,6 @@ export default class Land extends Component {
     }
 
     render() {
-        console.log(this.props.loggedIn);
-        // console.log(this.props.loggedIn);
         const usStates = this.state.usStates.map((usState) => (
 
             <option key={usState._id} value={usState.name} data-abbv={usState.abbv} >{usState.name}</option>

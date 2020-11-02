@@ -32,7 +32,7 @@ export default function NavBar() {
       </nav>
       {storeState.loggedIn &&
         <AccountBoxIcon />
-      }
+      }<p>{storeState.adminName}</p>
     </div>
   );
 }
