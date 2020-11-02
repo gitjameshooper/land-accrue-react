@@ -8,9 +8,9 @@ import Grid from '@material-ui/core/Grid';
 
 
 export default class Land extends Component {
-    constructor(props) {
+    constructor(props, loggedIn) {
         super(props);
-
+         
         this.onChangeUsState = this.onChangeUsState.bind(this);
         this.onChangeCounty = this.onChangeCounty.bind(this);
         this.onShowLandSubmit = this.onShowLandSubmit.bind(this);
@@ -68,7 +68,6 @@ export default class Land extends Component {
     }
 
     loadLandOptions() {
-        console.log('load states');
         axios.get(`http://localhost:5000/us-states`)
             .then(res => {
 
@@ -87,6 +86,8 @@ export default class Land extends Component {
     }
 
     render() {
+        console.log(this.props.loggedIn);
+        // console.log(this.props.loggedIn);
         const usStates = this.state.usStates.map((usState) => (
 
             <option key={usState._id} value={usState.name} data-abbv={usState.abbv} >{usState.name}</option>
@@ -99,8 +100,10 @@ export default class Land extends Component {
 
         return (
 
-            <Grid container component="land" className="land-component">
+            <Grid container component="section" className="land-component">
+
                 <Grid item xs={12} md={6} className="top-blocks">
+
                     <h3>Load Land</h3>
                     <p>How to use:</p>
                     <ol>
