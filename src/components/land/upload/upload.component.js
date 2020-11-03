@@ -1,9 +1,10 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
+import NativeSelect from '@material-ui/core/NativeSelect';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import axios from 'axios';
 import './upload.scss';
@@ -36,11 +37,13 @@ export default class Upload extends Component {
     }
     onChangeCounty(e) {
         this.setState({ countyName: e.target.value });
-        this.setState({ countyNameErr: ''});
+        this.setState({ countyNameErr: '' });
     }
     onChangeFile(e) {
-        if (e.target.name === 'buyLand') this.setState({ buyLandFile: e.target.files[0] }); this.setState({ buyLandFileErr: ''});
-        if (e.target.name === 'soldLand') this.setState({ soldLandFile: e.target.files[0] }); this.setState({ soldLandFileErr: ''});
+        if (e.target.name === 'buyLand') this.setState({ buyLandFile: e.target.files[0] });
+        this.setState({ buyLandFileErr: '' });
+        if (e.target.name === 'soldLand') this.setState({ soldLandFile: e.target.files[0] });
+        this.setState({ soldLandFileErr: '' });
     };
     // On file upload (click the upload button) 
     onSubmitFiles = (e) => {
@@ -48,17 +51,17 @@ export default class Upload extends Component {
         // Error Checking for all fields
         const isValid = () => {
             let isValid = true;
-            if(!this.state.buyLandFile) {
-              this.setState({ buyLandFileErr: 'Please Add a Buy Land File'});
-              isValid = false;
+            if (!this.state.buyLandFile) {
+                this.setState({ buyLandFileErr: 'Please Add a Buy Land File' });
+                isValid = false;
             }
-            if(!this.state.soldLandFile) {
-              this.setState({ soldLandFileErr: 'Please Add a Sold Land File'});
-              isValid = false;
+            if (!this.state.soldLandFile) {
+                this.setState({ soldLandFileErr: 'Please Add a Sold Land File' });
+                isValid = false;
             }
             // County 
             if (this.state.countyName.trim().length < 3) {
-                this.setState({ countyNameErr: 'County Name is too short'});
+                this.setState({ countyNameErr: 'County Name is too short' });
                 isValid = false;
             }
             return isValid;
@@ -89,7 +92,7 @@ export default class Upload extends Component {
                 'sold.csv',
                 this.state.soldLandFile
             );
-            
+
             this.setState({ showProgressBar: true });
             // Send Files to backend API
             axios.post("http://localhost:5000/uploads/csv", formData, config).then(response => {
@@ -115,14 +118,34 @@ export default class Upload extends Component {
 
               <h3>Upload CSV Files</h3>
               <form noValidate onSubmit={this.onSubmitFiles}>
-               <select id="us-state" className="form-control" onChange={this.onChangeState} value={this.state.usStateName}>
-                {usStates}
-              </select>
-                <input type="text" className="form-control" onChange={this.onChangeCounty} name={this.state.countyName}  placeholder="County Name" aria-describedby="basic-addon2"/>
+                        <FormControl>
+                        <InputLabel htmlFor="state-native-helper"></InputLabel>
+                        <NativeSelect
+                          value={this.state.usStateName}
+                          onChange={this.onChangeState}
+                          inputProps={{
+                            name: 'state',
+                            id: 'state-native-helper',
+                          }}
+                        >
+                         {usStates}
+                     
+                        </NativeSelect>
+                      </FormControl>
+                      <TextField id="standard-basic" label="County Name" onChange={this.onChangeCounty} name={this.state.countyName} />
+
                <span className="error">*{this.state.countyNameErr}</span>
-               <label>Buy Land CSV <br /><span className="error">*{this.state.soldLandFileErr}</span><input type="file" id="buy-land" name="buyLand" accept=".csv" onChange={this.onChangeFile} /> </label>
-               <label>Sold Land CSV <br /><span className="error">*{this.state.buyLandFileErr}</span><input type="file" id="sold-land" name="soldLand" accept=".csv" onChange={this.onChangeFile} /> </label>
-                
+
+                <div className="upload-btn-wrapper">
+                      <button>Upload Buy file</button>
+                      <input type="file" id="buy-land" name="buyLand" accept=".csv" onChange={this.onChangeFile} /> 
+                </div>
+               <div className="upload-btn-wrapper">
+                      <button>Upload Sold file</button>
+                      <input type="file" id="sold-land" name="soldLand" accept=".csv" onChange={this.onChangeFile} />
+                </div>
+                <span className="error">*{this.state.buyLandFileErr}</span>
+                <span className="error">*{this.state.soldLandFileErr}</span>
                 <button className="la-btn" type="submit">
                   Upload Files
                 </button> 

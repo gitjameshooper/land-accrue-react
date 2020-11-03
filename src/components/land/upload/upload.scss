@@ -1,13 +1,49 @@
 @import '../../../variables.scss';
-.upload-component{
 
-	.error{
-		color: red;
-	}
-	.MuiLinearProgress-root{
-		display: none;
-		&.active{
-			display: block;
-		}
-	}
+.upload-component {
+
+    .error {
+        color: red;
+    }
+
+    .MuiLinearProgress-root {
+        display: none;
+
+        &.active {
+            display: block;
+        }
+    }
+
+    .upload-btn-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+
+        input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+
+            &::-webkit-file-upload-button {
+                cursor: pointer;
+            }
+        }
+
+        button {
+            border: 2px solid $pcolor2;
+            color: $pcolor1;
+            background-color: $pcolor5;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+
+        }
+
+    }
 }

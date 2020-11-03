@@ -2,18 +2,13 @@ Notes/Todo Items
 
 
 About Page:
-1. Get more copy content
-2. Spruce up the design, shapes/colors
-3. Update logo from gray to white on item 4
-4. Change out can do image for a screenshot of the table
-5. Add a design to the contact info
-6. Talk about ranking of green, red, yellow
+1. Update logo from gray to white on item 4, move logos around to fit
+2. Change out can do image for a screenshot of the table
+3. Add a design to the contact info
 
 Admin Login Page:
 
-1. Finalize data coming in formatting and only adding what is needed for final output
-2. Create icons for status green yellow red
-3. Verify admin login works with JWT token and routes are protected for writing to DB
+1. 
 
 Land Page:
 1. Spruce up the design
@@ -27,11 +22,15 @@ Land Page:
 6. Give total of Green Red, Yellow properties
 7. Give an info section of their ranking
 
+Settings:
+1. Create a settings component 
+
 Backend:
 1. Update the http responses and error responses
+2. Verify admin login works with JWT token and routes are protected for writing to DB
+3. Comment out add user route
 
 Global:
-1 Create a Footer Component 
 2 Create unit tests with Jest and Enzyme
 3 Setting up local and prod environments
 4 Make sure everything is mobile responsive and rendering correctly cross browser 
