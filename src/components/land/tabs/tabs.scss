@@ -1,0 +1,36 @@
+@import '../../../variables.scss';
+
+.tabs-component {
+    position: relative;
+    flex-grow: 1;
+
+    .slideToggle {
+        cursor: pointer;
+        padding: 10px 20px;
+    }
+
+    .tab-wrapper {
+        height: 55px;
+        transition: all .5s ease-in-out;
+
+        &.active {
+            height: 250px;
+        }
+    }
+
+    header {
+        position: absolute;
+        bottom: 0;
+        flex-direction: row;
+        background: $pcolor2;
+    }
+
+    .PrivateTabIndicator-colorSecondary-3 {
+        background-color: $pcolor5;
+    }
+
+    .tab-sections {
+        height: 100%;
+        background: $pcolor3;
+    }
+}

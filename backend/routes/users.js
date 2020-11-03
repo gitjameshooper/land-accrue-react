@@ -18,7 +18,7 @@ router.post('/auth', (req, res) => {
     // Check for existing user
     User.findOne({ email })
         .then(user => {
-            if (!user) return res.status(400).json({ status: false, msg: 'User does not exist' }).end();
+            if (!user) return res.status(400).json({ status: false, msg: 'User does not exist' });
 
             // Validate password
             bcrypt.compare(password, user.password)
