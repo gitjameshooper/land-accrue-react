@@ -5,7 +5,7 @@ const auth = require('../middleware/auth');
 router.get('/', (req, res) => {
 	USState.find()
 	.then(usStates => res.json(usStates))
-	.catch(err => res.status(400).json(`Error: ${err}`));
+	.catch(err => res.status(400).json({ status: false, msg: err}));
 });
 
 // router.post('/add', auth, (req, res) => {

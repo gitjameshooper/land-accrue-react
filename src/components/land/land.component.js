@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import Upload from './upload/upload.component';
 import DataTable from './table/table.component';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import TabPanel from './tabs/tabs.component';
+
 import axios from 'axios';
 import './land.scss';
 import Grid from '@material-ui/core/Grid';
@@ -8,9 +14,9 @@ import Grid from '@material-ui/core/Grid';
 
 
 export default class Land extends Component {
-    constructor(props, loggedIn) {
+    constructor(props) {
         super(props);
-         
+
         this.onChangeUsState = this.onChangeUsState.bind(this);
         this.onChangeCounty = this.onChangeCounty.bind(this);
         this.onShowLandSubmit = this.onShowLandSubmit.bind(this);
@@ -18,10 +24,10 @@ export default class Land extends Component {
         this.state = {
             tableLoading: false,
             usStates: [],
-            usStateName: 'texas',
-            usStateAbbv: 'tx',
-            countyName: 'hunt',
-            countyId: '5f87ab33865ca01abaad9c3c',
+            usStateName: '',
+            usStateAbbv: '',
+            countyName: '',
+            countyId: '',
             counties: [],
             properties: []
         }
@@ -33,21 +39,22 @@ export default class Land extends Component {
         axios.get(`http://localhost:5000/counties/${this.state.countyId}`)
             .then(res => {
                 if (res.data.length > 0) {
+                    let county = res.data[0];
                     // Add Sold properties to totalproperties(parent) for table view
-                    res.data[0].totalProperties.forEach(property => {
+                    county.totalProperties.forEach(property => {
                         if (property.soldArr) {
                             property.soldArr.forEach((soldProperty) => {
                                 soldProperty['parentId'] = property['_id'];
-                                res.data[0].totalProperties.push(soldProperty);
+                                county.totalProperties.push(soldProperty);
                             });
                         }
                     })
-                    this.setState({ properties: res.data[0].totalProperties.map(property => property), tableLoading: false });
+                    this.setState({ usStateAbbv: county.stateAbbv, countyName: county.name  ,properties: res.data[0].totalProperties.map(property => property), tableLoading: false });
                 }
 
             }).catch(err => {
-                // what now?
-                console.log(err);
+
+                console.error(`${err.response.status}: ${err.response.data.msg}`);
             });
     }
     onChangeUsState(e) {
@@ -70,14 +77,16 @@ export default class Land extends Component {
     loadLandOptions() {
         axios.get(`http://localhost:5000/us-states`)
             .then(res => {
+                let usStates = res.data.sort((a, b) => (a.name > b.name) ? 1 : -1),
+                counties = usStates[0].counties;
 
                 if (res.data.length > 0) {
-                    this.setState({ usStates: res.data.map(usState => usState) });
+                    this.setState({ usStates: res.data.map(usState => { usState.counties.sort((a, b) => (a.name > b.name) ? 1 : -1); return usState; }) });
+                    this.setState({ usStateName: res.data[0].name, usStateAbbv: res.data[0].abbv, countyName: res.data[0].counties[0].name, countyId: counties[0].id });
                     this.setState({ counties: res.data.filter(usState => usState.abbv === this.state.usStateAbbv).map(usState => usState.counties).flatMap(county => county) });
                 }
             }).catch(err => {
-                // what now?
-                console.log(err);
+                console.error(`${err.response.status}: ${err.response.data.msg}`);
             });
     }
 
@@ -99,7 +108,7 @@ export default class Land extends Component {
         return (
 
             <Grid container component="section" className="land-component">
-
+                <TabPanel />
                 <Grid item xs={12} md={6} className="top-blocks">
 
                     <h3>Load Land</h3>
@@ -109,12 +118,36 @@ export default class Land extends Component {
                         <li>Then Select a County</li>
                         <li>Click the Land Button to load the land into the table</li>
                     </ol>
-                    <select required className="form-control" value={this.state.usStateName} onChange={this.onChangeUsState}>
-                        {usStates}
-                    </select>
-                   <select required className="form-control" value={this.state.countyName} onChange={this.onChangeCounty}>
-                   {counties}
-                  </select>
+                       <FormControl>
+                        <InputLabel htmlFor="state-native-helper"></InputLabel>
+                        <NativeSelect
+                          value={this.state.usStateName}
+                          onChange={this.onChangeUsState}
+                          inputProps={{
+                            name: 'state',
+                            id: 'state-native-helper',
+                          }}
+                        >
+                          {usStates}
+                     
+                        </NativeSelect>
+                        <FormHelperText>State Populates the Counties</FormHelperText>
+                      </FormControl>
+                         <FormControl>
+                        <InputLabel htmlFor="county-native-helper"></InputLabel>
+                        <NativeSelect
+                          value={this.state.countyName}
+                          onChange={this.onChangeCounty}
+                          inputProps={{
+                            name: 'county',
+                            id: 'county-native-helper',
+                          }}
+                        >
+                          {counties}
+                     
+                        </NativeSelect>
+                      </FormControl>
+               
                   <button className="la-btn" onClick={this.onShowLandSubmit}>Load Land</button>
                 </Grid>
                 <Grid item xs={12} md={6} className="top-blocks">
