@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState} from 'react';
+import Upload from './../upload/upload.component';
+import Info from './../info/info.component';
+import LoadLand from './../load-land/load-land.component';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import './tabs.scss';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,39 +45,44 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
+
 
 export default function SimpleTabs() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [tabId, setTabId] = useState(0);
+  const [slideTab, setSlideTab ] = useState(false);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const tabChange = (e, newValue) => {
+    setTabId(newValue);
+    setSlideTab(true);
   };
+  const showSlideTab = () => setSlideTab(!slideTab);
+
 
   return (
-    <div className={classes.root}>
+    <div className="tabs-component">
       <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+        <div className="slideToggle" onClick={showSlideTab}>{ slideTab ?  <ArrowUpwardIcon /> : <ArrowDownwardIcon />}</div>
+        <Tabs value={tabId} onChange={tabChange} aria-label="simple tabs example">
+          <Tab label="Info" {...a11yProps(0)} />
+          <Tab label="Load Land" {...a11yProps(1)} />
+          <Tab label="Upload Land" {...a11yProps(2)} />
+          
         </Tabs>
+        <div>Download CSV</div>
+        <div>Save</div>
+        <div>Open Close Toggle</div>
       </AppBar>
-      <TabPanel value={value} index={0}>
-        Item One
+      <div className={slideTab ? 'active tab-wrapper' : 'hidden tab-wrapper'}>
+      <TabPanel className="tab-sections" value={tabId} index={0}>
+        <Info />
       </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
+      <TabPanel className="tab-sections" value={tabId} index={1}>
+         <LoadLand />
       </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
+      <TabPanel className="tab-sections" value={tabId} index={2}>
+         <Upload />
       </TabPanel>
+      </div>
     </div>
   );
 }
