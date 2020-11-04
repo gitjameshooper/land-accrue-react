@@ -1,6 +1,16 @@
 @import '../../../variables.scss';
 
 .upload-component {
+    h4 {
+        margin: 0;
+        font-size: 1.6rem;
+    }
+
+    .MuiFormControl-root {
+
+
+        margin: 10px;
+    }
 
     .error {
         color: red;
@@ -11,6 +21,25 @@
 
         &.active {
             display: block;
+        }
+    }
+
+    .la-btn {
+        border: none;
+        background: $pcolor6;
+        color: $pcolor1;
+        padding: 10px;
+        margin: 15px;
+        font-size: 1.2em;
+        text-transform: uppercase;
+        cursor: pointer;
+        outline: none;
+        float: right;
+        font-weight: bold;
+
+        &:active {
+            transform: scale(.95);
+
         }
     }
 

@@ -54,6 +54,7 @@
          th {
              background: $pcolor2;
              color: $pcolor3;
+             text-align: center;
          }
 
          .MuiTableSortLabel-root.MuiTableSortLabel-active {
@@ -78,10 +79,27 @@
              }
 
              tr[level="1"] {
-                 background-color: $pcolor4;
+                 background-color: $pcolor3;
                  border-left: 10px solid $pcolor5;
+                 .label-icon{
+                    display: none;
+                 }
+                 
+                 td{
+                    border-bottom: 1px solid $pcolor2;
+                 }
              }
-
+             .label-icon{
+                &.green{
+                    color: #1CC219;
+                }
+                 &.yellow{
+                    color: #E6E643;
+                }
+                 &.red{
+                    color: #EF3B3B;
+                }
+             }
              .MuiSvgIcon-root {
                  color: $pcolor5;
              }

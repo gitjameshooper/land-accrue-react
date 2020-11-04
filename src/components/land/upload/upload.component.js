@@ -116,7 +116,7 @@ export default class Upload extends Component {
         return (
             <div className="upload-component">
 
-              <h3>Upload CSV Files</h3>
+              <h4>How to Upload CSV Files</h4>
               <form noValidate onSubmit={this.onSubmitFiles}>
                         <FormControl>
                         <InputLabel htmlFor="state-native-helper"></InputLabel>
@@ -136,17 +136,17 @@ export default class Upload extends Component {
 
                <span className="error">*{this.state.countyNameErr}</span>
 
-                <div className="upload-btn-wrapper">
+                <div className="MuiFormControl-root upload-btn-wrapper">
                       <button>Upload Buy file</button>
                       <input type="file" id="buy-land" name="buyLand" accept=".csv" onChange={this.onChangeFile} /> 
                 </div>
-               <div className="upload-btn-wrapper">
+               <div className=" MuiFormControl-root upload-btn-wrapper">
                       <button>Upload Sold file</button>
                       <input type="file" id="sold-land" name="soldLand" accept=".csv" onChange={this.onChangeFile} />
                 </div>
                 <span className="error">*{this.state.buyLandFileErr}</span>
                 <span className="error">*{this.state.soldLandFileErr}</span>
-                <button className="la-btn" type="submit">
+                <button className="MuiFormControl-root la-btn" type="submit">
                   Upload Files
                 </button> 
                 <p>Note: You can only upload .csv files. Uploaded files will overwrite any previous files for that county</p>

@@ -13,6 +13,7 @@ import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import Edit from '@material-ui/icons/Edit';
 import FilterList from '@material-ui/icons/FilterList';
 import FirstPage from '@material-ui/icons/FirstPage';
+import LabelIcon from '@material-ui/icons/Label';
 import LastPage from '@material-ui/icons/LastPage';
 import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
@@ -88,18 +89,18 @@ export default function DataTable(props) {
             <MaterialTable
             isLoading={storeState.land.tableLoading}
             icons={tableIcons}
-            title={storeState.land.countyName ? storeState.land.countyName + ', '+storeState.land.usStateAbbv+ ' Land' : ''}
+            title={storeState.land.countyName ? 'Land in '+ storeState.land.countyName + ', '+storeState.land.usStateAbbv : ''}
             data={properties}
             columns={[
-              { title: 'Status', field: 'statusColor' },
+  
+              { title: 'Status', field: 'statusColor' , render: rowData => <LabelIcon className={`label-icon ${rowData['statusColor']}`}/>},
               { title: 'Owner Name/Distance(mi)', field: 'OWNER MAILING NAME', render: rowData => rowData['OWNER MAILING NAME'] ? rowData['OWNER MAILING NAME'] : `${rowData['distance']}(mi)` },
               { title: 'Address', field: 'SITUS FULL ADDRESS', render: rowData => rowData['SITUS STREET ADDRESS'] ? rowData['SITUS STREET ADDRESS'] : rowData['ADDRESS'] },
               { title: 'Lot Acreage', field: 'LOT ACREAGE', type: 'numeric'},
-              { title: 'Avg. PPA', field: 'avgPPA1', render: rowData => rowData['avgPPA1'] ? `$${rowData['avgPPA1']}` : `$${rowData['PRICE PER ACRE']}` },    
-              { title: 'Sold Price', field: 'SOLD PRICE', type: 'numeric'},
-              { title: 'EST Values', field: 'estValue1', type: 'numeric', render: rowData =>  rowData['estValue1'] ? `1: $${rowData['estValue1']}   2: $${rowData['estValue2']}   3: $${rowData['estValue3']}` : '' },
-              { title: 'Final Offer', field: 'jasonOffer', type: 'numeric' }
-            
+              { title: 'Avg. PPA', field: 'avgPPA1', render: rowData => rowData['avgPPA1'] ? `$${numberWithCommas(rowData['avgPPA1'])}` : `$${numberWithCommas(rowData['PRICE PER ACRE'])}` },    
+              { title: 'Sold Price', field: 'SOLD PRICE', type: 'numeric', render: rowData => rowData['SOLD PRICE'] ? `$${numberWithCommas(rowData['SOLD PRICE'])}` : ''},
+              { title: 'EST Values', field: 'estValue1', type: 'numeric', render: rowData =>  rowData['estValue1'] ? <span>1: ${numberWithCommas(rowData['estValue1'])}<br />2: ${numberWithCommas(rowData['estValue2'])}<br />3: ${numberWithCommas(rowData['estValue3'])}</span> : '' },
+              { title: 'Final Offer', field: 'jasonOffer', type: 'numeric', render: rowData => rowData['jasonOffer'] ? `$${numberWithCommas(rowData['jasonOffer'])}` : <input type="text" />}
             ]}
             parentChildData={(row, rows) => rows.find(a => a['_id'] === row.parentId)}
             options={{
@@ -127,3 +128,5 @@ export default function DataTable(props) {
     )
 
 }
+
+
