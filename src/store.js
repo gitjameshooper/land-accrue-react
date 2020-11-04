@@ -3,12 +3,18 @@ import axios from 'axios';
 
 const initialState = {
     loggedIn: false,
-    adminName: ''
+    adminName: '',
+    land: {
+        tableLoading: false,
+        usStateName: '',
+        usStateAbbv: '',
+        countyName: '',
+        countyId: null,
+    }
 };
 
+
 export const Context = React.createContext();
-
-
 
 const Store = ({ children }) => {
     const [storeState, setStoreState] = useState(initialState);

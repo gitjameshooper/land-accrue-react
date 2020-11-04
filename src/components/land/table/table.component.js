@@ -1,7 +1,8 @@
-import React, { Component, forwardRef } from 'react';
+import React, { Component, forwardRef, useContext, useState, useEffect } from 'react';
+import { Context } from './../../../store';
 import MaterialTable, { MTableBodyRow } from 'material-table';
 import './table.scss';
-
+import axios from 'axios';
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -40,24 +41,55 @@ const tableIcons = {
 
 
 
-export default class DataTable extends Component {
+export default function DataTable(props) {
 
-    constructor(props) {
-        super(props);
-
+    const [storeState, setStoreState] = useContext(Context);
+    const [properties, setProperties] = useState([]);
+    const numberWithCommas = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-    numberWithCommas(x) {
-      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }  
-    render() {
 
-        return (
-          <div className="table-component">
+
+      useEffect(() => {
+       
+        if(storeState.land.countyId){
+             axios.get(`http://localhost:5000/counties/${storeState.land.countyId}`)
+            .then(res => {
+                if (res.data.length > 0) {
+                    let county = res.data[0];
+                    // Add Sold properties to totalproperties(parent) for table view
+                    county.totalProperties.forEach(property => {
+                        if (property.soldArr) {
+                            property.soldArr.forEach((soldProperty) => {
+                                soldProperty['parentId'] = property['_id'];
+                                county.totalProperties.push(soldProperty);
+                            });
+                        }
+                    })
+                  let abbv = storeState.land.usStateAbbv, 
+                      countyName = storeState.land.countyName,
+                      countyId = null;
+                  setStoreState({...storeState, land: {tableloading: false, usStateAbbv: abbv, countyName: countyName, countyId: countyId}});
+                  setProperties(res.data[0].totalProperties.map(property => property));
+                }
+
+            }).catch(err => {
+
+                console.error(`${err.response.status}: ${err.response.data.msg}`);
+            });
+          }
+      });
+      
+
+
+    
+    return (
+        <div className="table-component">
             <MaterialTable
-            isLoading={this.props.isLoading}
+            isLoading={storeState.land.tableLoading}
             icons={tableIcons}
-            title={this.props.countyName + ', '+this.props.stateAbbv+ ' Land'}
-            data={this.props.propertyData}
+            title={storeState.land.countyName ? storeState.land.countyName + ', '+storeState.land.usStateAbbv+ ' Land' : ''}
+            data={properties}
             columns={[
               { title: 'Status', field: 'statusColor' },
               { title: 'Owner Name/Distance(mi)', field: 'OWNER MAILING NAME', render: rowData => rowData['OWNER MAILING NAME'] ? rowData['OWNER MAILING NAME'] : `${rowData['distance']}(mi)` },
@@ -92,6 +124,6 @@ export default class DataTable extends Component {
             ]}
           />
           </div>
-        )
-    }
+    )
+
 }

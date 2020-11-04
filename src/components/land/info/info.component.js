@@ -6,5 +6,5 @@ export default function Info(props){
 
 
 
-	return (<p>Info here</p>);
+	return (<span>Info. here  Red, Green, Yellow</span>);
 }

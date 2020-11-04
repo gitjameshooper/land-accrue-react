@@ -25,7 +25,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -68,9 +68,9 @@ export default function SimpleTabs() {
           <Tab label="Upload Land" {...a11yProps(2)} />
           
         </Tabs>
-        <div>Download CSV</div>
-        <div>Save</div>
-        <div>Open Close Toggle</div>
+        <span className="action-btns">Download CSV</span>
+        <span className="action-btns">Save</span>
+        <span className="action-btns">Open Close Toggle</span>
       </AppBar>
       <div className={slideTab ? 'active tab-wrapper' : 'hidden tab-wrapper'}>
       <TabPanel className="tab-sections" value={tabId} index={0}>
