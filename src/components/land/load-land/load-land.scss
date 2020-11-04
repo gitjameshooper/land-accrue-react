@@ -1,10 +1,13 @@
-@import '../../variables.scss';
+@import '../../../variables.scss';
 
-.land-component {
-    .top-blocks {
-         
+.load-land-component {
+     h4{
+        margin: 0;
+        font-size: 1.6rem;
+     }
 
-        .la-btn {
+   
+  .la-btn {
             border: none;
             background: $pcolor6;
             color: $pcolor1;
@@ -22,9 +25,4 @@
 
             }
         }
-
-        .bottom-block {
-            box-shadow: 1px 1px 5px $pcolor0;
-        }
-    }
 }
