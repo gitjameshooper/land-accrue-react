@@ -1,6 +1,9 @@
 Notes/Todo Items
 
 
+Header:
+1. Fix name in global store
+
 About Page:
 1. Update logo from gray to white on item 4, move logos around to fit
 2. Change out can do image for a screenshot of the table
@@ -11,16 +14,14 @@ Admin Login Page:
 1. 
 
 Land Page:
-1. Spruce up the design
-2. Maybe change load land based off the select
-3. Set state for County and US State after land loads
-4. Finish view for land data
-  -Make an open up all items button. 
-  -Make a close all items button
-  -Create download button for CSV output
-5. Add functionality to edit final offer price. only for admin
-6. Give total of Green Red, Yellow properties
-7. Give an info section of their ranking
+1. Finish the design, final touches and theme
+2. Error: nav taking too much time to render. probably event listener issue bc the table has so many items.  Test with small amount of data in the table
+3. Create better user experience with the table. Make Table more efficient rendering.  create state of items in the table.  windowing react window or https://bvaughn.github.io/react-virtualized/#/components/List
+4. Make an open/close up all items toggle button. 
+5. Create download button for CSV output from DB
+6. Add functionality to edit final offer price. only for admin
+7. Give total of Green, Red, Yellow properties
+8. Finish info section of their ranking and how the estimated values are calculated(1,2,3 values)
 
 Settings:
 1. Create a settings component 
@@ -28,13 +29,16 @@ Settings:
 Backend:
 1. Update the http responses and error responses
 2. Verify admin login works with JWT token and routes are protected for writing to DB
-3. Comment out add user route
+3. Comment out add user route - only use internally
+
+DB: 
+1. Verify data is being entered correctly without null or undefined values
 
 Global:
-2 Create unit tests with Jest and Enzyme
-3 Setting up local and prod environments
-4 Make sure everything is mobile responsive and rendering correctly cross browser 
-5 Find hosting solution
+1. Create unit tests with Jest and Enzyme
+2. Make sure everything is mobile responsive and rendering correctly cross browser 
+3. Setting up local and prod environments for deployment
+4. Find hosting solution
    -Add as a subdomain to landaccrue.com
    -Add concurrently package to run back and front in 1 cmd with npm
    -Clean up build with Dev dependencies(for build) and dependencies (needed at run time)
