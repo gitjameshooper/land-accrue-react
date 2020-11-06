@@ -93,14 +93,14 @@ export default function DataTable(props) {
             data={properties}
             columns={[
   
-              { title: 'Status', field: 'statusColor' , render: rowData => <LabelIcon className={`label-icon ${rowData['statusColor']}`}/>},
-              { title: 'Owner Name/Distance(mi)', field: 'OWNER MAILING NAME', render: rowData => rowData['OWNER MAILING NAME'] ? rowData['OWNER MAILING NAME'] : `${rowData['distance']}(mi)` },
+              { title: 'Status', field: 'statusKey' , render: rowData => <LabelIcon className={`label-icon ${rowData['statusColor']}`}/>},
+              { title: 'Owner Name/Distance(mi)', field: 'OWNER MAILING NAME', render: rowData => rowData['OWNER MAILING NAME'] ? rowData['OWNER MAILING NAME'] : `${rowData['distance']} (mi)` },
               { title: 'Address', field: 'SITUS FULL ADDRESS', render: rowData => rowData['SITUS STREET ADDRESS'] ? rowData['SITUS STREET ADDRESS'] : rowData['ADDRESS'] },
               { title: 'Lot Acreage', field: 'LOT ACREAGE', type: 'numeric'},
-              { title: 'Avg. PPA', field: 'avgPPA1', render: rowData => rowData['avgPPA1'] ? `$${numberWithCommas(rowData['avgPPA1'])}` : `$${numberWithCommas(rowData['PRICE PER ACRE'])}` },    
+              { title: 'Avg. PPA', field: 'avgPPA1', render: rowData => rowData['finalPPA'] ? `$${numberWithCommas(rowData['finalPPA'])}` : rowData['PRICE PER ACRE'] ?  `$${numberWithCommas(rowData['PRICE PER ACRE'])}` : 0},    
               { title: 'Sold Price', field: 'SOLD PRICE', type: 'numeric', render: rowData => rowData['SOLD PRICE'] ? `$${numberWithCommas(rowData['SOLD PRICE'])}` : ''},
               { title: 'EST Values', field: 'estValue1', type: 'numeric', render: rowData =>  rowData['estValue1'] ? <span>1: ${numberWithCommas(rowData['estValue1'])}<br />2: ${numberWithCommas(rowData['estValue2'])}<br />3: ${numberWithCommas(rowData['estValue3'])}</span> : '' },
-              { title: 'Final Offer', field: 'jasonOffer', type: 'numeric', render: rowData => rowData['jasonOffer'] ? `$${numberWithCommas(rowData['jasonOffer'])}` : <input type="text" />}
+              { title: 'Final Offer', field: 'finalOffer', type: 'numeric', render: rowData => !rowData['finalOffer'] ? '' : storeState.loggedIn ? <input type="text" value={rowData['finalOffer']} /> : `$${numberWithCommas(rowData['finalOffer'])}`}
             ]}
             parentChildData={(row, rows) => rows.find(a => a['_id'] === row.parentId)}
             options={{
