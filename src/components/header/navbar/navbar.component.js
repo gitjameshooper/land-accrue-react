@@ -25,7 +25,7 @@ export default function NavBar() {
     return (
         <div className="navbar">
        <Link to="#" className="menu-bars nav-item" onClick={showSideBar}> <MenuIcon  /> </Link>
-       <Link className="la-logo" to="/"><img  src={logo} alt="Logo" /></Link>
+       <span className="la-logo"><img  src={logo} alt="Logo" /></span>
       <nav className={sideBar ? 'nav-menu active' : 'nav-menu'}>
         <ul className="nav-menu-items" onClick={showSideBar} >
           <li className="navbar-toggle nav-item"><CloseIcon /></li>
