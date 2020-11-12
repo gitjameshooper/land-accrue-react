@@ -2,7 +2,7 @@ Notes/Todo Items
 
 
 Header:
-1. Fix name in global store
+1. Create Settings?
 
 About Page:
 1. Update logo from gray to white on item 4, move logos around to fit

@@ -1,9 +1,8 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .land-component {
-     
-        .bottom-block {
-            box-shadow: 1px 1px 5px $pcolor0;
-        }
-    
+  position: relative;
+  .bottom-block {
+    box-shadow: 1px 1px 5px $pcolor0;
+  }
 }

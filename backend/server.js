@@ -25,11 +25,13 @@ connection.once("open", () => {
 
 const usStatesRouter = require("./routes/us-states");
 const uploadsRouter = require("./routes/uploads");
+const downloadsRouter = require("./routes/downloads");
 const usersRouter = require("./routes/users");
 const countiesRouter = require("./routes/counties");
 
 app.use("/us-states", usStatesRouter);
 app.use("/uploads", uploadsRouter);
+app.use("/downloads", downloadsRouter);
 app.use("/users", usersRouter);
 app.use("/counties", countiesRouter);
 
