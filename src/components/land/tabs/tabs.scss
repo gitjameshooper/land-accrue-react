@@ -15,7 +15,7 @@
 
   .tab-wrapper {
     height: 55px;
-    transition: all 0.5s ease-in-out;
+    transition: all 1s ease-in-out;
 
     &.active {
       height: 100%;
@@ -37,6 +37,7 @@
 
   .tab-sections {
     height: 100%;
+    margin-bottom: 55px;
     background: $pcolor3;
     border-left: 3px solid $pcolor2;
     border-right: 3px solid $pcolor2;

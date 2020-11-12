@@ -41,16 +41,16 @@ const tableIcons = {
 };
 
 export default function DataTable(props) {
-  const [storeState, setStoreState] = useContext(Context);
+  const [store, setStore] = useContext(Context);
   const [properties, setProperties] = useState([]);
   const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   useEffect(() => {
-    if (storeState.land.countyId) {
+    if (store.land.countyId) {
       axios
-        .get(`http://localhost:5000/counties/${storeState.land.countyId}`)
+        .get(`http://localhost:5000/counties/${store.land.countyId}`)
         .then((res) => {
           if (res.data.length > 0) {
             let county = res.data[0];
@@ -63,11 +63,11 @@ export default function DataTable(props) {
                 });
               }
             });
-            let abbv = storeState.land.usStateAbbv,
-              countyName = storeState.land.countyName,
+            let abbv = store.land.usStateAbbv,
+              countyName = store.land.countyName,
               countyId = null;
-            setStoreState({
-              ...storeState,
+            setStore({
+              ...store,
               land: { tableloading: false, usStateAbbv: abbv, countyName: countyName, countyId: countyId },
             });
             setProperties(res.data[0].totalProperties.map((property) => property));
@@ -82,11 +82,9 @@ export default function DataTable(props) {
   return (
     <div className="table-component">
       <MaterialTable
-        isLoading={storeState.land.tableLoading}
+        isLoading={store.land.tableLoading}
         icons={tableIcons}
-        title={
-          storeState.land.countyName ? "Land in " + storeState.land.countyName + ", " + storeState.land.usStateAbbv : ""
-        }
+        title={store.land.countyName ? "Land in " + store.land.countyName + ", " + store.land.usStateAbbv : ""}
         data={properties}
         columns={[
           {
@@ -147,7 +145,7 @@ export default function DataTable(props) {
             render: (rowData) =>
               !rowData["finalOffer"] ? (
                 ""
-              ) : storeState.loggedIn ? (
+              ) : store.user.loggedIn ? (
                 <input type="text" value={rowData["finalOffer"]} />
               ) : (
                 `$${numberWithCommas(rowData["finalOffer"])}`

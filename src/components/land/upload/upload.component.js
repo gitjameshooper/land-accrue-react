@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
+import Grid from "@material-ui/core/Grid";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
@@ -23,6 +22,8 @@ export default class Upload extends Component {
       countyName: "",
       countyNameErr: "",
       buyLandFileErr: "",
+      buyLandFileName: "",
+      soldLandFileName: "",
       soldLandFileErr: "",
     };
     this.onChangeCounty = this.onChangeCounty.bind(this);
@@ -31,18 +32,19 @@ export default class Upload extends Component {
     this.onSubmitFiles = this.onSubmitFiles.bind(this);
   }
   onChangeState(e) {
-    this.setState({ usStateName: e.target.value });
-    this.setState({ usStateAbbv: e.target.options[e.target.options.selectedIndex].getAttribute("data-abbv") });
+    this.setState({
+      usStateName: e.target.value,
+      usStateAbbv: e.target.options[e.target.options.selectedIndex].getAttribute("data-abbv"),
+    });
   }
   onChangeCounty(e) {
-    this.setState({ countyName: e.target.value });
-    this.setState({ countyNameErr: "" });
+    this.setState({ countyName: e.target.value, countyNameErr: "" });
   }
   onChangeFile(e) {
-    if (e.target.name === "buyLand") this.setState({ buyLandFile: e.target.files[0] });
-    this.setState({ buyLandFileErr: "" });
-    if (e.target.name === "soldLand") this.setState({ soldLandFile: e.target.files[0] });
-    this.setState({ soldLandFileErr: "" });
+    if (e.target.name === "buyLand")
+      this.setState({ buyLandFile: e.target.files[0], buyLandFileErr: "", buyLandFileName: e.target.files[0].name });
+    if (e.target.name === "soldLand")
+      this.setState({ soldLandFile: e.target.files[0], soldLandFileErr: "", soldLandFileName: e.target.files[0].name });
   }
   // On file upload (click the upload button)
   onSubmitFiles = (e) => {
@@ -51,11 +53,11 @@ export default class Upload extends Component {
     const isValid = () => {
       let isValid = true;
       if (!this.state.buyLandFile) {
-        this.setState({ buyLandFileErr: "Please Add a Buy Land File" });
+        this.setState({ buyLandFileErr: "Please Add a Buy CSV File" });
         isValid = false;
       }
       if (!this.state.soldLandFile) {
-        this.setState({ soldLandFileErr: "Please Add a Sold Land File" });
+        this.setState({ soldLandFileErr: "Please Add a Sold CSV File" });
         isValid = false;
       }
       // County
@@ -71,11 +73,6 @@ export default class Upload extends Component {
       const formData = new FormData();
       const config = {
         headers: { "content-type": "multipart/form-data" },
-        onDownloadProgress: (progressEvent) => {
-          let percentCompleted = Math.floor(progressEvent.loaded / progressEvent.total);
-          console.log(percentCompleted);
-          console.log(progressEvent);
-        },
       };
       formData.append("county", this.state.countyName);
       formData.append("usStateName", this.state.usStateName);
@@ -90,8 +87,14 @@ export default class Upload extends Component {
         .post("http://localhost:5000/uploads/csv", formData, config)
         .then((response) => {
           console.log(response);
-          this.props.reloadLandOptions();
-          this.setState({ showProgressBar: false, countyName: "" });
+          this.setState({
+            showProgressBar: false,
+            countyName: "",
+            buyLandFile: null,
+            soldLandFile: null,
+            buyLandFileName: "",
+            soldLandFileName: "",
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -106,49 +109,66 @@ export default class Upload extends Component {
       </option>
     ));
     return (
-      <div className="upload-component">
-        <h4>How to Upload CSV Files</h4>
+      <Grid container component="section" className="upload-component" spacing={2}>
+        <h4>Upload CSV Files</h4>
         <form noValidate onSubmit={this.onSubmitFiles}>
-          <FormControl>
-            <NativeSelect
-              value={this.state.usStateName}
-              onChange={this.onChangeState}
-              inputProps={{
-                name: "state",
-                id: "state-native-helper",
-              }}>
-              {usStates}
-            </NativeSelect>
-            <FormHelperText>State</FormHelperText>
-          </FormControl>
-          <FormControl>
-            <TextField
-              id="standard-basic"
-              label="County Name"
-              onChange={this.onChangeCounty}
-              name={this.state.countyName}
-            />
-            <FormHelperText>County</FormHelperText>
-          </FormControl>
-          <span className="error">*{this.state.countyNameErr}</span>
-
-          <div className="MuiFormControl-root upload-btn-wrapper">
-            <button>Upload Buy file</button>
-            <input type="file" id="buy-land" name="buyLand" accept=".csv" onChange={this.onChangeFile} />
-          </div>
-          <div className=" MuiFormControl-root upload-btn-wrapper">
-            <button>Upload Sold file</button>
-            <input type="file" id="sold-land" name="soldLand" accept=".csv" onChange={this.onChangeFile} />
-          </div>
-          <span className="error">*{this.state.buyLandFileErr}</span>
-          <span className="error">*{this.state.soldLandFileErr}</span>
-          <button className="MuiFormControl-root la-btn" type="submit">
-            Upload Files
-          </button>
-          <p>Note: You can only upload .csv files. Uploaded files will overwrite any previous files for that county</p>
+          <Grid item xs={12} sm={6} md={3} className="item-1">
+            <FormControl className="child">
+              <NativeSelect
+                value={this.state.usStateName}
+                onChange={this.onChangeState}
+                inputProps={{
+                  name: "state",
+                  id: "state-native-helper",
+                }}>
+                {usStates}
+              </NativeSelect>
+              <FormHelperText>State</FormHelperText>
+            </FormControl>
+            <FormControl className="child">
+              <TextField
+                id="standard-basic"
+                onChange={this.onChangeCounty}
+                name="countyName"
+                value={this.state.countyName}
+              />
+              <FormHelperText>
+                County <span className="asterik">*</span>
+              </FormHelperText>
+              <span className="error">{this.state.countyNameErr}</span>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6} md={9} className="item-2">
+            <FormControl className="child">
+              <div className="upload-btn-wrapper">
+                <button>
+                  Add Buy File <span className="asterik file"> *</span>
+                </button>
+                <input type="file" id="buy-land" name="buyLand" accept=".csv" onChange={this.onChangeFile} />
+              </div>
+              <span className="error file">{this.state.buyLandFileErr}</span>
+              <span className="filename">{this.state.buyLandFileName}</span>
+            </FormControl>
+            <FormControl className="child">
+              <div className="upload-btn-wrapper">
+                <button>
+                  Add Sold File <span className="asterik file"> *</span>
+                </button>
+                <input type="file" id="sold-land" name="soldLand" accept=".csv" onChange={this.onChangeFile} />
+              </div>
+              <span className="error file">{this.state.soldLandFileErr}</span>
+              <span className="filename">{this.state.soldLandFileName}</span>
+            </FormControl>
+            <button className="child la-btn" type="submit">
+              Upload Files
+            </button>
+          </Grid>
         </form>
         <LinearProgress className={this.state.showProgressBar ? "active" : "hidden"} />
-      </div>
+        <p className={`note ${this.state.showProgressBar ? "hidden" : "active"}`}>
+          <b>Note:</b> Uploaded files will overwrite any previous files for that county.
+        </p>
+      </Grid>
     );
   }
 }
