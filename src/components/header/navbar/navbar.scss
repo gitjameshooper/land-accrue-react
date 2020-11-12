@@ -1,173 +1,161 @@
-@import '../../../variables.scss';
+@import "../../../variables.scss";
 
 @keyframes drawBorder {
-    from {
-        max-width: 0%;
-    }
+  from {
+    max-width: 0%;
+  }
 
-    to {
-        max-width: 100%;
-    }
+  to {
+    max-width: 100%;
+  }
 }
 
 .navbar {
-    background-color: $pcolor6;
-    height: 80px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+  background-color: $pcolor6;
+  height: 80px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 
-    .MuiSvgIcon-root {
-        font-size: 3rem;
-    }
+  .MuiSvgIcon-root {
+    font-size: 3rem;
+  }
 
-    .la-logo {
+  .la-logo {
     display: flex;
     align-items: center;
     justify-content: center;
     /* text-align: center; */
     width: 100vw;
 
-        img {
-            width: 200px;
+    img {
+      width: 200px;
+    }
+  }
 
-        }
+  .profile {
+    color: $pcolor1;
+    display: flex;
+
+    .MuiSvgIcon-root {
+      cursor: pointer;
+      margin: 23px;
     }
 
-    .profile {
-        color: $pcolor1;
-            display: flex;
+    .profile-box {
+      display: none;
+      background: $pcolor2;
 
-        .MuiSvgIcon-root {
-            cursor: pointer;
-            margin: 23px;
+      position: absolute;
+      right: 10px;
+      top: 80px;
+      border: 1px solid $pcolor2;
 
+      &.active {
+        display: block;
+      }
+
+      .item {
+        margin: 0;
+        display: block;
+        text-align: center;
+        padding: 8px 25px;
+
+        &.hover:hover {
+          background: $pcolor5;
+          cursor: pointer;
         }
+      }
+    }
+  }
 
-        .profile-box {
-            display: none;
-            background: $pcolor2;
+  .menu-bars {
+    font-size: 2rem;
+    background: none;
+    color: $pcolor1;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    width: 80px;
+    justify-content: center;
+  }
 
-            position: absolute;
-            right: 10px;
-            top: 80px;
-            border: 1px solid $pcolor2;
+  .nav-menu {
+    background-color: $pcolor6;
+    width: 250px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    transition: all 1800ms;
+    z-index: 11;
 
-            &.active {
-                display: block;
-            }
-
-            .item {
-                margin: 0;
-                display: block;
-                text-align: center;
-                padding: 8px 25px;
-
-
-                &.hover:hover {
-                    background: $pcolor5;
-                    cursor: pointer;
-                }
-            }
-        }
+    &.active {
+      left: 0;
+      transition: all 700ms;
     }
 
+    .nav-menu-items {
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      box-shadow: 0 0 15px $pcolor0;
 
-    .menu-bars {
-        font-size: 2rem;
-        background: none;
-        color: $pcolor1;
-        cursor: pointer;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        width: 80px;
-        justify-content: center;
+      .nav-item {
+        list-style: none;
+        height: 60px;
+        margin: 0;
 
-    }
-
-    .nav-menu {
-        background-color: $pcolor6;
-        width: 250px;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        position: fixed;
-        top: 0;
-        left: -100%;
-        transition: all 1800ms;
-        z-index: 11;
-
-
-        &.active {
-            left: 0;
-            transition: all 700ms;
+        &.navbar-toggle {
+          background-color: $pcolor6;
+          width: 100%;
+          height: 80px;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          color: #fff;
+          cursor: pointer;
+          padding: 20px;
         }
 
-        .nav-menu-items {
+        .icons {
+          margin-right: 5px;
+          position: relative;
+          bottom: 2px;
+        }
+
+        .nav-link {
+          text-decoration: none;
+          color: $pcolor1;
+          font-size: 1.8rem;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          padding: 20px;
+          cursor: pointer;
+          border-bottom: 0;
+          left: 0;
+
+          .bot-border {
+            height: 2px;
             width: 100%;
-            padding: 0;
-            margin: 0;
-            box-shadow: 0 0 15px $pcolor0;
+            max-width: 0%;
+            background-color: $pcolor1;
+            display: block;
+          }
 
-            .nav-item {
-                list-style: none;
-                height: 60px;
-                margin: 0;
+          &:hover {
+            background-color: $pcolor5;
 
-                &.navbar-toggle {
-                    background-color: $pcolor6;
-                    width: 100%;
-                    height: 80px;
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-                    color: #fff;
-                    cursor: pointer;
-                    padding: 20px;
-                }
-
-                .icons {
-                    margin-right: 5px;
-                    position: relative;
-                    bottom: 2px;
-                }
-
-                .nav-link {
-                    text-decoration: none;
-                    color: $pcolor1;
-                    font-size: 1.8rem;
-                    width: 100%;
-                    display: flex;
-                    align-items: center;
-                    padding: 20px;
-                    cursor: pointer;
-                    border-bottom: 0;
-                    left: 0;
-
-                    .bot-border {
-                        height: 2px;
-                        width: 100%;
-                        max-width: 0%;
-                        background-color: $pcolor1;
-                        display: block;
-                    }
-
-                    &:hover {
-                        background-color: $pcolor5;
-
-                        .bot-border {
-
-                            animation: drawBorder 500ms ease forwards;
-                        }
-
-
-                    }
-
-
-
-                }
+            .bot-border {
+              animation: drawBorder 500ms ease forwards;
             }
+          }
         }
+      }
     }
+  }
 }

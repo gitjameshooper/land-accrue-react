@@ -1,42 +1,44 @@
-@import '../../../variables.scss';
+@import "../../../variables.scss";
 
 .tabs-component {
-    position: relative;
-    flex-grow: 1;
+  position: relative;
+  flex-grow: 1;
 
-    .slideToggle {
-        cursor: pointer;
-        padding: 10px 20px;
+  .slideToggle {
+    cursor: pointer;
+    padding: 10px 20px;
+  }
+
+  .action-btns {
+    padding: 15px;
+  }
+
+  .tab-wrapper {
+    height: 55px;
+    transition: all 0.5s ease-in-out;
+
+    &.active {
+      height: 100%;
+      min-height: 250px;
     }
-    .action-btns{
-    	padding: 15px;
-    }
+  }
 
-    .tab-wrapper {
-        height: 55px;
-        transition: all .5s ease-in-out;
+  header {
+    position: absolute;
+    bottom: 0;
+    flex-direction: row;
+    background: $pcolor2;
+    max-height: 54px;
+  }
 
-        &.active {
-            height: 250px;
-        }
-    }
+  .MuiTabs-indicator {
+    background-color: $pcolor5;
+  }
 
-    header {
-        position: absolute;
-        bottom: 0;
-        flex-direction: row;
-        background: $pcolor2;
-    }
-
-    .PrivateTabIndicator-colorSecondary-3 {
-        background-color: $pcolor5;
-    }
-
-    .tab-sections {
-        height: 100%;
-        background: $pcolor3;
-        border-left: 3px solid $pcolor2;
-        border-right: 3px solid $pcolor2;
-    }
-
+  .tab-sections {
+    height: 100%;
+    background: $pcolor3;
+    border-left: 3px solid $pcolor2;
+    border-right: 3px solid $pcolor2;
+  }
 }
