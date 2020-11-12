@@ -2,21 +2,124 @@
 
 .upload-component {
   h4 {
-    margin: 0;
+    margin: 0 0 10px;
     font-size: 1.6rem;
+    width: 100%;
   }
+  form {
+    display: block;
 
-  .MuiFormControl-root {
-    margin: 10px;
+    width: 100%;
+    @media (min-width: 600px) {
+      display: flex;
+    }
+    .item-1 {
+      .child {
+        padding: 0 10px;
+        width: 100%;
+        // max-width: 250px;
+      }
+    }
+    .item-2 {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      flex-direction: column;
+      @media (min-width: 960px) {
+        flex-direction: row;
+        align-items: end;
+      }
+      .child {
+        padding: 10px;
+      }
+      .filename {
+        padding: 5px;
+        max-width: 150px;
+      }
+      .la-btn {
+        border: none;
+        background: $pcolor6;
+        color: $pcolor1;
+        padding: 10px;
+        margin: 10px;
+        font-size: 1.2em;
+        text-transform: uppercase;
+        cursor: pointer;
+        outline: none;
+        font-weight: bold;
+        &:active {
+          transform: scale(0.95);
+        }
+      }
+
+      .upload-btn-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        max-width: 175px;
+        white-space: nowrap;
+
+        input[type="file"] {
+          font-size: 100px;
+          position: absolute;
+          left: 0;
+          top: 0;
+          opacity: 0;
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
+
+          &::-webkit-file-upload-button {
+            cursor: pointer;
+          }
+        }
+
+        button {
+          border: 2px solid $pcolor2;
+          color: $pcolor1;
+          background-color: $pcolor5;
+          padding: 8px 20px;
+          border-radius: 8px;
+          font-size: 20px;
+          font-weight: bold;
+        }
+      }
+    }
   }
-
+  .asterik {
+    color: red;
+    &.file {
+      position: absolute;
+    }
+  }
   .error {
     color: red;
+    &.file {
+      max-width: 160px;
+      text-align: center;
+      display: inline-block;
+      margin: 0 auto;
+      white-space: nowrap;
+    }
+  }
+  .note {
+    margin: 0 auto;
+    &.hidden {
+      display: none;
+    }
   }
 
   .MuiLinearProgress-root {
     display: none;
-
+    margin: 25px 0;
+    width: 50%;
+    margin: 0 auto;
+    .MuiLinearProgress-colorPrimary {
+      background-color: $pcolor3;
+    }
+    .MuiLinearProgress-barColorPrimary {
+      background-color: $pcolor5;
+    }
     &.active {
       display: block;
     }
@@ -28,54 +131,5 @@
 
   .MuiInput-underline:after {
     border-bottom: 2px solid $pcolor5;
-  }
-
-  .la-btn {
-    border: none;
-    background: $pcolor6;
-    color: $pcolor1;
-    padding: 10px;
-    margin: 15px;
-    font-size: 1.2em;
-    text-transform: uppercase;
-    cursor: pointer;
-    outline: none;
-    float: right;
-    font-weight: bold;
-
-    &:active {
-      transform: scale(0.95);
-    }
-  }
-
-  .upload-btn-wrapper {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-
-    input[type="file"] {
-      font-size: 100px;
-      position: absolute;
-      left: 0;
-      top: 0;
-      opacity: 0;
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-
-      &::-webkit-file-upload-button {
-        cursor: pointer;
-      }
-    }
-
-    button {
-      border: 2px solid $pcolor2;
-      color: $pcolor1;
-      background-color: $pcolor5;
-      padding: 8px 20px;
-      border-radius: 8px;
-      font-size: 20px;
-      font-weight: bold;
-    }
   }
 }

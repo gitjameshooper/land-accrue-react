@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const initialState = {
-  loggedIn: false,
-  adminName: "",
+  user: {
+    loggedIn: false,
+    adminName: "",
+  },
   land: {
     tableLoading: false,
     usStateName: "",
@@ -16,9 +18,9 @@ const initialState = {
 export const Context = React.createContext();
 
 const Store = ({ children }) => {
-  const [storeState, setStoreState] = useState(initialState);
+  const [store, setStore] = useState(initialState);
   let token = localStorage.getItem("token");
-  if (!storeState.loggedIn && token) {
+  if (!store.user.loggedIn && token) {
     let config = {
       headers: {
         "Content-type": "application/json",
@@ -29,14 +31,15 @@ const Store = ({ children }) => {
     axios
       .get("http://localhost:5000/users", config)
       .then((res) => {
-        setStoreState({ ...initialState, loggedIn: true, adminName: res.data.user.name });
+        store.user = { loggedIn: true, adminName: res.data.user.name };
+        setStore({ ...store });
       })
       .catch((err) => {
         console.log(err);
         // console.error(`${err.response.status}: ${err.response.data.msg}`);
       });
   }
-  return <Context.Provider value={[storeState, setStoreState]}>{children}</Context.Provider>;
+  return <Context.Provider value={[store, setStore]}>{children}</Context.Provider>;
 };
 
 export default Store;

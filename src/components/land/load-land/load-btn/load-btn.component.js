@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import { Context } from "./../../../../store";
 
 export default function LoadLandBtn(props) {
-  const [storeState, setStoreState] = useContext(Context);
+  const [store, setStore] = useContext(Context);
   const onShowLandSubmit = () => {
-    setStoreState({
-      ...storeState,
+    setStore({
+      ...store,
       land: {
         tableLoading: true,
         countyId: props.countyId,

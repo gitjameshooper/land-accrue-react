@@ -38,13 +38,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Login(props) {
   const classes = useStyles();
   const redirect = "/land";
-  const [storeState, setStoreState] = useContext(Context);
+  const [store, setStore] = useContext(Context);
   const [email, setEmail] = useState({ address: "", err: "" });
   const [password, setPassword] = useState({ text: "", err: "" });
   const [error, setError] = useState({ status: false, msg: "" });
   const [progressBar, setProgressBar] = useState(false);
 
-  if (storeState.loggedIn) {
+  if (store.user.loggedIn) {
     return <Redirect to={redirect} />;
   }
 
@@ -87,7 +87,8 @@ export default function Login(props) {
         .post("http://localhost:5000/users/auth", data, config)
         .then((res) => {
           localStorage.setItem("token", res.data.token);
-          setStoreState({ ...storeState, loggedIn: true, adminName: res.data.user.name });
+          store.user = { loggedIn: true, adminName: res.data.user.name };
+          setStore({ ...store });
           setProgressBar(false);
         })
         .catch((err) => {

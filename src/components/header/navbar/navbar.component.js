@@ -13,12 +13,13 @@ import "./navbar.scss";
 export default function NavBar() {
   const [sideBar, setSideBar] = useState(null);
   const [profile, setProfile] = useState(null);
-  const [storeState, setStoreState] = useContext(Context);
+  const [store, setStore] = useContext(Context);
   const showSideBar = () => setSideBar(!sideBar);
   const showProfile = () => setProfile(!profile);
 
   const onLogout = (e) => {
-    setStoreState({ ...storeState, loggedIn: false, adminName: "" });
+    store.user = { loggedIn: false, adminName: "" };
+    setStore({ ...store });
     localStorage.removeItem("token");
   };
 
@@ -61,11 +62,11 @@ export default function NavBar() {
           </li>
         </ul>
       </nav>
-      {storeState.loggedIn && (
+      {store.user.loggedIn && (
         <div className="profile">
           <AccountBoxIcon onClick={showProfile} />
           <div className={profile ? "profile-box active" : "profile-box"} onMouseLeave={showProfile}>
-            <span className="name-text item">{storeState.adminName}</span>
+            <span className="name-text item">{store.user.adminName}</span>
             <span className="settings-text item hover">Settings</span>
             <span className="logout item hover" onClick={onLogout}>
               Logout
