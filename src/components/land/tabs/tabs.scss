@@ -12,14 +12,27 @@
   .action-btns {
     padding: 15px;
   }
-
+  #simple-tabpanel-3,
+  #simple-tabpanel-4,
+  #simple-tabpanel-5 {
+    height: 0;
+  }
+  #simple-tab-3 {
+    .MuiTab-wrapper {
+      align-items: flex-end;
+    }
+  }
+  #simple-tab-5 {
+    .MuiTab-wrapper {
+      align-items: flex-start;
+    }
+  }
   .tab-wrapper {
     height: 55px;
     transition: all 1s ease-in-out;
 
     &.active {
       height: 100%;
-      min-height: 250px;
     }
   }
 
