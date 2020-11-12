@@ -1,207 +1,185 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .about-component {
-    h1 {
-        color: $pcolor6;
-        font-size: 3.6rem;
-        margin: 30px auto;
-        font-weight: bold;
-        font-family: 'Oxygen', sans-serif;
-    }
+  h1 {
+    color: $pcolor6;
+    font-size: 3.6rem;
+    margin: 30px auto;
+    font-weight: bold;
+    font-family: "Oxygen", sans-serif;
+  }
 
-    h2 {
-        color: $pcolor6;
-        font-size: 2.4rem;
-        font-weight: bold;
-    }
+  h2 {
+    color: $pcolor6;
+    font-size: 2.4rem;
+    font-weight: bold;
+  }
 
-    p {
-        font-size: 1.8rem;
-    }
+  p {
+    font-size: 1.8rem;
+  }
 
-    .btn {
-        color: $pcolor1;
-        background: $pcolor5;
-        padding: 10px 20px;
-        text-decoration: none;
+  .btn {
+    color: $pcolor1;
+    background: $pcolor5;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 0 3px $pcolor0;
+    margin: 20px 10px;
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  .link {
+    color: $pcolor5;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .item-1 {
+    position: relative;
+
+    .wrapper {
+      border: 6px solid $pcolor6;
+      margin: 30px 10px 0px;
+      margin: 0;
+      padding: 15px 30px 30px 30px;
+      height: 100%;
+
+      h2 {
+        background: $pcolor1;
         display: inline-block;
-        box-shadow: 0 0 3px $pcolor0;
-        margin: 20px 10px;
-
-        &:active {
-            transform: scale(.95);
-        }
-    }
-
-    .link {
-        color: $pcolor5;
-        text-decoration: none;
-
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-
-    .item-1 {
         position: relative;
+        top: -32px;
+        margin: 0;
+        padding: 0 15px;
+      }
 
-        .wrapper {
+      h3 {
+        font-size: 2rem;
+        font-weight: bold;
+        border-bottom: 2px solid $pcolor6;
+      }
 
-            border: 6px solid $pcolor6;
-            margin: 30px 10px 0px;
-            margin: 0;
-            padding: 15px 30px 30px 30px;
-            height: 100%;
-
-            h2 {
-                background: $pcolor1;
-                display: inline-block;
-                position: relative;
-                top: -32px;
-                margin: 0;
-                padding: 0 15px;
-            }
-
-
-
-            h3 {
-                font-size: 2rem;
-                font-weight: bold;
-                border-bottom: 2px solid $pcolor6;
-            }
-
-            .contact {
-                margin: 40px auto 0;
-                width: 100%;
-                max-width: 280px;
-            }
-
-
-
-        }
-
-        .logo-icon {
-            max-width: 200px;
-            position: absolute;
-            left: -47px;
-            top: 350px;
-            transform: rotate(89deg);
-        }
-
-
-
-
+      .contact {
+        margin: 40px auto 0;
+        width: 100%;
+        max-width: 280px;
+      }
     }
 
-    .item-2 {
-        position: relative;
+    .logo-icon {
+      max-width: 200px;
+      position: absolute;
+      left: -47px;
+      top: 350px;
+      transform: rotate(89deg);
+    }
+  }
 
-        span {
-            background: $pcolor5;
-            color: $pcolor1;
-            position: relative;
-            display: inline-block;
-            padding: 5px 15px;
-            bottom: 75px;
-            text-align: center;
-            border-right: 5px solid $pcolor6;
-        }
+  .item-2 {
+    position: relative;
 
-        img {
-            box-shadow: 0 0 10px $pcolor2;
-            object-fit: cover;
-            width: 100%;
-        }
-
-
+    span {
+      background: $pcolor5;
+      color: $pcolor1;
+      position: relative;
+      display: inline-block;
+      padding: 5px 15px;
+      bottom: 75px;
+      text-align: center;
+      border-right: 5px solid $pcolor6;
     }
 
-    .item-3 {
-        background: $pcolor6;
-
-        img {
-            box-shadow: 0 0 20px $pcolor0;
-            object-fit: cover;
-            width: 100%;
-        }
+    img {
+      box-shadow: 0 0 10px $pcolor2;
+      object-fit: cover;
+      width: 100%;
     }
+  }
 
-    .item-4 {
+  .item-3 {
+    background: $pcolor6;
+
+    img {
+      box-shadow: 0 0 20px $pcolor0;
+      object-fit: cover;
+      width: 100%;
+    }
+  }
+
+  .item-4 {
+    background: $pcolor6;
+    color: $pcolor1;
+    position: relative;
+
+    .wrapper {
+      border: 6px solid $pcolor1;
+      margin: 30px 10px 0px;
+      margin: 0;
+      padding: 15px 30px 30px 30px;
+      height: 100%;
+
+      h2 {
         background: $pcolor6;
         color: $pcolor1;
+        display: inline-block;
         position: relative;
-
-        .wrapper {
-
-            border: 6px solid $pcolor1;
-            margin: 30px 10px 0px;
-            margin: 0;
-            padding: 15px 30px 30px 30px;
-            height: 100%;
-
-            h2 {
-                background: $pcolor6;
-                color: $pcolor1;
-                display: inline-block;
-                position: relative;
-                top: -32px;
-                margin: 0;
-                padding: 0 15px;
-            }
-
-
-
-
-        }
-
-        .logo-icon {
-            max-width: 200px;
-            position: absolute;
-            right: -42px;
-            top: 270px;
-            transform: scaleX(-1) rotate(89deg);
-        }
-
+        top: -32px;
+        margin: 0;
+        padding: 0 15px;
+      }
     }
 
-    .item-5 {
+    .logo-icon {
+      max-width: 200px;
+      position: absolute;
+      right: -42px;
+      top: 270px;
+      transform: scaleX(-1) rotate(89deg);
+    }
+  }
+
+  .item-5 {
+    position: relative;
+
+    .wrapper {
+      border: 6px solid $pcolor6;
+      margin: 30px 10px 0px;
+      margin: 0;
+      padding: 15px 30px 30px 30px;
+      height: 100%;
+
+      h2 {
+        background: $pcolor1;
+        display: inline-block;
         position: relative;
-
-        .wrapper {
-
-            border: 6px solid $pcolor6;
-            margin: 30px 10px 0px;
-            margin: 0;
-            padding: 15px 30px 30px 30px;
-            height: 100%;
-
-            h2 {
-                background: $pcolor1;
-                display: inline-block;
-                position: relative;
-                top: -32px;
-                margin: 0;
-                padding: 0 15px;
-            }
-
-        }
-
-        .logo-icon {
-            max-width: 200px;
-            position: absolute;
-            right: -46px;
-            top: 159px;
-            transform: scaleX(-1) rotate(89deg);
-        }
+        top: -32px;
+        margin: 0;
+        padding: 0 15px;
+      }
     }
 
-
-
-    .item-6 {
-        img {
-            box-shadow: 0 0 20px $pcolor0;
-            object-fit: cover;
-            width: 100%;
-        }
+    .logo-icon {
+      max-width: 200px;
+      position: absolute;
+      right: -46px;
+      top: 159px;
+      transform: scaleX(-1) rotate(89deg);
     }
+  }
+
+  .item-6 {
+    img {
+      box-shadow: 0 0 20px $pcolor0;
+      object-fit: cover;
+      width: 100%;
+    }
+  }
 }

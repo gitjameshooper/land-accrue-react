@@ -35,7 +35,7 @@ DB:
 1. Verify data is being entered correctly without null or undefined values
 
 Global:
-1. Create unit tests with Jest and Enzyme
+1. Create unit tests with Jest or Enzyme. https://reactjs.org/docs/testing.html
 2. Make sure everything is mobile responsive and rendering correctly cross browser 
 3. Setting up local and prod environments for deployment
 4. Find hosting solution

@@ -1,58 +1,55 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .login-component {
-    height: 100vh;
+  height: 100vh;
 
-    .land-image {
-        background: url('../../assets/img/land-bg.jpg') no-repeat;
-        background-size: cover;
+  .land-image {
+    background: url("../../assets/img/land-bg.jpg") no-repeat;
+    background-size: cover;
+  }
 
+  .MuiAvatar-circle {
+    background-color: $pcolor5;
+  }
+
+  .error {
+    color: red;
+    margin: 0;
+  }
+
+  .MuiLinearProgress-root {
+    display: none;
+    height: 3px;
+    width: 100%;
+    margin: 5px 0 0;
+
+    .MuiLinearProgress-barColorPrimary {
+      background-color: $pcolor5;
     }
 
-    .MuiAvatar-circle {
-        background-color: $pcolor5;
+    &.active {
+      display: block;
+    }
+  }
+
+  form {
+    .MuiFormLabel-root.Mui-focused,
+    .MuiCheckbox-colorPrimary.Mui-checked {
+      color: $pcolor5;
     }
 
-    .error {
-        color: red;
-        margin: 0;
+    .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+      border-color: $pcolor5;
+      border-width: 2px;
     }
 
-    .MuiLinearProgress-root {
-        display: none;
-        height: 3px;
-        width: 100%;
-        margin: 5px 0 0;
+    button {
+      background: $pcolor5;
+      color: $pcolor1;
 
-        .MuiLinearProgress-barColorPrimary {
-            background-color: $pcolor5;
-        }
-
-        &.active {
-            display: block;
-        }
+      &:hover {
+        background: $pcolor5;
+      }
     }
-
-    form {
-
-        .MuiFormLabel-root.Mui-focused,
-        .MuiCheckbox-colorPrimary.Mui-checked {
-            color: $pcolor5;
-        }
-
-        .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-            border-color: $pcolor5;
-            border-width: 2px;
-        }
-
-
-        button {
-            background: $pcolor5;
-            color: $pcolor1;
-
-            &:hover {
-                background: $pcolor5;
-            }
-        }
-    }
+  }
 }
