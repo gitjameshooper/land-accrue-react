@@ -1,9 +1,6 @@
 Notes/Todo Items
 
 
-Header:
-1. Create Settings?
-
 About Page:
 1. Update logo from gray to white on item 4, move logos around to fit
 2. Change out can do image for a screenshot of the table
@@ -17,11 +14,8 @@ Land Page:
 1. Finish the design, final touches and theme
 2. Error: nav taking too much time to render. probably event listener issue bc the table has so many items.  Test with small amount of data in the table
 3. Create better user experience with the table. Make Table more efficient rendering.  create state of items in the table.  windowing react window or https://bvaughn.github.io/react-virtualized/#/components/List
-4. Make an open/close up all items toggle button. 
-5. Create download button for CSV output from DB
-6. Add functionality to edit final offer price. only for admin
-7. Give total of Green, Red, Yellow properties
-8. Finish info section of their ranking and how the estimated values are calculated(1,2,3 values)
+4. Add functionality to edit final offer price. only for admin
+5. Finish info section of their ranking and how the estimated values are calculated(1,2,3 values)
 
 Settings:
 1. Create a settings component 
@@ -33,6 +27,7 @@ Backend:
 
 DB: 
 1. Verify data is being entered correctly without null or undefined values
+2. Change all data to camelcase
 
 Global:
 1. Create unit tests with Jest or Enzyme. https://reactjs.org/docs/testing.html
