@@ -1,8 +1,61 @@
 @import "../../../variables.scss";
 
 .table-component {
-  h6.MuiTypography-h6 {
-    text-transform: uppercase;
+  position: relative;
+  .toolbar {
+    background: #454545;
+    .actions-bar {
+      position: relative;
+      top: 0;
+      z-index: 1100;
+      right: 10px;
+      height: 53px;
+      display: flex;
+      align-items: center;
+      color: $pcolor1;
+      justify-content: flex-end;
+      @media (min-width: 960px) {
+        position: absolute;
+        top: -53px;
+      }
+      .items {
+        padding: 12px;
+        cursor: pointer;
+        &.download {
+          color: $pcolor1;
+        }
+      }
+    }
+    .land-totals {
+      position: absolute;
+      left: 15px;
+      z-index: 1101;
+      @media (min-width: 960px) {
+        left: 50%;
+        top: 0px;
+        margin-left: -96px;
+      }
+      .items {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        .num-text {
+          position: absolute;
+        }
+        .label-icon {
+          font-size: 4em;
+          &.green {
+            color: $green;
+          }
+          &.yellow {
+            color: $yellow;
+          }
+          &.red {
+            color: $red;
+          }
+        }
+      }
+    }
   }
 
   .MuiToolbar-root {
@@ -30,19 +83,13 @@
         border-bottom: 2px solid $pcolor5;
       }
     }
-
-    //     .MTableToolbar-searchField-10 {
-    //         color: $pcolor1;
-    //     }
-
-    //     // .MuiInput-underline:before {
-
-    //     //     border-bottom: 1px solid $pcolor1;
-    //     // }
-    //     .MuiIconButton-label {
-    //        cursor: pointer;
-    //         color: $pcolor1;
-    //     }
+    .MTableToolbar-actions-14 {
+      // color: rgba(0, 0, 0, 0.54);
+      // position: absolute;
+      // right: 0;
+      // top: -55px;
+      // z-index: 1100;
+    }
   }
 
   table {
@@ -70,6 +117,17 @@
       tr[level="0"] {
         background: $pcolor2;
         color: $pcolor3;
+        .label-icon {
+          &.green {
+            color: $green;
+          }
+          &.yellow {
+            color: $yellow;
+          }
+          &.red {
+            color: $red;
+          }
+        }
       }
 
       tr[level="1"] {
@@ -83,17 +141,7 @@
           border-bottom: 1px solid $pcolor2;
         }
       }
-      .label-icon {
-        &.green {
-          color: #1cc219;
-        }
-        &.yellow {
-          color: #e6e643;
-        }
-        &.red {
-          color: #ef3b3b;
-        }
-      }
+
       .MuiSvgIcon-root {
         color: $pcolor5;
       }
@@ -106,6 +154,18 @@
 
         .MuiTableCell-root.MuiTableCell-body {
           color: $pcolor1;
+        }
+      }
+      .final-offer {
+        border: none;
+        padding: 5px;
+        text-align: right;
+        width: 100%;
+        margin: 0 auto;
+        display: block;
+        font-size: 1.6rem;
+        &:focus {
+          outline: 2px solid $pcolor5;
         }
       }
     }

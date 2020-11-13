@@ -14,7 +14,7 @@ export default function LoadLandBtn(props) {
       },
     });
   };
-  console.log(store.land.countyId);
+
   return (
     <button className="la-btn" onClick={onShowLandSubmit}>
       Load Land

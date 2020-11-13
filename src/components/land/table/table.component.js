@@ -1,6 +1,6 @@
-import React, { Component, forwardRef, useContext, useState, useEffect } from "react";
+import React, { useRef, forwardRef, useContext, useState, useEffect } from "react";
 import { Context } from "./../../../store";
-import MaterialTable, { MTableBodyRow } from "material-table";
+import MaterialTable from "material-table";
 import "./table.scss";
 import axios from "axios";
 import AddBox from "@material-ui/icons/AddBox";
@@ -19,6 +19,9 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import SaveIcon from "@material-ui/icons/Save";
+import ImportExportIcon from "@material-ui/icons/ImportExport";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -34,6 +37,7 @@ const tableIcons = {
   NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
   PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
   ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
   Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
@@ -43,19 +47,39 @@ const tableIcons = {
 export default function DataTable(props) {
   const [store, setStore] = useContext(Context);
   const [properties, setProperties] = useState([]);
+  const [landTotals, setLandTotals] = useState({ green: 0, red: 0, yellow: 0 });
+  const tableRef = useRef(null);
+  const toggleRows = () => {
+    let links = tableRef.current.querySelectorAll(
+      ".MuiTableRow-root[level='0'] .MuiTableCell-body button.MuiIconButton-root[tabindex='0']"
+    );
+    links.forEach((value) => {
+      value.click();
+    });
+  };
   const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
+  const changePrice = (e) => {
+    console.log(e.target.value);
+    console.log(e);
+  };
 
   useEffect(() => {
-    if (store.land.countyId) {
+    if (store.land.countyId && store.land.tableLoading) {
       axios
         .get(`http://localhost:5000/counties/${store.land.countyId}`)
         .then((res) => {
           if (res.data.length > 0) {
-            let county = res.data[0];
+            let county = res.data[0],
+              green = 0,
+              yellow = 0,
+              red = 0;
             // Add Sold properties to totalproperties(parent) for table view
             county.totalProperties.forEach((property) => {
+              if (property.statusColor === "green") green++;
+              if (property.statusColor === "yellow") yellow++;
+              if (property.statusColor === "red") red++;
               if (property.soldArr) {
                 property.soldArr.forEach((soldProperty) => {
                   soldProperty["parentId"] = property["_id"];
@@ -63,13 +87,9 @@ export default function DataTable(props) {
                 });
               }
             });
-            let abbv = store.land.usStateAbbv,
-              countyName = store.land.countyName,
-              countyId = null;
-            setStore({
-              ...store,
-              land: { tableloading: false, usStateAbbv: abbv, countyName: countyName, countyId: countyId },
-            });
+            store.land.tableLoading = false;
+            setStore({ ...store });
+            setLandTotals({ green: green, red: red, yellow: yellow });
             setProperties(res.data[0].totalProperties.map((property) => property));
           }
         })
@@ -80,11 +100,49 @@ export default function DataTable(props) {
   });
 
   return (
-    <div className="table-component">
+    <div ref={tableRef} className="table-component">
+      <div className="toolbar">
+        {!store.land.tableLoading && (
+          <div className="land-totals">
+            <span className="items">
+              <LabelIcon className="label-icon green" />
+              <span className="num-text">{landTotals.green}</span>
+            </span>
+            <span className="items">
+              <LabelIcon className="label-icon yellow" />
+              <span className="num-text">{landTotals.yellow}</span>
+            </span>
+            <span className="items">
+              <LabelIcon className="label-icon red" />
+              <span className="num-text">{landTotals.red}</span>
+            </span>
+          </div>
+        )}
+        <div className="actions-bar">
+          <a
+            title="Download CSV"
+            className="download items"
+            target="_new"
+            href={`http://localhost:5000/downloads/csv/${store.land.countyId}`}>
+            <GetAppIcon />
+          </a>
+          <span title="Toggle Rows" className="toggle items" onClick={toggleRows}>
+            <ImportExportIcon />
+          </span>
+          {/* <span title="Save" className="save items">
+          <SaveIcon />
+        </span> */}
+        </div>
+      </div>
+
       <MaterialTable
         isLoading={store.land.tableLoading}
         icons={tableIcons}
-        title={store.land.countyName ? "Land in " + store.land.countyName + ", " + store.land.usStateAbbv : ""}
+        title={
+          store.land.countyName
+            ? `Land in ${store.land.countyName.toUpperCase()}, ${store.land.usStateAbbv.toUpperCase()}`
+            : ""
+        }
         data={properties}
         columns={[
           {
@@ -146,7 +204,7 @@ export default function DataTable(props) {
               !rowData["finalOffer"] ? (
                 ""
               ) : store.user.loggedIn ? (
-                <input type="text" value={rowData["finalOffer"]} />
+                <input type="text" className="final-offer" onChange={changePrice} placeholder={rowData["finalOffer"]} />
               ) : (
                 `$${numberWithCommas(rowData["finalOffer"])}`
               ),
@@ -156,8 +214,9 @@ export default function DataTable(props) {
         options={{
           selection: true,
           draggable: false,
-          pageSize: 25,
+          pageSize: 50,
           pageSizeOptions: [25, 50, 100, 200],
+          actionsColumnIndex: -1,
         }}
         localization={{
           pagination: {
@@ -168,9 +227,14 @@ export default function DataTable(props) {
         }}
         actions={[
           {
-            tooltip: "Remove All Selected Users",
-            icon: "delete",
-            onClick: (evt, data) => alert("You want to delete " + data.length + " rows"),
+            icon: () => <SaveIcon />,
+            tooltip: "Save Price",
+            onClick: (e, rowData) => console.log(rowData),
+          },
+          {
+            icon: () => <DeleteOutline />,
+            tooltip: "Delete Property",
+            onClick: (e, rowData) => console.log(rowData),
           },
         ]}
       />

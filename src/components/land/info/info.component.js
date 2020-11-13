@@ -24,7 +24,7 @@ export default function Info(props) {
         <h4>Quick Notes</h4>
         <ul>
           <li>All data uploaded will overwrite previous CVS data for that state and county</li>
-          <li></li>
+          <li>Estimated values calculation</li>
         </ul>
       </Grid>
     </Grid>

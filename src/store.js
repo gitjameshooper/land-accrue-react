@@ -27,7 +27,6 @@ const Store = ({ children }) => {
         "x-auth-token": token,
       },
     };
-
     axios
       .get("http://localhost:5000/users", config)
       .then((res) => {

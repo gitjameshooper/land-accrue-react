@@ -6,33 +6,16 @@
 
   .slideToggle {
     cursor: pointer;
-    padding: 10px 20px;
+    padding: 11px 20px;
   }
 
-  .action-btns {
-    padding: 15px;
-  }
-  #simple-tabpanel-3,
-  #simple-tabpanel-4,
-  #simple-tabpanel-5 {
-    height: 0;
-  }
-  #simple-tab-3 {
-    .MuiTab-wrapper {
-      align-items: flex-end;
-    }
-  }
-  #simple-tab-5 {
-    .MuiTab-wrapper {
-      align-items: flex-start;
-    }
-  }
   .tab-wrapper {
-    height: 55px;
-    transition: all 1s ease-in-out;
-
+    max-height: 55px;
+    height: 100%;
+    transition: all 750ms ease-in-out;
+    overflow: hidden;
     &.active {
-      height: 100%;
+      max-height: 500px;
     }
   }
 
@@ -41,7 +24,7 @@
     bottom: 0;
     flex-direction: row;
     background: $pcolor2;
-    max-height: 54px;
+    max-height: 55px;
   }
 
   .MuiTabs-indicator {
@@ -49,7 +32,7 @@
   }
 
   .tab-sections {
-    height: 100%;
+    // height: 100%;
     margin-bottom: 55px;
     background: $pcolor3;
     border-left: 3px solid $pcolor2;
