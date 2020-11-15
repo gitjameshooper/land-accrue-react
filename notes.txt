@@ -2,13 +2,7 @@ Notes/Todo Items
 
 
 About Page:
-1. Update logo from gray to white on item 4, move logos around to fit
-2. Change out can do image for a screenshot of the table
-3. Add a design to the contact info
-
-Admin Login Page:
-
-1. 
+1. Add a design to the contact info
 
 Land Page:
 1. Finish the design, final touches and theme
