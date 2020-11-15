@@ -29,7 +29,7 @@ export default class About extends Component {
               and no-hassle close. Our real estate company is known for providing superior customer service and access
               to the best listings in Texas while helping our clients find the right properties for them.
             </Typography>
-            <Grid container component="section" spacing={12}>
+            <Grid container component="section" spacing={2}>
               <Grid item className="buttons" xs={12} sm={6} md={5}>
                 <a className="btn" href="https://www.landaccrue.com/" target="_new">
                   Visit Land Accrue
