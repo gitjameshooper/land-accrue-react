@@ -1,15 +1,13 @@
 Notes/Todo Items
 
-
 Land Page:
-1. Finish the design, final touches and theme
+1. Finish the design, final touches
 2. Error: nav taking too much time to render. probably event listener issue bc the table has so many items.  Test with small amount of data in the table
 3. Create better user experience with the table. Make Table more efficient rendering.  create state of items in the table.  windowing react window or https://bvaughn.github.io/react-virtualized/#/components/List
-4. Add functionality to edit final offer price. only for admin
+4. Add functionality to edit final offer price and delete a property only for admin
 5. Finish info section of their ranking and how the estimated values are calculated(1,2,3 values)
+6. Add mileage toggle
 
-Settings:
-1. Create a settings component 
 
 Backend:
 1. Update the http responses and error responses
@@ -18,13 +16,14 @@ Backend:
 
 DB: 
 1. Verify data is being entered correctly without null or undefined values
-2. Change all data to camelcase
+2. Enter in all Previous CSV sheets to test
 
 Global:
-1. Create unit tests with Jest or Enzyme. https://reactjs.org/docs/testing.html
-2. Make sure everything is mobile responsive and rendering correctly cross browser 
-3. Setting up local and prod environments for deployment
-4. Find hosting solution
+1. Create Alert component
+2. Create unit tests with Jest or Enzyme. https://reactjs.org/docs/testing.html
+3. Make sure everything is mobile responsive and rendering correctly cross browser 
+4. Setting up local and prod environments for deployment
+5. Find hosting solution
    -Add as a subdomain to landaccrue.com
    -Add concurrently package to run back and front in 1 cmd with npm
    -Clean up build with Dev dependencies(for build) and dependencies (needed at run time)

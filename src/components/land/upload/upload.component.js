@@ -110,7 +110,7 @@ export default class Upload extends Component {
     ));
     return (
       <Grid container component="section" className="upload-component" spacing={2}>
-        <h4>Upload CSV Files</h4>
+        <h3>Upload CSV Files</h3>
         <form noValidate onSubmit={this.onSubmitFiles}>
           <Grid item xs={12} sm={6} md={3} className="item-1">
             <FormControl className="child">

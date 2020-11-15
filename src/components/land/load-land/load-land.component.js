@@ -96,8 +96,8 @@ export default class LoadLand extends Component {
 
     return (
       <Grid container component="section" className="load-land-component" spacing={2}>
+        <h3>How to Load Land</h3>
         <Grid item xs={12} sm={6} className="item-1">
-          <h4>How to Load Land</h4>
           <ol>
             <li>Select a State. This will populate the counties</li>
             <li>Then Select a County</li>
