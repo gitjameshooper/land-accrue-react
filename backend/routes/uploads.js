@@ -104,20 +104,20 @@ function formatSoldData(csv) {
       let acreSquareFeet = 43560,
         priceArr = o["PRICE"].replace("$", "").replace(",", "").replace(" ", "").split(".");
       orderArr.push({
-        ADDRESS: o["ADDRESS"] ? o["ADDRESS"] : "",
-        CITY: o["CITY"] ? o["CITY"] : "",
-        STATE: o["STATE OR PROVINCE"] ? o["STATE OR PROVINCE"] : "",
-        ZIP: o["ZIP OR POSTAL CODE"] ? o["ZIP OR POSTAL CODE"] : "",
-        "SOLD PRICE": priceArr[0] ? Number(priceArr[0]) : 0,
-        "LOT AREA": o["LOT SIZE"] ? Number(o["LOT SIZE"]) : 0,
-        "LOT ACREAGE": o["LOT SIZE"] ? Number(parseFloat(o["LOT SIZE"] / acreSquareFeet).toFixed(2)) : 0,
-        "PRICE PER ACRE":
+        address: o["ADDRESS"] ? o["ADDRESS"] : "",
+        city: o["CITY"] ? o["CITY"] : "",
+        state: o["STATE OR PROVINCE"] ? o["STATE OR PROVINCE"] : "",
+        zip: o["ZIP OR POSTAL CODE"] ? o["ZIP OR POSTAL CODE"] : "",
+        soldPrice: priceArr[0] ? Number(priceArr[0]) : 0,
+        lotArea: o["LOT SIZE"] ? Number(o["LOT SIZE"]) : 0,
+        lotAcreage: o["LOT SIZE"] ? Number(parseFloat(o["LOT SIZE"] / acreSquareFeet).toFixed(2)) : 0,
+        pricePerAcre:
           priceArr[0] !== 0 && o["LOT SIZE"] !== 0
             ? Math.round(Number(priceArr[0]) / (o["LOT SIZE"] / acreSquareFeet))
             : 0,
-        LATITUDE: o["LATITUDE"] ? o["LATITUDE"] : "",
-        LONGITUDE: o["LONGITUDE"] ? o["LONGITUDE"] : "",
-        URL: o["URL (SEE http://www.redfin.com/buy-a-home/comparative-market-analysis FOR INFO ON PRICING)"] || "",
+        latitude: o["LATITUDE"] ? o["LATITUDE"] : "",
+        longitude: o["LONGITUDE"] ? o["LONGITUDE"] : "",
+        url: o["URL (SEE http://www.redfin.com/buy-a-home/comparative-market-analysis FOR INFO ON PRICING)"] || "",
         distance: 0,
       });
     });
@@ -137,34 +137,32 @@ function formatBuyData(csv) {
           .replace(" ", "")
           .split(".");
       orderArr.push({
-        "SITUS STREET ADDRESS": o["SITUS STREET ADDRESS"] ? o["SITUS STREET ADDRESS"].trim().replace(",", "") : "",
-        "SITUS CITY": o["SITUS CITY"] ? o["SITUS CITY"].trim() : "",
-        "SITUS STATE": o["SITUS STATE"] ? o["SITUS STATE"].trim() : "",
-        "SITUS ZIP CODE": o["SITUS ZIP CODE"] ? o["SITUS ZIP CODE"].trim() : "",
-        COUNTY: o["COUNTY"] ? o["COUNTY"].trim() : "",
-        "LOT AREA": o["LOT AREA"] ? Number(o["LOT AREA"]) : 0,
-        "LOT ACREAGE": o["LOT ACREAGE"] ? Number(o["LOT ACREAGE"]) : 0,
-        "LEGAL DESCRIPTION": o["LEGAL DESCRIPTION"] ? o["LEGAL DESCRIPTION"] : "",
-        "LEGAL LOT": o["LEGAL LOT"] ? o["LEGAL LOT"].trim() : "",
-        SUBDIVISION: o["SUBDIVISION"] ? o["SUBDIVISION"].trim() : "",
-        "MUNICIPALITY/TOWNSHIP": o["MUNICIPALITY/TOWNSHIP"] ? o["MUNICIPALITY/TOWNSHIP"].trim() : "",
-        LATITUDE: o["LATITUDE"] ? o["LATITUDE"] : "",
-        LONGITUDE: o["LONGITUDE"] ? o["LONGITUDE"] : "",
+        situsStreetAddress: o["SITUS STREET ADDRESS"] ? o["SITUS STREET ADDRESS"].trim().replace(",", "") : "",
+        situsCity: o["SITUS CITY"] ? o["SITUS CITY"].trim() : "",
+        situsState: o["SITUS STATE"] ? o["SITUS STATE"].trim() : "",
+        situsZipCode: o["SITUS ZIP CODE"] ? o["SITUS ZIP CODE"].trim() : "",
+        county: o["COUNTY"] ? o["COUNTY"].trim() : "",
+        lotArea: o["LOT AREA"] ? Number(o["LOT AREA"]) : 0,
+        lotAcreage: o["LOT ACREAGE"] ? Number(o["LOT ACREAGE"]) : 0,
+        legalDescription: o["LEGAL DESCRIPTION"] ? o["LEGAL DESCRIPTION"] : "",
+        legalLot: o["LEGAL LOT"] ? o["LEGAL LOT"].trim() : "",
+        subdivision: o["SUBDIVISION"] ? o["SUBDIVISION"].trim() : "",
+        municipalityTownship: o["MUNICIPALITY/TOWNSHIP"] ? o["MUNICIPALITY/TOWNSHIP"].trim() : "",
+        latitude: o["LATITUDE"] ? o["LATITUDE"] : "",
+        longitude: o["LONGITUDE"] ? o["LONGITUDE"] : "",
         // 'ALTERNATE APN': o['ALTERNATE APN'].replace('\"', '').replace('\"', '').replace('=', ''),
         // 'APN - UNFORMATTED': o['APN - UNFORMATTED'].length > o['ALTERNATE APN'].length ? o['ALTERNATE APN'] : o['APN - UNFORMATTED'],
         // 'APN - UNFORMATTED': o['APN - UNFORMATTED'],
-        "APN - FORMATTED": o["APN - FORMATTED"] ? o["APN - FORMATTED"].trim() : "",
+        apnFormatted: o["APN - FORMATTED"] ? o["APN - FORMATTED"].trim() : "",
         // Flood zone A and AE  true;  X and blank false
-        "IN FLOOD ZONE": o["FLOOD ZONE CODE"] ? o["FLOOD ZONE CODE"].trim() : "",
-        "OWNER MAILING NAME": o["OWNER MAILING NAME"] ? o["OWNER MAILING NAME"].trim() : "",
-        "MAILING STREET ADDRESS": o["MAILING STREET ADDRESS"] ? o["MAILING STREET ADDRESS"].trim() : "",
-        "MAIL CITY": o["MAIL CITY"] ? o["MAIL CITY"].trim() : "",
-        "MAIL STATE": o["MAIL STATE"] ? o["MAIL STATE"].trim() : "",
-        "MAIL ZIPZIP4": o["MAIL ZIP/ZIP+4"]
-          ? o["MAIL ZIP/ZIP+4"].replace('"', "").replace('"', "").replace("=", "")
-          : "",
-        "MARKET TOTAL VALUE": marketValueArr[0] ? Number(marketValueArr[0]) : 0,
-        "MARKET IMPROVEMENT VALUE": marketImproveValueArr[0] ? Number(marketImproveValueArr[0]) : 0,
+        inFloodZone: o["FLOOD ZONE CODE"] ? o["FLOOD ZONE CODE"].trim() : "",
+        ownerMailingName: o["OWNER MAILING NAME"] ? o["OWNER MAILING NAME"].trim() : "",
+        mailingStreetAddress: o["MAILING STREET ADDRESS"] ? o["MAILING STREET ADDRESS"].trim() : "",
+        mailCity: o["MAIL CITY"] ? o["MAIL CITY"].trim() : "",
+        mailState: o["MAIL STATE"] ? o["MAIL STATE"].trim() : "",
+        mailZipZip4: o["MAIL ZIP/ZIP+4"] ? o["MAIL ZIP/ZIP+4"].replace('"', "").replace('"', "").replace("=", "") : "",
+        marketTotalValue: marketValueArr[0] ? Number(marketValueArr[0]) : 0,
+        marketImprovementValue: marketImproveValueArr[0] ? Number(marketImproveValueArr[0]) : 0,
         date: getFormattedDate(),
         id: 0,
         finalPPA: 0,
@@ -226,13 +224,13 @@ function calculateSoldArr(buyProperty, soldData) {
     _.forEach(soldData, (sv, sk) => {
       let soldProp = { ...soldData[sk] },
         soldDistance = distance(
-          buyProperty["LATITUDE"],
-          buyProperty["LONGITUDE"],
-          sv["LATITUDE"],
-          sv["LONGITUDE"],
+          buyProperty["latitude"],
+          buyProperty["longitude"],
+          sv["latitude"],
+          sv["longitude"],
           "M"
         ),
-        lotAcre = buyProperty["LOT ACREAGE"],
+        lotAcre = buyProperty["lotAcreage"],
         minAcre,
         maxAcre;
       switch (true) {
@@ -268,11 +266,11 @@ function calculateSoldArr(buyProperty, soldData) {
         soldArr.length < 5 &&
         soldDistance < v + 1 &&
         soldDistance > v &&
-        minAcre < soldProp["LOT ACREAGE"] &&
-        maxAcre > soldProp["LOT ACREAGE"]
+        minAcre < soldProp["lotAcreage"] &&
+        maxAcre > soldProp["lotAcreage"]
       ) {
         soldProp["distance"] = Math.round(soldDistance * 100) / 100;
-        totalPPA += soldData[sk]["PRICE PER ACRE"];
+        totalPPA += soldData[sk]["pricePerAcre"];
         soldArr.push(soldProp);
       }
     });
@@ -283,11 +281,7 @@ function calculateSoldArr(buyProperty, soldData) {
 function mergeData(buyData, soldData) {
   return new Promise((res, rej) => {
     let dupArr = [],
-      uniqueId = 1,
-      BD = [],
-      buyDataAll = [],
-      buyDataFlood = [],
-      buyDataNonFlood = [];
+      uniqueId = 1;
     _.forEach(buyData, (bv, bk) => {
       let calculatedSoldData = calculateSoldArr(buyData[bk], soldData),
         totalPricePerAcre = calculatedSoldData.totalPPA;
@@ -297,37 +291,32 @@ function mergeData(buyData, soldData) {
       // PPA 1: Top 3 Closests by distance: Properties Price per Acre
       let soldArr1 = _.sortBy(buyData[bk]["soldArr"], ["distance"]).slice(0, 3),
         ppa1 = 0;
-      // if(!soldArr1[0]){
-      //          console.log(buyData[bk]);
-      // }
-      // if(!soldArr1[0]['PRICE PER ACRE']){
-      //              console.log(buyData[bk]);
-      //          }
+
       if (soldArr1[0] && soldArr1[1] && soldArr1[2]) {
-        ppa1 = soldArr1[0]["PRICE PER ACRE"] + soldArr1[1]["PRICE PER ACRE"] + soldArr1[2]["PRICE PER ACRE"];
+        ppa1 = soldArr1[0]["pricePerAcre"] + soldArr1[1]["pricePerAcre"] + soldArr1[2]["pricePerAcre"];
       } else if (soldArr1[0] && soldArr1[1]) {
-        ppa1 = soldArr1[0]["PRICE PER ACRE"] + soldArr1[1]["PRICE PER ACRE"];
+        ppa1 = soldArr1[0]["pricePerAcre"] + soldArr1[1]["pricePerAcre"];
       } else if (soldArr1[0]) {
-        ppa1 = soldArr1[0]["PRICE PER ACRE"];
+        ppa1 = soldArr1[0]["pricePerAcre"];
       }
 
       buyData[bk]["avgPPA1"] = ppa1 !== 0 && soldArr1.length !== 0 ? Math.round(ppa1 / soldArr1.length) : 0;
 
-      // PPA 2: middle 3 with the avg. Price per Acre
-      let soldArr2 = _.sortBy(buyData[bk]["soldArr"], ["PRICE PER ACRE"]).slice(1, 4),
+      // PPA 2: middle 3 with the avg. pricePerAcre
+      let soldArr2 = _.sortBy(buyData[bk]["soldArr"], ["pricePerAcre"]).slice(1, 4),
         ppa2 = 0;
 
       if (soldArr2[1] && soldArr2[2] && soldArr2[3]) {
-        ppa2 = soldArr2[1]["PRICE PER ACRE"] + soldArr2[2]["PRICE PER ACRE"] + soldArr2[3]["PRICE PER ACRE"];
+        ppa2 = soldArr2[1]["pricePerAcre"] + soldArr2[2]["pricePerAcre"] + soldArr2[3]["pricePerAcre"];
       } else if (soldArr2[1] && soldArr2[2]) {
-        ppa2 = soldArr2[1]["PRICE PER ACRE"] + soldArr2[2]["PRICE PER ACRE"];
+        ppa2 = soldArr2[1]["pricePerAcre"] + soldArr2[2]["pricePerAcre"];
       } else if (soldArr2[1]) {
-        ppa2 = soldArr2[1]["PRICE PER ACRE"];
+        ppa2 = soldArr2[1]["pricePerAcre"];
       }
 
       buyData[bk]["avgPPA2"] = ppa2 !== 0 && soldArr2.length !== 0 ? Math.round(ppa2 / soldArr2.length) : 0;
 
-      // PPA 3:  All 5 avg. Price per Acre
+      // PPA 3:  All 5 avg. pricePerAcre
       buyData[bk]["avgPPA3"] =
         totalPricePerAcre !== 0 && buyData[bk]["soldArr"].length !== 0
           ? Math.round(totalPricePerAcre / buyData[bk]["soldArr"].length)
@@ -341,13 +330,13 @@ function mergeData(buyData, soldData) {
       // }
 
       // Calculates Estimated Values and Offers
-      buyData[bk]["estValue1"] = Math.round(buyData[bk]["avgPPA1"] * buyData[bk]["LOT ACREAGE"]);
-      buyData[bk]["estValue2"] = Math.round(buyData[bk]["avgPPA2"] * buyData[bk]["LOT ACREAGE"]);
-      buyData[bk]["estValue3"] = Math.round(buyData[bk]["avgPPA3"] * buyData[bk]["LOT ACREAGE"]);
+      buyData[bk]["estValue1"] = Math.round(buyData[bk]["avgPPA1"] * buyData[bk]["lotAcreage"]);
+      buyData[bk]["estValue2"] = Math.round(buyData[bk]["avgPPA2"] * buyData[bk]["lotAcreage"]);
+      buyData[bk]["estValue3"] = Math.round(buyData[bk]["avgPPA3"] * buyData[bk]["lotAcreage"]);
       buyData[bk]["offer1"] = Math.floor((buyData[bk]["estValue1"] * 0.5) / 100) * 100;
       buyData[bk]["offer2"] = Math.floor((buyData[bk]["estValue2"] * 0.5) / 100) * 100;
       buyData[bk]["offer3"] = Math.floor((buyData[bk]["estValue3"] * 0.5) / 100) * 100;
-      buyData[bk]["offerPPA"] = Math.round(buyData[bk]["offer1"] / buyData[bk]["LOT ACREAGE"]);
+      buyData[bk]["offerPPA"] = Math.round(buyData[bk]["offer1"] / buyData[bk]["lotAcreage"]);
 
       // Add status color based off the amount of sold propeties
       if (buyData[bk]["soldArr"].length > 3) {
@@ -369,12 +358,12 @@ function mergeData(buyData, soldData) {
 
       // Calculate Price Per Acre
       buyData[bk]["finalPPA"] =
-        buyData[bk]["finalEstValue"] !== 0 && buyData[bk]["LOT ACREAGE"] !== 0
-          ? Math.round(buyData[bk]["finalEstValue"] / buyData[bk]["LOT ACREAGE"])
+        buyData[bk]["finalEstValue"] !== 0 && buyData[bk]["lotAcreage"] !== 0
+          ? Math.round(buyData[bk]["finalEstValue"] / buyData[bk]["lotAcreage"])
           : 0;
       // MARKET TOTAL VALUE vs Estimated Value
       buyData[bk]["marketValueFlag"] =
-        buyData[bk]["statusColor"] !== "red" && buyData[bk]["MARKET TOTAL VALUE"] / buyData[bk]["estValue1"] > 2
+        buyData[bk]["statusColor"] !== "red" && buyData[bk]["marketTotalValue"] / buyData[bk]["estValue1"] > 2
           ? true
           : false;
 
