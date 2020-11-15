@@ -3,9 +3,9 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import jasonImg from "./../../assets/img/jason.jpg";
 import mapImg from "./../../assets/img/googlemaps.jpg";
-import youCanImg from "./../../assets/img/youcan.jpg";
+import tableImg from "./../../assets/img/table.png";
 import logoPurpleImg from "./../../assets/img/la-mtn-logo-purple.png";
-import logoWhiteImg from "./../../assets/img/la-mtn-logo.png";
+import logoWhiteImg from "./../../assets/img/la-mtn-logo-white.png";
 
 import "./about.scss";
 
@@ -84,7 +84,7 @@ export default class About extends Component {
           </div>
           <img className="logo-icon" alt="land accrue logo white" src={logoWhiteImg} />
         </Grid>
-        <Grid item xs={12} sm={8} md={8} className="item-5">
+        <Grid item xs={12} sm={7} md={7} className="item-5">
           <div className="wrapper">
             <Typography variant="h2" component="h2" gutterBottom={true} noWrap>
               What you can do
@@ -99,8 +99,8 @@ export default class About extends Component {
           </div>
           <img className="logo-icon" alt="land accrue logo purple" src={logoPurpleImg} />
         </Grid>
-        <Grid item className="item-6" xs={12} sm={4} md={4}>
-          <img alt="you can" src={youCanImg} />
+        <Grid item className="item-6" xs={12} sm={5} md={5}>
+          <img alt="you can" src={tableImg} />
         </Grid>
       </Grid>
     );

@@ -7,7 +7,7 @@ import RoomIcon from "@material-ui/icons/Room";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import LandscapeIcon from "@material-ui/icons/Landscape";
-import logo from "./../../../assets/img/la-mtn-logo.png";
+import logo from "./../../../assets/img/la-mtn-logo-white.png";
 import "./navbar.scss";
 
 export default function NavBar() {
