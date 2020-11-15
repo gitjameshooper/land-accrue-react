@@ -152,32 +152,31 @@ export default function DataTable(props) {
           },
           {
             title: "Owner Name/Distance(mi)",
-            field: "OWNER MAILING NAME",
+            field: "ownerMailingName",
             render: (rowData) =>
-              rowData["OWNER MAILING NAME"] ? rowData["OWNER MAILING NAME"] : `${rowData["distance"]} (mi)`,
+              rowData["ownerMailingName"] ? rowData["ownerMailingName"] : `${rowData["distance"]} (mi)`,
           },
           {
             title: "Address",
-            field: "SITUS FULL ADDRESS",
-            render: (rowData) =>
-              rowData["SITUS STREET ADDRESS"] ? rowData["SITUS STREET ADDRESS"] : rowData["ADDRESS"],
+            field: "situsStreetAddress",
+            render: (rowData) => (rowData["situsStreetAddress"] ? rowData["situsStreetAddress"] : rowData["address"]),
           },
-          { title: "Lot Acreage", field: "LOT ACREAGE", type: "numeric" },
+          { title: "Lot Acreage", field: "lotAcreage", type: "numeric" },
           {
             title: "Avg. PPA",
             field: "avgPPA1",
             render: (rowData) =>
               rowData["finalPPA"]
                 ? `$${numberWithCommas(rowData["finalPPA"])}`
-                : rowData["PRICE PER ACRE"]
-                ? `$${numberWithCommas(rowData["PRICE PER ACRE"])}`
+                : rowData["pricePerAcre"]
+                ? `$${numberWithCommas(rowData["pricePerAcre"])}`
                 : 0,
           },
           {
             title: "Sold Price",
-            field: "SOLD PRICE",
+            field: "soldPrice",
             type: "numeric",
-            render: (rowData) => (rowData["SOLD PRICE"] ? `$${numberWithCommas(rowData["SOLD PRICE"])}` : ""),
+            render: (rowData) => (rowData["soldPrice"] ? `$${numberWithCommas(rowData["soldPrice"])}` : ""),
           },
           {
             title: "EST Values",
