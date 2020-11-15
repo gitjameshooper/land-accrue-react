@@ -7,7 +7,7 @@ export default function Info(props) {
   return (
     <Grid container component="section" className="info-component" spacing={2}>
       <h3>Information</h3>
-      <Grid item xs={12} sm={4} className="item-1">
+      <Grid item xs={12} md={4} className="item-1">
         <h4>Status Ranking</h4>
         <ul>
           <li className="green">
@@ -24,7 +24,7 @@ export default function Info(props) {
           </li>
         </ul>
       </Grid>
-      <Grid item xs={12} sm={4} className="item-2">
+      <Grid item xs={12} md={4} className="item-2">
         <h4>Estimated Values</h4>
         <ul>
           <li>
@@ -38,7 +38,7 @@ export default function Info(props) {
           </li>
         </ul>
       </Grid>
-      <Grid item xs={12} sm={4} className="item-3">
+      <Grid item xs={12} md={4} className="item-3">
         <h4>Quick Notes</h4>
         <ul>
           <li>All data uploaded will overwrite previous CSV data for that state and county</li>
