@@ -1,9 +1,6 @@
 Notes/Todo Items
 
 
-About Page:
-1. Add a design to the contact info
-
 Land Page:
 1. Finish the design, final touches and theme
 2. Error: nav taking too much time to render. probably event listener issue bc the table has so many items.  Test with small amount of data in the table

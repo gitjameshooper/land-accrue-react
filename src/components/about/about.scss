@@ -26,7 +26,8 @@
     text-decoration: none;
     display: inline-block;
     box-shadow: 0 0 3px $pcolor0;
-    margin: 20px 10px;
+    margin: 15px 10px;
+    white-space: nowrap;
 
     &:active {
       transform: scale(0.95);
@@ -65,8 +66,14 @@
         font-size: 2rem;
         font-weight: bold;
         border-bottom: 2px solid $pcolor6;
+        margin-bottom: 10px;
       }
-
+      .buttons {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        flex-direction: column;
+      }
       .contact {
         margin: 40px auto 0;
         width: 100%;
@@ -77,8 +84,8 @@
     .logo-icon {
       max-width: 200px;
       position: absolute;
-      left: -47px;
-      top: 350px;
+      left: -48px;
+      bottom: 114px;
       transform: rotate(89deg);
     }
   }
@@ -140,8 +147,8 @@
     .logo-icon {
       max-width: 200px;
       position: absolute;
-      right: -42px;
-      top: 270px;
+      right: -48px;
+      bottom: 110px;
       transform: scaleX(-1) rotate(89deg);
     }
   }
@@ -169,9 +176,9 @@
     .logo-icon {
       max-width: 200px;
       position: absolute;
-      right: -46px;
-      top: 159px;
-      transform: scaleX(-1) rotate(89deg);
+      right: 35px;
+      bottom: 34px;
+      transform: rotate(-1deg);
     }
   }
 
