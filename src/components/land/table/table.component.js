@@ -87,6 +87,7 @@ export default function DataTable(props) {
                 });
               }
             });
+            store.alert = { status: true, type: "good", msg: "Success: Table Loaded" };
             store.land.tableLoading = false;
             setStore({ ...store });
             setLandTotals({ green: green, red: red, yellow: yellow });

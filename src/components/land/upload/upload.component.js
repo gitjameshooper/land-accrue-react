@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
+import MileSlider from "./mile-slider/mile-slider.component";
 import TextField from "@material-ui/core/TextField";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import LinearProgress from "@material-ui/core/LinearProgress";
@@ -25,12 +26,18 @@ export default class Upload extends Component {
       buyLandFileName: "",
       soldLandFileName: "",
       soldLandFileErr: "",
+      maxMileage: 8,
     };
     this.onChangeCounty = this.onChangeCounty.bind(this);
+    this.onChangeMileage = this.onChangeMileage.bind(this);
     this.onChangeState = this.onChangeState.bind(this);
     this.onChangeFile = this.onChangeFile.bind(this);
     this.onSubmitFiles = this.onSubmitFiles.bind(this);
   }
+  onChangeMileage(value) {
+    this.setState({ maxMileage: value });
+  }
+
   onChangeState(e) {
     this.setState({
       usStateName: e.target.value,
@@ -77,6 +84,7 @@ export default class Upload extends Component {
       formData.append("county", this.state.countyName);
       formData.append("usStateName", this.state.usStateName);
       formData.append("usStateAbbv", this.state.usStateAbbv);
+      formData.append("maxMileage", this.state.maxMileage);
       // Update the formData object
       formData.append("buy.csv", this.state.buyLandFile);
       formData.append("sold.csv", this.state.soldLandFile);
@@ -136,6 +144,9 @@ export default class Upload extends Component {
                 County <span className="asterik">*</span>
               </FormHelperText>
               <span className="error">{this.state.countyNameErr}</span>
+            </FormControl>
+            <FormControl className="child">
+              <MileSlider onChangeMileage={this.onChangeMileage} />
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6} md={9} className="item-2">

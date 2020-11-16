@@ -7,6 +7,7 @@ import Footer from "./components/footer/footer.component";
 import Login from "./components/login/login.component";
 import Land from "./components/land/land.component";
 import Container from "@material-ui/core/Container";
+import Alert from "./components/alert/alert.component";
 import "./App.scss";
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
     <Store>
       <Router>
         <Header />
+        <Alert />
         <Container component="main" maxWidth="lg">
           <Switch>
             <Route path="/" exact component={About} />
