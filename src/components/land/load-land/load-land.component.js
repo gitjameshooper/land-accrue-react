@@ -53,17 +53,16 @@ export default class LoadLand extends Component {
           counties = usStates[0].counties;
         if (res.data.length > 0) {
           this.setState({
+            usStateName: res.data[0].name,
+            usStateAbbv: res.data[0].abbv,
+            countyName: res.data[0].counties[0].name,
+            countyId: counties[0]["_id"],
             usStates: res.data.map((usState) => {
               usState.counties.sort((a, b) => (a.name > b.name ? 1 : -1));
               return usState;
             }),
           });
-          this.setState({
-            usStateName: res.data[0].name,
-            usStateAbbv: res.data[0].abbv,
-            countyName: res.data[0].counties[0].name,
-            countyId: counties[0]["_id"],
-          });
+
           this.setState({
             counties: res.data
               .filter((usState) => usState.abbv === this.state.usStateAbbv)

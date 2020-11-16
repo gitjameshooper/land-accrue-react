@@ -33,9 +33,10 @@ router.post(
 
     let usStateAbbv = req.body.usStateAbbv.toLowerCase(),
       usStateName = req.body.usStateName.toLowerCase(),
-      countyName = req.body.county.toLowerCase();
+      countyName = req.body.county.toLowerCase(),
+      maxMileage = Number(req.body.maxMileage);
 
-    addData(usStateName, usStateAbbv, countyName).then((a) => {
+    addData(usStateName, usStateAbbv, countyName, maxMileage).then((a) => {
       return res.status(200).json({ msg: "Data Entered" });
     });
   }
@@ -215,12 +216,12 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 }
 
 // Finds the closests 5 sold properties based off location
-function calculateSoldArr(buyProperty, soldData) {
+function calculateSoldArr(buyProperty, soldData, mileageArr) {
   let totalPPA = 0,
     soldArr = [];
 
-  // 8 miles radius from buy property - Loops through each mile adding to the sold array
-  _.forEach([0, 1, 2, 3, 4, 5, 6, 7, 8], (v, k) => {
+  // x miles radius from buy property - Loops through each mile adding to the sold array
+  _.forEach(mileageArr, (v, k) => {
     _.forEach(soldData, (sv, sk) => {
       let soldProp = { ...soldData[sk] },
         soldDistance = distance(
@@ -278,12 +279,12 @@ function calculateSoldArr(buyProperty, soldData) {
   return { soldArr: soldArr, totalPPA: totalPPA };
 }
 
-function mergeData(buyData, soldData) {
+function mergeData(buyData, soldData, mileageArr) {
   return new Promise((res, rej) => {
     let dupArr = [],
       uniqueId = 1;
     _.forEach(buyData, (bv, bk) => {
-      let calculatedSoldData = calculateSoldArr(buyData[bk], soldData),
+      let calculatedSoldData = calculateSoldArr(buyData[bk], soldData, mileageArr),
         totalPricePerAcre = calculatedSoldData.totalPPA;
       buyData[bk]["soldArr"] = calculatedSoldData.soldArr;
       buyData[bk]["id"] = uniqueId++;
@@ -376,8 +377,17 @@ function mergeData(buyData, soldData) {
   });
 }
 
-async function addData(usStateName, usStateAbbv, countyName) {
+async function addData(usStateName, usStateAbbv, countyName, maxMileage) {
   try {
+    // Create Mileage Arr for Radius concentric circles
+    let mileageArr = [],
+      mile = 0;
+    maxMileage += 1;
+    while (mile < maxMileage) {
+      mileageArr.push(mile);
+      mile++;
+    }
+    console.log(mileageArr);
     // Check for state in us-states collection. if null enter state into DB with county
     let usState =
       (await USState.findOne({ name: usStateName, abbv: usStateAbbv }).exec()) ||
@@ -401,7 +411,9 @@ async function addData(usStateName, usStateAbbv, countyName) {
       .fromFile(`./csv/${usStateAbbv}/${countyName}/sold.csv`)
       .then((data) => formatSoldData(data));
     // Merge data by making calculations
-    return await mergeData(buyData, soldData).then((data) => addProperties("totalProperties", usCounty, data));
+    return await mergeData(buyData, soldData, mileageArr).then((data) =>
+      addProperties("totalProperties", usCounty, data)
+    );
   } catch (e) {
     console.log(e);
     return e;

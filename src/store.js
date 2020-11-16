@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const initialState = {
-  user: {
-    loggedIn: false,
-    adminName: "",
+  alert: {
+    status: false,
+    type: "",
+    msg: "",
   },
   land: {
     tableLoading: false,
@@ -12,6 +13,11 @@ const initialState = {
     usStateAbbv: "",
     countyName: "",
     countyId: null,
+    mileage: 8,
+  },
+  user: {
+    loggedIn: false,
+    adminName: "",
   },
 };
 
