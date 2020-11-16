@@ -6,6 +6,7 @@ const fs = require("fs");
 const _ = require("lodash");
 const csvToJson = require("csvtojson");
 
+// Save the CSV files
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
     let path = `csv/${req.body.usStateAbbv.toLowerCase()}/${req.body.county.toLowerCase()}`;
