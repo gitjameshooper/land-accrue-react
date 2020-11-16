@@ -45,7 +45,7 @@ export default class Upload extends Component {
     });
   }
   onChangeCounty(e) {
-    this.setState({ countyName: e.target.value, countyNameErr: "" });
+    this.setState({ countyName: e.target.value.trim(), countyNameErr: "" });
   }
   onChangeFile(e) {
     if (e.target.name === "buyLand")

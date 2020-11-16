@@ -87,6 +87,7 @@ export default function Login(props) {
         .post("http://localhost:5000/users/auth", data, config)
         .then((res) => {
           localStorage.setItem("token", res.data.token);
+          store.alert = { status: true, type: "good", msg: "Success: Logged In" };
           store.user = { loggedIn: true, adminName: res.data.user.name };
           setStore({ ...store });
           setProgressBar(false);

@@ -13,7 +13,6 @@ const initialState = {
     usStateAbbv: "",
     countyName: "",
     countyId: null,
-    mileage: 8,
   },
   user: {
     loggedIn: false,
