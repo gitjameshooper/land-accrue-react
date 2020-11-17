@@ -94,7 +94,9 @@ export default function DataTable(props) {
           }
         })
         .catch((err) => {
-          console.error(`${err.response.status}: ${err.response.data.msg}`);
+          store.alert = { status: true, type: "bad", msg: "Error: Can't load Table Data" };
+          setStore({ ...store });
+          console.error(err);
         });
     }
   });

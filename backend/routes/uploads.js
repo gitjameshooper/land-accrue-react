@@ -388,7 +388,6 @@ async function addData(usStateName, usStateAbbv, countyName, maxMileage) {
       mileageArr.push(mile);
       mile++;
     }
-    console.log(mileageArr);
     // Check for state in us-states collection. if null enter state into DB with county
     let usState =
       (await USState.findOne({ name: usStateName, abbv: usStateAbbv }).exec()) ||
