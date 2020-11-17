@@ -41,7 +41,6 @@ function a11yProps(index) {
 export default function SimpleTabs() {
   const [tabId, setTabId] = useState(0);
   const [slideTab, setSlideTab] = useState(false);
-
   const tabChange = (e, newValue) => {
     setTabId(newValue);
     setSlideTab(true);

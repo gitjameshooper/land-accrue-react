@@ -95,11 +95,12 @@ export default function DataTable(props) {
         })
         .catch((err) => {
           store.alert = { status: true, type: "bad", msg: "Error: Can't load Table Data" };
+          store.land.tableLoading = false;
           setStore({ ...store });
           console.error(err);
         });
     }
-  });
+  }, [store, setStore]);
 
   return (
     <div ref={tableRef} className="table-component">

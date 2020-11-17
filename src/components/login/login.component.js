@@ -84,7 +84,7 @@ export default function Login() {
       setProgressBar(true);
       // Send Files to backend API
       axios
-        .post("http://localhost:5000/users/auth", data, config)
+        .post("http://localhost:5000/users/auh", data, config)
         .then((res) => {
           localStorage.setItem("token", res.data.token);
           store.alert = { status: true, type: "good", msg: "Success: Logged In" };
@@ -95,7 +95,7 @@ export default function Login() {
         .catch((err) => {
           setError({ ...error, status: !err.response.data.status, msg: err.response.data.msg });
           setProgressBar(false);
-          console.error(`${err.response.status}: ${err.response.data.msg}`);
+          console.error(err);
         });
     }
   };

@@ -21,7 +21,7 @@ export default function LoadLand() {
       allStates = res.data.sort((a, b) => (a.name > b.name ? 1 : -1));
       let counties = allStates[0].counties.sort((a, b) => (a.name > b.name ? 1 : -1));
       setUsState({ name: res.data[0].name, abbv: res.data[0].abbv });
-      setCounty({ name: res.data[0].counties[0].name, id: counties[0]["_id"] });
+      setCounty({ name: counties[0].name, id: counties[0]["_id"] });
       setCounties(counties);
     } catch (err) {
       store.alert = { status: true, type: "bad", msg: "Error: Can't load State and County Options" };
@@ -33,11 +33,15 @@ export default function LoadLand() {
 
   const onChangeUsState = (e) => {
     let abbv = e.target.options[e.target.options.selectedIndex].getAttribute("data-abbv");
+
     setUsState({ name: e.target.value, abbv: abbv });
     setCounties(
       usStates.value
         .filter((usState) => usState.abbv === abbv)
-        .map((usState) => usState.counties)
+        .map((usState) => {
+          setCounty({ name: usState.counties[0].name, id: usState.counties[0]["_id"] });
+          return usState.counties;
+        })
         .flatMap((county) => county)
     );
   };
