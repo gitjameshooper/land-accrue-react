@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login(props) {
+export default function Login() {
   const classes = useStyles();
   const redirect = "/land";
   const [store, setStore] = useContext(Context);

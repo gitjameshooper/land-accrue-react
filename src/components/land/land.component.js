@@ -5,7 +5,7 @@ import TabPanel from "./tabs/tabs.component";
 import "./land.scss";
 import Grid from "@material-ui/core/Grid";
 
-export default function Land(props) {
+export default function Land() {
   const [store, setStore] = useContext(Context);
 
   return (
