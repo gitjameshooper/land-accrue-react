@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Grid from "@material-ui/core/Grid";
+import { Context } from "./../../../store";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import NativeSelect from "@material-ui/core/NativeSelect";
@@ -8,17 +9,25 @@ import "./load-land.scss";
 import LoadLandBtn from "./load-btn/load-btn.component";
 import { useAsync } from "react-use";
 
-export default function LoadLand(props) {
+export default function LoadLand() {
+  const [store, setStore] = useContext(Context);
   const [usState, setUsState] = useState({ name: "", abbv: "" });
   const [counties, setCounties] = useState([]);
   const [county, setCounty] = useState({ id: "", name: "" });
   const usStates = useAsync(async () => {
-    const res = await axios.get(`http://localhost:5000/us-states`);
-    let allStates = res.data.sort((a, b) => (a.name > b.name ? 1 : -1)),
-      counties = allStates[0].counties.sort((a, b) => (a.name > b.name ? 1 : -1));
-    setUsState({ name: res.data[0].name, abbv: res.data[0].abbv });
-    setCounty({ name: res.data[0].counties[0].name, id: counties[0]["_id"] });
-    setCounties(counties);
+    let allStates;
+    try {
+      const res = await axios.get(`http://localhost:5000/us-states`);
+      allStates = res.data.sort((a, b) => (a.name > b.name ? 1 : -1));
+      let counties = allStates[0].counties.sort((a, b) => (a.name > b.name ? 1 : -1));
+      setUsState({ name: res.data[0].name, abbv: res.data[0].abbv });
+      setCounty({ name: res.data[0].counties[0].name, id: counties[0]["_id"] });
+      setCounties(counties);
+    } catch (err) {
+      store.alert = { status: true, type: "bad", msg: "Error: Can't load State and County Options" };
+      setStore({ ...store });
+      console.error(err);
+    }
     return allStates;
   });
 
