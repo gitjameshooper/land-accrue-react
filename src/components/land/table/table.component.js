@@ -59,9 +59,26 @@ export default function DataTable(props) {
   const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
-  const changePrice = (e) => {
-    console.log(e.target.value);
-    console.log(e);
+  const changePrice = (e, rowData) => {
+    rowData.finalOffer = Number(e.target.value);
+    const updatedProperties = [...properties, rowData];
+    setProperties(updatedProperties);
+  };
+  const saveRows = (rowData) => {
+    const parentRows = rowData
+      .filter((property) => property.county && property.statusColor)
+      .map((property) => property);
+    axios({
+      method: "patch",
+      url: `http://localhost:5000/counties/${store.land.countyId}/properties`,
+      data: {
+        rowData: parentRows,
+      },
+    }).then((res) => {
+      store.alert = { status: true, type: "good", msg: "Success: Prices Saved" };
+      setStore({ ...store });
+      console.log(res);
+    });
   };
 
   const deleteRows = (rowData) => {
@@ -91,6 +108,8 @@ export default function DataTable(props) {
         updatedProperties.splice(i, 1);
       });
       setProperties(updatedProperties);
+      store.alert = { status: true, type: "good", msg: "Success: Rows Deleted" };
+      setStore({ ...store });
     });
   };
 
@@ -234,9 +253,14 @@ export default function DataTable(props) {
             type: "numeric",
             render: (rowData) =>
               !rowData["finalOffer"] ? (
-                ""
+                " "
               ) : store.user.loggedIn ? (
-                <input type="text" className="final-offer" onChange={changePrice} placeholder={rowData["finalOffer"]} />
+                <input
+                  type="text"
+                  className="final-offer"
+                  onBlur={(e) => changePrice(e, rowData)}
+                  placeholder={rowData["finalOffer"]}
+                />
               ) : (
                 `$${numberWithCommas(rowData["finalOffer"])}`
               ),
@@ -261,7 +285,7 @@ export default function DataTable(props) {
           {
             icon: () => <SaveIcon />,
             tooltip: "Save Price",
-            onClick: (e, rowData) => console.log(rowData),
+            onClick: (e, rowData) => saveRows(rowData),
           },
           {
             icon: () => <DeleteOutline />,

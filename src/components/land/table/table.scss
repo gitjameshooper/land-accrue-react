@@ -118,6 +118,7 @@
         background: $pcolor2;
         color: $pcolor3;
         .label-icon {
+          display: list-item;
           &.green {
             color: $green;
           }

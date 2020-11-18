@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { Save } = require("@material-ui/icons");
 const County = require("../models/county.model");
 
 // @route GET /
@@ -6,6 +7,26 @@ const County = require("../models/county.model");
 // @access Public
 router.get("/:id", (req, res) => {
   County.find({ countyId: req.params.id }).then((county) => res.json(county));
+});
+
+// @route PATCH /
+// @desc Delete property by id
+// @access Private
+router.patch("/:id/properties", (req, res) => {
+  let rowData = req.body.rowData;
+  County.findOne({ countyId: req.params.id }, function (err, doc) {
+    if (err) console.log(err);
+    rowData.forEach((row) => {
+      let i = doc.totalProperties.findIndex((property) => property._id == row._id);
+      doc.totalProperties[i].finalOffer = row.finalOffer;
+    });
+    doc.save(function (err) {
+      if (err) {
+        console.error("ERROR!");
+      }
+    });
+    res.status(200).json({ status: "success" });
+  });
 });
 
 // @route DELETE /
@@ -19,19 +40,9 @@ router.delete("/:id/properties", (req, res) => {
     },
     function (err, doc) {
       console.log(err, doc);
-      res.send("success");
+      res.status(200).json({ status: "success" });
     }
   );
 });
 
 module.exports = router;
-// const idArr = rowData.filter((property) => property.county && property.finalOffer).map((property) => property["_id"]);
-// console.log(properties);
-// console.log(idArr);
-
-// idArr.forEach((value) => {
-//   let i = properties.findIndex((property) => property._id === value);
-//   properties.splice(i, 1);
-// });
-// console.log(typeof properties);
-// setProperties(properties);
