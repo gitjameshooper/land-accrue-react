@@ -43,7 +43,6 @@ export default function Login() {
   const [password, setPassword] = useState({ text: "", err: "" });
   const [error, setError] = useState({ status: false, msg: "" });
   const [progressBar, setProgressBar] = useState(false);
-
   if (store.user.loggedIn) {
     return <Redirect to={redirect} />;
   }
@@ -84,7 +83,7 @@ export default function Login() {
       setProgressBar(true);
       // Send Files to backend API
       axios
-        .post("http://localhost:5000/users/auh", data, config)
+        .post("http://localhost:5000/users/auth", data, config)
         .then((res) => {
           localStorage.setItem("token", res.data.token);
           store.alert = { status: true, type: "good", msg: "Success: Logged In" };
