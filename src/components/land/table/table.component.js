@@ -64,6 +64,36 @@ export default function DataTable(props) {
     console.log(e);
   };
 
+  const deleteRows = (rowData) => {
+    const idArr = rowData
+      .filter((property) => property.county && property.statusColor)
+      .map((property) => property["_id"]);
+
+    axios({
+      method: "delete",
+      url: `http://localhost:5000/counties/${store.land.countyId}/properties`,
+      data: {
+        rowData: idArr,
+      },
+    }).then((res) => {
+      // Update Color Status
+      const allIdArr = rowData.map((property) => {
+        if (property.statusColor === "green") landTotals.green -= 1;
+        if (property.statusColor === "yellow") landTotals.yellow -= 1;
+        if (property.statusColor === "red") landTotals.red -= 1;
+        return property["_id"];
+      });
+      setLandTotals(landTotals);
+      // Update Rows in DOM
+      const updatedProperties = [...properties];
+      allIdArr.forEach((value) => {
+        let i = updatedProperties.findIndex((property) => property._id === value);
+        updatedProperties.splice(i, 1);
+      });
+      setProperties(updatedProperties);
+    });
+  };
+
   useEffect(() => {
     if (store.land.countyId && store.land.tableLoading) {
       axios
@@ -236,7 +266,7 @@ export default function DataTable(props) {
           {
             icon: () => <DeleteOutline />,
             tooltip: "Delete Property",
-            onClick: (e, rowData) => console.log(rowData),
+            onClick: (e, rowData) => deleteRows(rowData),
           },
         ]}
       />

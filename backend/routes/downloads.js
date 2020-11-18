@@ -1,5 +1,3 @@
-// const { AsyncParser } = require("json2csv");
-const { count } = require("../models/county.model");
 const router = require("express").Router();
 const County = require("../models/county.model");
 const { parseAsync } = require("json2csv");
