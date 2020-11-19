@@ -5,14 +5,14 @@ const County = require("../models/county.model");
 // @route GET /
 // @desc Get county by id
 // @access Public
-router.get("/:id", (req, res) => {
-  County.find({ countyId: req.params.id }).then((county) => res.json(county));
+router.get("/:id", (req, res, next) => {
+  County.find({ countyId: req.params.id }).then((county) => res.status(200).json(county));
 });
 
 // @route PATCH /
 // @desc Delete property by id
 // @access Private
-router.patch("/:id/properties", (req, res) => {
+router.patch("/:id/properties", (req, res, next) => {
   let rowData = req.body.rowData;
   County.findOne({ countyId: req.params.id }, function (err, doc) {
     if (err) console.log(err);
@@ -32,7 +32,7 @@ router.patch("/:id/properties", (req, res) => {
 // @route DELETE /
 // @desc Delete property by id
 // @access Private
-router.delete("/:id/properties", (req, res) => {
+router.delete("/:id/properties", (req, res, next) => {
   County.findOneAndUpdate(
     { countyId: req.params.id },
     {
