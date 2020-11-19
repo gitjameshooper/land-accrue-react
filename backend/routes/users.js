@@ -23,7 +23,7 @@ router.post("/auth", (req, res) => {
       if (!isMatch) return res.status(400).json({ status: false, msg: "Invalid password" });
       jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
         if (err) throw err;
-        res.json({ status: true, user: { id: user.id, name: user.name, email: user.email }, token });
+        res.status(200).json({ status: true, user: { id: user.id, name: user.name, email: user.email }, token });
       });
     });
   });
@@ -57,7 +57,7 @@ router.post("/", (req, res) => {
           jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
             if (err) throw err;
 
-            res.json({ status: true, token, user: { id: user.id, name: user.name, email: user.email } });
+            res.status(200).json({ status: true, token, user: { id: user.id, name: user.name, email: user.email } });
           });
         });
       });
@@ -71,7 +71,7 @@ router.post("/", (req, res) => {
 router.get("/", auth, (req, res) => {
   User.findById(req.user.id)
     .select("-password")
-    .then((user) => res.json({ status: true, user }));
+    .then((user) => res.status(200).json({ status: true, user }));
 });
 
 module.exports = router;
