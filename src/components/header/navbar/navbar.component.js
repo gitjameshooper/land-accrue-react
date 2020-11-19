@@ -67,7 +67,6 @@ export default function NavBar() {
           <AccountBoxIcon onClick={showProfile} />
           <div className={profile ? "profile-box active" : "profile-box"} onMouseLeave={showProfile}>
             <span className="name-text item">{store.user.adminName}</span>
-            <span className="settings-text item hover">Settings</span>
             <span className="logout item hover" onClick={onLogout}>
               Logout
             </span>

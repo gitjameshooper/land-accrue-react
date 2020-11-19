@@ -25,7 +25,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* text-align: center; */
     width: 100vw;
 
     img {
@@ -45,16 +44,14 @@
     .profile-box {
       display: none;
       background: $pcolor2;
-
       position: absolute;
       right: 10px;
       top: 80px;
-      border: 1px solid $pcolor2;
-
+      border: 1px solid $pcolor1;
+      border-top: 0;
       &.active {
         display: block;
       }
-
       .item {
         margin: 0;
         display: block;

@@ -5,7 +5,7 @@ import "./info.scss";
 
 export default function Info() {
   return (
-    <Grid container component="section" className="info-component" spacing={2}>
+    <Grid container component="section" className="info-component">
       <h3>Information</h3>
       <Grid item xs={12} md={4} className="item-1">
         <h4>Status Ranking</h4>
