@@ -4,7 +4,7 @@ import { Context } from "./../../../store";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import NativeSelect from "@material-ui/core/NativeSelect";
-import axios from "axios";
+import axios from "./../../../axios-global";
 import "./load-land.scss";
 import LoadLandBtn from "./load-btn/load-btn.component";
 import { useAsync } from "react-use";
@@ -17,7 +17,7 @@ export default function LoadLand() {
   const usStates = useAsync(async () => {
     let allStates;
     try {
-      const res = await axios.get(`http://localhost:5000/us-states`);
+      const res = await axios.get(`/us-states`);
       allStates = res.data.sort((a, b) => (a.name > b.name ? 1 : -1));
       let counties = allStates[0].counties.sort((a, b) => (a.name > b.name ? 1 : -1));
       setUsState({ name: res.data[0].name, abbv: res.data[0].abbv });

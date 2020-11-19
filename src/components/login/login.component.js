@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Context } from "./../../store";
 import { Redirect } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import axios from "axios";
+import axios from "./../../axios-global";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -83,13 +83,14 @@ export default function Login() {
       setProgressBar(true);
       // Send Files to backend API
       axios
-        .post("http://localhost:5000/users/auth", data, config)
+        .post("/users/auth", data, config)
         .then((res) => {
           localStorage.setItem("token", res.data.token);
           store.alert = { status: true, type: "good", msg: "Success: Logged In" };
           store.user = { loggedIn: true, adminName: res.data.user.name };
           setStore({ ...store });
           setProgressBar(false);
+          window.location.reload();
         })
         .catch((err) => {
           setError({ ...error, status: !err.response.data.status, msg: err.response.data.msg });

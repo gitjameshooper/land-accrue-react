@@ -90,7 +90,7 @@
       bottom: 53px;
       z-index: 1100;
       @media (min-width: 600px) {
-        bottom: 70px;
+        bottom: 68px;
       }
     }
   }
@@ -120,6 +120,13 @@
       tr[level="0"] {
         background: $pcolor2;
         color: $pcolor3;
+        .property-link {
+          color: $pcolor1;
+          text-decoration: none;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
         .label-icon {
           display: list-item;
           &.green {
