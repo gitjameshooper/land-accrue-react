@@ -1,4 +1,7 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Land Accrue Pricing App
+
+The app compares land that Land Accrue is interested in buying vs recently sold properties in the same state and county.
+![Alt Img](preview.png)
 
 ## Available Scripts
 
