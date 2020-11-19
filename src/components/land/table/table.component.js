@@ -2,7 +2,7 @@ import React, { useRef, forwardRef, useContext, useState, useEffect } from "reac
 import { Context } from "./../../../store";
 import MaterialTable from "material-table";
 import "./table.scss";
-import axios from "axios";
+import axios from "./../../../axios-global";
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Check from "@material-ui/icons/Check";
@@ -60,9 +60,9 @@ export default function DataTable(props) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
   const changePrice = (e, rowData) => {
-    rowData.finalOffer = Number(e.target.value);
-    const updatedProperties = [...properties, rowData];
-    setProperties(updatedProperties);
+    let i = properties.findIndex((property) => property._id === rowData._id);
+    properties[i]["finalOffer"] = Number(e.target.value);
+    setProperties(properties);
   };
   const saveRows = (rowData) => {
     const parentRows = rowData
@@ -70,15 +70,20 @@ export default function DataTable(props) {
       .map((property) => property);
     axios({
       method: "patch",
-      url: `http://localhost:5000/counties/${store.land.countyId}/properties`,
+      url: `/counties/${store.land.countyId}/properties`,
       data: {
         rowData: parentRows,
       },
-    }).then((res) => {
-      store.alert = { status: true, type: "good", msg: "Success: Prices Saved" };
-      setStore({ ...store });
-      console.log(res);
-    });
+    })
+      .then((res) => {
+        store.alert = { status: true, type: "good", msg: "Success: Prices Saved" };
+        setStore({ ...store });
+      })
+      .catch((err) => {
+        store.alert = { status: true, type: "bad", msg: "Error: Can't Save Row" };
+        setStore({ ...store });
+        console.error(err);
+      });
   };
 
   const deleteRows = (rowData) => {
@@ -88,35 +93,41 @@ export default function DataTable(props) {
 
     axios({
       method: "delete",
-      url: `http://localhost:5000/counties/${store.land.countyId}/properties`,
+      url: `/counties/${store.land.countyId}/properties`,
       data: {
         rowData: idArr,
       },
-    }).then((res) => {
-      // Update Color Status
-      const allIdArr = rowData.map((property) => {
-        if (property.statusColor === "green") landTotals.green -= 1;
-        if (property.statusColor === "yellow") landTotals.yellow -= 1;
-        if (property.statusColor === "red") landTotals.red -= 1;
-        return property["_id"];
+    })
+      .then((res) => {
+        // Update Color Status
+        const allIdArr = rowData.map((property) => {
+          if (property.statusColor === "green") landTotals.green -= 1;
+          if (property.statusColor === "yellow") landTotals.yellow -= 1;
+          if (property.statusColor === "red") landTotals.red -= 1;
+          return property["_id"];
+        });
+        setLandTotals(landTotals);
+        // Update Rows in DOM
+        const updatedProperties = [...properties];
+        allIdArr.forEach((value) => {
+          let i = updatedProperties.findIndex((property) => property._id === value);
+          updatedProperties.splice(i, 1);
+        });
+        setProperties(updatedProperties);
+        store.alert = { status: true, type: "good", msg: "Success: Rows Deleted" };
+        setStore({ ...store });
+      })
+      .catch((err) => {
+        store.alert = { status: true, type: "bad", msg: "Error: Can't Delete Row" };
+        setStore({ ...store });
+        console.error(err);
       });
-      setLandTotals(landTotals);
-      // Update Rows in DOM
-      const updatedProperties = [...properties];
-      allIdArr.forEach((value) => {
-        let i = updatedProperties.findIndex((property) => property._id === value);
-        updatedProperties.splice(i, 1);
-      });
-      setProperties(updatedProperties);
-      store.alert = { status: true, type: "good", msg: "Success: Rows Deleted" };
-      setStore({ ...store });
-    });
   };
 
   useEffect(() => {
     if (store.land.countyId && store.land.tableLoading) {
       axios
-        .get(`http://localhost:5000/counties/${store.land.countyId}`)
+        .get(`/counties/${store.land.countyId}`)
         .then((res) => {
           if (res.data.length > 0) {
             let county = res.data[0],
@@ -171,13 +182,15 @@ export default function DataTable(props) {
           </div>
         )}
         <div className="actions-bar">
-          <a
-            title="Download CSV"
-            className="download items"
-            target="_new"
-            href={`http://localhost:5000/downloads/csv/${store.land.countyId}`}>
-            <GetAppIcon />
-          </a>
+          {store.user.loggedIn && store.land.countyId && (
+            <a
+              title="Download CSV"
+              className="download items"
+              target="_new"
+              href={`http://localhost:5000/downloads/csv/${store.land.countyId}`}>
+              <GetAppIcon />
+            </a>
+          )}
           <span title="Toggle Rows" className="toggle items" onClick={toggleRows}>
             <ImportExportIcon />
           </span>
@@ -208,7 +221,14 @@ export default function DataTable(props) {
           {
             title: "Address",
             field: "situsStreetAddress",
-            render: (rowData) => (rowData["situsStreetAddress"] ? rowData["situsStreetAddress"] : rowData["address"]),
+            render: (rowData) =>
+              rowData["situsStreetAddress"] ? (
+                <a className="property-link" target="_blank" href={`${rowData["propertyLink"]}`}>
+                  {rowData["situsStreetAddress"]}
+                </a>
+              ) : (
+                rowData["address"]
+              ),
           },
           { title: "Lot Acreage", field: "lotAcreage", type: "numeric" },
           {
@@ -266,10 +286,10 @@ export default function DataTable(props) {
         parentChildData={(row, rows) => rows.find((a) => a["_id"] === row.parentId)}
         options={{
           selection: true,
-          selectionProps: (rowData) => ({
-            disabled: rowData.finalOffer === undefined,
-            color: "primary",
-          }),
+          // selectionProps: (rowData) => ({
+          //   disabled: rowData.finalOffer === undefined,
+          //   color: "primary",
+          // }),
           draggable: false,
           pageSize: 50,
           pageSizeOptions: [25, 50, 100, 200],

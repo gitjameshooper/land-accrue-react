@@ -8,19 +8,13 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded());
-
+app.use(express.urlencoded({ extended: true }));
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
-});
-
-const connection = mongoose.connection;
-connection.once("open", () => {
-  console.log("MongoDB connected");
 });
 
 const usStatesRouter = require("./routes/us-states");
@@ -43,7 +37,6 @@ app.use((req, res, next) => {
 
 // error handler
 app.use((err, req, res, next) => {
-  console.log(err.message);
   res.status(err.status || 500).send({
     error: {
       status: err.status || 500,

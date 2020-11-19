@@ -2,6 +2,9 @@ const router = require("express").Router();
 const County = require("../models/county.model");
 const { parseAsync } = require("json2csv");
 
+// @route Get /
+// @desc Get county CSV by id
+// @access Public
 router.get("/csv/:countyId", (req, res) => {
   let fileName = "";
   County.findOne({ countyId: req.params.countyId })
@@ -46,8 +49,7 @@ router.get("/csv/:countyId", (req, res) => {
         "Content-Type": "text/csv",
       });
       res.status(200).send(csv);
-    })
-    .catch((err) => res.status(400).json({ status: false, msg: err }));
+    });
 });
 
 module.exports = router;

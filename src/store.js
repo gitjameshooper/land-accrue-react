@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "./axios-global";
 
 const initialState = {
   alert: {
@@ -24,23 +24,19 @@ export const Context = React.createContext();
 
 const Store = ({ children }) => {
   const [store, setStore] = useState(initialState);
-  let token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
   if (!store.user.loggedIn && token) {
-    let config = {
-      headers: {
-        "Content-type": "application/json",
-        "x-auth-token": token,
-      },
-    };
     axios
-      .get("http://localhost:5000/users", config)
+      .get("/users")
       .then((res) => {
         store.user = { loggedIn: true, adminName: res.data.user.name };
         setStore({ ...store });
       })
       .catch((err) => {
-        console.log(err);
-        // console.error(`${err.response.status}: ${err.response.data.msg}`);
+        if (err?.response?.data?.action === "remove-token") {
+          localStorage.removeItem("token");
+        }
+        console.error(err);
       });
   }
   return <Context.Provider value={[store, setStore]}>{children}</Context.Provider>;
