@@ -266,6 +266,10 @@ export default function DataTable(props) {
         parentChildData={(row, rows) => rows.find((a) => a["_id"] === row.parentId)}
         options={{
           selection: true,
+          selectionProps: (rowData) => ({
+            disabled: rowData.finalOffer === undefined,
+            color: "primary",
+          }),
           draggable: false,
           pageSize: 50,
           pageSizeOptions: [25, 50, 100, 200],
