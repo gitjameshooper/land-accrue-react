@@ -181,9 +181,6 @@ export default function DataTable(props) {
           <span title="Toggle Rows" className="toggle items" onClick={toggleRows}>
             <ImportExportIcon />
           </span>
-          {/* <span title="Save" className="save items">
-          <SaveIcon />
-        </span> */}
         </div>
       </div>
 
@@ -252,7 +249,7 @@ export default function DataTable(props) {
             field: "finalOffer",
             type: "numeric",
             render: (rowData) =>
-              !rowData["finalOffer"] ? (
+              rowData["finalOffer"] === undefined ? (
                 " "
               ) : store.user.loggedIn ? (
                 <input
@@ -290,7 +287,12 @@ export default function DataTable(props) {
           {
             icon: () => <DeleteOutline />,
             tooltip: "Delete Property",
-            onClick: (e, rowData) => deleteRows(rowData),
+            onClick: (e, rowData) => {
+              let d = window.confirm("Are you sure you want to delete the rows?");
+              if (d === true) {
+                deleteRows(rowData);
+              }
+            },
           },
         ]}
       />

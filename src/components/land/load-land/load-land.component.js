@@ -40,7 +40,7 @@ export default function LoadLand() {
         .filter((usState) => usState.abbv === abbv)
         .map((usState) => {
           setCounty({ name: usState.counties[0].name, id: usState.counties[0]["_id"] });
-          return usState.counties;
+          return usState.counties.sort((a, b) => (a.name > b.name ? 1 : -1));
         })
         .flatMap((county) => county)
     );
@@ -54,7 +54,7 @@ export default function LoadLand() {
   };
 
   return (
-    <Grid container component="section" className="load-land-component" spacing={2}>
+    <Grid container component="section" className="load-land-component">
       <h3>How to Load Land</h3>
       <Grid item xs={12} sm={6} className="item-1">
         <ol>

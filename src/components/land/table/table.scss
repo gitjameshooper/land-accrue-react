@@ -84,11 +84,14 @@
       }
     }
     .MTableToolbar-actions-14 {
-      // color: rgba(0, 0, 0, 0.54);
-      // position: absolute;
-      // right: 0;
-      // top: -55px;
-      // z-index: 1100;
+      color: rgba(0, 0, 0, 0.54);
+      position: absolute;
+      right: 110px;
+      bottom: 53px;
+      z-index: 1100;
+      @media (min-width: 600px) {
+        bottom: 70px;
+      }
     }
   }
 
