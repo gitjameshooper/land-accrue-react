@@ -189,8 +189,10 @@ export default function DataTable(props) {
           {store.user.loggedIn && store.land.countyId && (
             <a
               title="Download CSV"
+              download
               className="download items"
-              target="_new"
+              rel="noopener noreferrer"
+              target="_blank"
               href={`http://localhost:5000/downloads/csv/${store.land.countyId}`}>
               <GetAppIcon />
             </a>
@@ -227,7 +229,11 @@ export default function DataTable(props) {
             field: "situsStreetAddress",
             render: (rowData) =>
               rowData["situsStreetAddress"] ? (
-                <a className="property-link" target="_blank" href={`${rowData["propertyLink"]}`}>
+                <a
+                  className="property-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`${rowData["propertyLink"]}`}>
                   {rowData["situsStreetAddress"]}
                 </a>
               ) : (
