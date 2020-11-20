@@ -5,6 +5,7 @@ const County = require("../models/county.model");
 const fs = require("fs");
 const _ = require("lodash");
 const csvToJson = require("csvtojson");
+const auth = require("../middleware/auth");
 
 // Save the CSV files
 let storage = multer.diskStorage({
@@ -23,22 +24,34 @@ let storage = multer.diskStorage({
   },
 });
 let upload = multer({ storage: storage });
+
+// @route POST /
+// @desc Post CSV files to db
+// @access Private
 router.post(
   "/csv",
+  auth,
   upload.fields([
     { name: "buy.csv", maxCount: 1 },
     { name: "sold.csv", maxCount: 1 },
   ]),
   (req, res, next) => {
-    if (!req.files) return res.status(400).json({ msg: "Files do not exist" });
+    if (!req.files) {
+      let err = new Error(`Missing files`);
+      err.status = 400;
+      return next(err);
+    }
 
     let usStateAbbv = req.body.usStateAbbv.toLowerCase(),
       usStateName = req.body.usStateName.toLowerCase(),
       countyName = req.body.county.toLowerCase(),
       maxMileage = Number(req.body.maxMileage);
 
-    addData(usStateName, usStateAbbv, countyName, maxMileage).then((a) => {
-      return res.status(200).json({ msg: "Data Entered" });
+    addData(usStateName, usStateAbbv, countyName, maxMileage).then((data) => {
+      if (data.errStatus) {
+        return next(data.err);
+      }
+      return res.status(201).json({ msg: "Data Entered" });
     });
   }
 );
@@ -378,7 +391,7 @@ function mergeData(buyData, soldData, mileageArr) {
   });
 }
 
-async function addData(usStateName, usStateAbbv, countyName, maxMileage) {
+async function addData(usStateName, usStateAbbv, countyName, maxMileage, next) {
   try {
     // Create Mileage Arr for Radius concentric circles
     let mileageArr = [],
@@ -414,11 +427,8 @@ async function addData(usStateName, usStateAbbv, countyName, maxMileage) {
     return await mergeData(buyData, soldData, mileageArr).then((data) =>
       addProperties("totalProperties", usCounty, data)
     );
-  } catch (e) {
-    console.log(e);
-    return e;
-  } finally {
-    console.log("\u001b[32m%s\x1b\u001b[0m", "End of the line");
+  } catch (err) {
+    return { errStatus: true, err: err };
   }
 }
 

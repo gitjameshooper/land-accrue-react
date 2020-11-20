@@ -6,7 +6,7 @@ import MileSlider from "./mile-slider/mile-slider.component";
 import TextField from "@material-ui/core/TextField";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import axios from "axios";
+import axios from "./../../../axios-global";
 import "./upload.scss";
 import { Context } from "./../../../store";
 import USstates from "../../../assets/json/us-states.json";
@@ -76,7 +76,7 @@ export default function Upload() {
       setShowProgressBar(true);
       // Send Files to backend API
       axios
-        .post("http://localhost:5000/uploads/csv", formData, config)
+        .post("/uploads/csv", formData, config)
         .then((res) => {
           setShowProgressBar(false);
           setCounty({ name: "", err: "" });
@@ -133,7 +133,16 @@ export default function Upload() {
               <button>
                 Add Buy File <span className="asterik file"> *</span>
               </button>
-              <input type="file" id="buy-land" name="buyLand" accept=".csv" onChange={onChangeFile} />
+              <input
+                type="file"
+                id="buy-land"
+                name="buyLand"
+                accept=".csv"
+                onChange={onChangeFile}
+                onClick={(e) => {
+                  e.target.value = null;
+                }}
+              />
             </div>
             <span className="error file">{buyLand.err}</span>
             <span className="filename">{buyLand.name}</span>
@@ -143,7 +152,16 @@ export default function Upload() {
               <button>
                 Add Sold File <span className="asterik file"> *</span>
               </button>
-              <input type="file" id="sold-land" name="soldLand" accept=".csv" onChange={onChangeFile} />
+              <input
+                type="file"
+                id="sold-land"
+                name="soldLand"
+                accept=".csv"
+                onChange={onChangeFile}
+                onClick={(e) => {
+                  e.target.value = null;
+                }}
+              />
             </div>
             <span className="error file">{soldLand.err}</span>
             <span className="filename">{soldLand.name}</span>
