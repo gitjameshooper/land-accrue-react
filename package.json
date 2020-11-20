@@ -2,9 +2,10 @@
   "name": "lc-app",
   "version": "1.0.0",
   "author": "Jameshooper",
+  "description": "land accure pricing app",
   "private": true,
   "scripts": {
-    "start": "cd server && npm install && node server/index.js",
+    "start": "cd server && npm install && node index.js",
     "build": "cd client && npm run build",
     "install-client": "cd client && npm install",
     "heroku-postbuild": "npm run install-client && npm run build",
