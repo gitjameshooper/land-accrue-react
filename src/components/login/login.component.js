@@ -93,7 +93,11 @@ export default function Login() {
           window.location.reload();
         })
         .catch((err) => {
-          setError({ ...error, status: !err.response.data.status, msg: err.response.data.msg });
+          setError({
+            ...error,
+            status: err.response.data.error.message !== undefined,
+            msg: err.response.data.error.message,
+          });
           setProgressBar(false);
           console.error(err);
         });
