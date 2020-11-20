@@ -16,7 +16,7 @@
     "react-scripts": "3.4.3",
     "react-use": "^15.3.4"
   },
-    "scripts": {
+  "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
