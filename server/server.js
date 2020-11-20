@@ -16,6 +16,11 @@ mongoose.connect(uri, {
   useUnifiedTopology: true,
   useFindAndModify: false,
 });
+// Serve static assets in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("./../build"));
+  app.get("*", (req, res) => {});
+}
 
 const usStatesRouter = require("./routes/us-states");
 const uploadsRouter = require("./routes/uploads");
