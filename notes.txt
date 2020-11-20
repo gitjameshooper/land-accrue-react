@@ -1,12 +1,5 @@
 Notes/Todo Items
 
-Backend:
-1. Update the http responses and error responses
-2. Verify admin login works with JWT token and routes are protected for writing to DB
-3. Comment out add user route - only use internally
-
-DB: 
-1. Enter in all Previous CSV data to test DB
 
 Global:
 1. Create unit tests with Jest or Enzyme. https://reactjs.org/docs/testing.html
@@ -18,3 +11,5 @@ Global:
    -Add as a subdomain to landaccrue.com
    -Add concurrently package to run back and front in 1 cmd with npm
    -Clean up build with Dev dependencies(for build) and dependencies (needed at run time)
+7. Mongodb whitelist Land Accrue ip
+8. Make sure to Comment out add admin user route - only use internally
