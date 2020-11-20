@@ -193,7 +193,7 @@ export default function DataTable(props) {
               className="download items"
               rel="noopener noreferrer"
               target="_blank"
-              href={`http://localhost:5000/downloads/csv/${store.land.countyId}`}>
+              href={`%PUBLIC_URL%/downloads/csv/${store.land.countyId}`}>
               <GetAppIcon />
             </a>
           )}
