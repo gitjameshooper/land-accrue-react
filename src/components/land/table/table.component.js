@@ -114,6 +114,7 @@ export default function DataTable(props) {
           updatedProperties.splice(i, 1);
         });
         setProperties(updatedProperties);
+
         store.alert = { status: true, type: "good", msg: "Success: Rows Deleted" };
         setStore({ ...store });
       })
@@ -146,9 +147,12 @@ export default function DataTable(props) {
                 });
               }
             });
-            store.alert = { status: true, type: "good", msg: "Success: Table Loaded" };
-            store.land.tableLoading = false;
-            setStore({ ...store });
+            setTimeout(() => {
+              store.alert = { status: true, type: "good", msg: "Success: Table Loaded" };
+              store.land.tableLoading = false;
+              setStore({ ...store });
+            }, 1000);
+
             setLandTotals({ green: green, red: red, yellow: yellow });
             setProperties(res.data[0].totalProperties.map((property) => property));
           }
@@ -286,10 +290,10 @@ export default function DataTable(props) {
         parentChildData={(row, rows) => rows.find((a) => a["_id"] === row.parentId)}
         options={{
           selection: true,
-          // selectionProps: (rowData) => ({
-          //   disabled: rowData.finalOffer === undefined,
-          //   color: "primary",
-          // }),
+          selectionProps: (rowData) => ({
+            disabled: rowData.finalOffer === undefined,
+            color: "primary",
+          }),
           draggable: false,
           pageSize: 50,
           pageSizeOptions: [25, 50, 100, 200],
