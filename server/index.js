@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
+const proxy = require("http-proxy-middleware");
 require("dotenv").config();
 
 const app = express();
@@ -17,6 +18,7 @@ mongoose.connect(uri, {
   useUnifiedTopology: true,
   useFindAndModify: false,
 });
+
 // Serve static assets in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("./../client/build"));
@@ -31,11 +33,12 @@ const downloadsRouter = require("./routes/downloads");
 const usersRouter = require("./routes/users");
 const countiesRouter = require("./routes/counties");
 
-app.use("/us-states", usStatesRouter);
-app.use("/uploads", uploadsRouter);
-app.use("/downloads", downloadsRouter);
-app.use("/users", usersRouter);
-app.use("/counties", countiesRouter);
+app.use(proxy(["/api"], { target: "http://localhost:5000" }));
+app.use("api/us-states", usStatesRouter);
+app.use("api/uploads", uploadsRouter);
+app.use("api/downloads", downloadsRouter);
+app.use("api/users", usersRouter);
+app.use("api/counties", countiesRouter);
 
 app.use((req, res, next) => {
   const err = new Error("Not found");

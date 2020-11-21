@@ -83,7 +83,7 @@ export default function Login() {
       setProgressBar(true);
       // Send Files to backend API
       axios
-        .post("/users/auth", data, config)
+        .post("/api/users/auth", data, config)
         .then((res) => {
           localStorage.setItem("token", res.data.token);
           store.alert = { status: true, type: "good", msg: "Success: Logged In" };

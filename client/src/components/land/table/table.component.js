@@ -71,7 +71,7 @@ export default function DataTable(props) {
       .map((property) => property);
     axios({
       method: "patch",
-      url: `/counties/${store.land.countyId}/properties`,
+      url: `/api/counties/${store.land.countyId}/properties`,
       data: {
         rowData: parentRows,
       },
@@ -94,7 +94,7 @@ export default function DataTable(props) {
 
     axios({
       method: "delete",
-      url: `/counties/${store.land.countyId}/properties`,
+      url: `/api/counties/${store.land.countyId}/properties`,
       data: {
         rowData: idArr,
       },
@@ -129,7 +129,7 @@ export default function DataTable(props) {
   useEffect(() => {
     if (store.land.countyId && store.land.tableLoading) {
       axios
-        .get(`/counties/${store.land.countyId}`)
+        .get(`/api/counties/${store.land.countyId}`)
         .then((res) => {
           if (res.data.length > 0) {
             let county = res.data[0],

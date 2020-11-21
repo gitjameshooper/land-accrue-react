@@ -76,7 +76,7 @@ export default function Upload() {
       setShowProgressBar(true);
       // Send Files to backend API
       axios
-        .post("/uploads/csv", formData, config)
+        .post("/api/uploads/csv", formData, config)
         .then((res) => {
           setShowProgressBar(false);
           setCounty({ name: "", err: "" });

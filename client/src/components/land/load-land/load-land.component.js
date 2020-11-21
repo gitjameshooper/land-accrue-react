@@ -17,7 +17,7 @@ export default function LoadLand() {
   const usStates = useAsync(async () => {
     let allStates;
     try {
-      const res = await axios.get(`/us-states`);
+      const res = await axios.get(`/api/us-states`);
       allStates = res.data.sort((a, b) => (a.name > b.name ? 1 : -1));
       let counties = allStates[0].counties.sort((a, b) => (a.name > b.name ? 1 : -1));
       setUsState({ name: res.data[0].name, abbv: res.data[0].abbv });
