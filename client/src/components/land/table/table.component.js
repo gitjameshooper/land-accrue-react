@@ -22,7 +22,6 @@ import ViewColumn from "@material-ui/icons/ViewColumn";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import SaveIcon from "@material-ui/icons/Save";
 import ImportExportIcon from "@material-ui/icons/ImportExport";
-import { BASE_URL } from "./../../../environment";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -194,7 +193,7 @@ export default function DataTable(props) {
               className="download items"
               rel="noopener noreferrer"
               target="_blank"
-              href={`${BASE_URL}downloads/csv/${store.land.countyId}`}>
+              href={`/api/downloads/csv/${store.land.countyId}`}>
               <GetAppIcon />
             </a>
           )}

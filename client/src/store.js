@@ -27,7 +27,7 @@ const Store = ({ children }) => {
   const token = localStorage.getItem("token");
   if (!store.user.loggedIn && token) {
     axios
-      .get("/users")
+      .get("/api/users")
       .then((res) => {
         store.user = { loggedIn: true, adminName: res.data.user.name };
         setStore({ ...store });
