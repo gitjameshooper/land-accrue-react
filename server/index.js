@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 require("dotenv").config();
 
 const app = express();
@@ -20,6 +21,7 @@ mongoose.connect(uri, {
 
 // Serve static assets in production
 if (process.env.NODE_ENV === "production") {
+  app.use("/api", createProxyMiddleware({ target: "http://localhost:5000", changeOrigin: true }));
   app.use(express.static("./../client/build"));
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "./../client/build", "index.html"));
