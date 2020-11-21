@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "cd server && npm install && node index.js",
-    "build": "cd client && npm run build",
+    "build": "cd client && npm run build:prod",
     "install-client": "cd client && npm install",
     "heroku-postbuild": "npm run install-client && npm run build",
     "backend": "nodemon server/index.js",

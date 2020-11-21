@@ -95,8 +95,8 @@ export default function Login() {
         .catch((err) => {
           setError({
             ...error,
-            status: err.response.data.error.message !== undefined,
-            msg: err.response.data.error.message,
+            status: err?.response?.data?.error?.message !== undefined,
+            msg: err?.response?.data?.error?.message,
           });
           setProgressBar(false);
           console.error(err);
