@@ -38,7 +38,7 @@ router.patch("/:id/properties", auth, (req, res, next) => {
 // @desc Delete property by id
 // @access Private
 router.delete("/:id/properties", auth, (req, res, next) => {
-  County.findOnendUpdate(
+  County.findOneAndUpdate(
     { countyId: req.params.id },
     {
       $pull: { totalProperties: { _id: { $in: req.body.rowData } } },

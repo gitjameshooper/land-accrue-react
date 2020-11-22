@@ -87,7 +87,8 @@ export default function Upload() {
         })
         .catch((error) => {
           setShowProgressBar(false);
-          store.alert = { status: true, type: "bad", msg: "Error: Can't upload CSVs" };
+          let msg = store.user.loggedIn ? "Can't upload CSVs" : "You are not logged in!";
+          store.alert = { status: true, type: "bad", msg: `Error: ${msg}` };
           setStore({ ...store });
           console.error(error);
         });
