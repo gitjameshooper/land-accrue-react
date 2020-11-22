@@ -54,10 +54,10 @@ export default function SimpleTabs() {
           <Info />
         </TabPanel>
         <TabPanel className="tab-sections" value={tabId} index={1}>
-          <LoadLand />
+          <Upload />
         </TabPanel>
         <TabPanel className="tab-sections" value={tabId} index={2}>
-          <Upload />
+          <LoadLand />
         </TabPanel>
       </div>
       <AppBar position="static">
@@ -66,8 +66,8 @@ export default function SimpleTabs() {
         </div>
         <Tabs value={tabId} onChange={tabChange} aria-label="simple tabs example">
           <Tab label="Info" {...a11yProps(0)} />
-          <Tab label="Load Land" {...a11yProps(1)} />
-          <Tab label="Upload Land" {...a11yProps(2)} />
+          <Tab label="Upload Land" {...a11yProps(1)} />
+          <Tab label="Load Land" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
     </div>

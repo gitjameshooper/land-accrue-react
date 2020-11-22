@@ -48,7 +48,7 @@ router.get("/", auth, (req, res) => {
 
 // @route Post /
 // @desc Create New Admin
-// @access Public
+// @access Private
 // router.post("/", (req, res) => {
 //   const { name, email, password } = req.body;
 
@@ -71,7 +71,7 @@ router.get("/", auth, (req, res) => {
 //         if (err) throw err;
 //         newUser.password = hash;
 //         newUser.save().then((user) => {
-//           jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+//           jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "7d" }, (err, token) => {
 //             if (err) throw err;
 
 //             res.status(200).json({ status: true, token, user: { id: user.id, name: user.name, email: user.email } });
