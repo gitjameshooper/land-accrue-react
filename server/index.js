@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
-const { createProxyMiddleware } = require("http-proxy-middleware");
 require("dotenv").config();
 
 const app = express();
@@ -19,15 +18,6 @@ mongoose.connect(uri, {
   useFindAndModify: false,
 });
 
-// Serve static assets in production
-if (process.env.NODE_ENV === "production") {
-  app.use("/api", createProxyMiddleware({ target: "http://localhost:5000", changeOrigin: true }));
-  app.use(express.static("./../client/build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "./../client/build", "index.html"));
-  });
-}
-
 const usStatesRouter = require("./routes/us-states");
 const uploadsRouter = require("./routes/uploads");
 const downloadsRouter = require("./routes/downloads");
@@ -39,6 +29,14 @@ app.use("/api/uploads", uploadsRouter);
 app.use("/api/downloads", downloadsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/counties", countiesRouter);
+
+// Serve static assets in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("./../client/build"));
+  app.get("/", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "./../client/build", "index.html"));
+  });
+}
 
 app.use((req, res, next) => {
   const err = new Error("Not found");
