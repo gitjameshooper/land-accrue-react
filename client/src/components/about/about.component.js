@@ -22,7 +22,7 @@ export default function About() {
             What is Land Accrue
           </Typography>
           <Typography variant="body1" component="p">
-            Land Accrue is a Austin Texas based real estate investment company managed by Jason Mayfield. Land Accrue
+            Land Accrue is an Austin, Texas based real estate investment company managed by Jason Mayfield. Land Accrue
             brings liquidity to real estate markets in the central Texas area by offering property owners a cash offer
             and no-hassle close. Our real estate company is known for providing superior customer service and access to
             the best listings in Texas while helping our clients find the right properties for them.
