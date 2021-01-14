@@ -117,18 +117,23 @@ function formatSoldData(csv) {
 
     csv.forEach((o) => {
       let acreSquareFeet = 43560,
-        priceArr = o["PRICE"].replace("$", "").replace(",", "").replace(" ", "").split(".");
+        priceArr = o["PRICE"]
+          .trim()
+          .replace(/[=$,"]/g, "")
+          .split(".");
       orderArr.push({
-        address: o["ADDRESS"] ? o["ADDRESS"] : "",
-        city: o["CITY"] ? o["CITY"] : "",
-        state: o["STATE OR PROVINCE"] ? o["STATE OR PROVINCE"] : "",
-        zip: o["ZIP OR POSTAL CODE"] ? o["ZIP OR POSTAL CODE"] : "",
-        soldPrice: priceArr[0] ? Number(priceArr[0]) : 0,
-        lotArea: o["LOT SIZE"] ? Number(o["LOT SIZE"]) : 0,
-        lotAcreage: o["LOT SIZE"] ? Number(parseFloat(o["LOT SIZE"] / acreSquareFeet).toFixed(2)) : 0,
+        address: o["ADDRESS"] ? o["ADDRESS"].trim().replace(/[=,"]/g, "") : "",
+        city: o["CITY"] ? o["CITY"].trim().replace(/[=,"]/g, "") : "",
+        state: o["STATE OR PROVINCE"] ? o["STATE OR PROVINCE"].trim().replace(/[=,"]/g, "") : "",
+        zip: o["ZIP OR POSTAL CODE"] ? o["ZIP OR POSTAL CODE"].trim().replace(/[=,"]/g, "") : "",
+        soldPrice: priceArr[0] ? Number(priceArr[0].trim().replace(/[$=,"]/g, "")) : 0,
+        lotArea: o["LOT SIZE"] ? Number(o["LOT SIZE"].trim().replace(/[=,"]/g, "")) : 0,
+        lotAcreage: o["LOT SIZE"]
+          ? Number(parseFloat(o["LOT SIZE"].trim().replace(/[=,"]/g, "") / acreSquareFeet).toFixed(2))
+          : 0,
         pricePerAcre:
-          priceArr[0] !== 0 && o["LOT SIZE"] !== 0
-            ? Math.round(Number(priceArr[0]) / (o["LOT SIZE"] / acreSquareFeet))
+          priceArr[0] && o["LOT SIZE"]
+            ? Math.round(Number(priceArr[0]) / (o["LOT SIZE"].trim().replace(/[=,"]/g, "") / acreSquareFeet))
             : 0,
         latitude: o["LATITUDE"] ? o["LATITUDE"] : "",
         longitude: o["LONGITUDE"] ? o["LONGITUDE"] : "",
@@ -145,39 +150,45 @@ function formatBuyData(csv) {
     let orderArr = [];
 
     csv.forEach((o) => {
-      let marketValueArr = o["MARKET TOTAL VALUE"].replace("$", "").replace(",", "").replace(" ", "").split("."),
+      let marketValueArr = o["MARKET TOTAL VALUE"]
+          .trim()
+          .replace(/[=$,"]/g, "")
+          .split("."),
         marketImproveValueArr = o["MARKET IMPROVEMENT VALUE"]
-          .replace("$", "")
-          .replace(",", "")
-          .replace(" ", "")
+          .trim()
+          .replace(/[=$,"]/g, "")
           .split(".");
       orderArr.push({
-        situsStreetAddress: o["SITUS STREET ADDRESS"] ? o["SITUS STREET ADDRESS"].trim().replace(",", "") : "",
-        situsCity: o["SITUS CITY"] ? o["SITUS CITY"].trim() : "",
-        situsState: o["SITUS STATE"] ? o["SITUS STATE"].trim() : "",
-        situsZipCode: o["SITUS ZIP CODE"] ? o["SITUS ZIP CODE"].trim() : "",
-        county: o["COUNTY"] ? o["COUNTY"].trim() : "",
-        lotArea: o["LOT AREA"] ? Number(o["LOT AREA"]) : 0,
-        lotAcreage: o["LOT ACREAGE"] ? Number(o["LOT ACREAGE"]) : 0,
-        legalDescription: o["LEGAL DESCRIPTION"] ? o["LEGAL DESCRIPTION"] : "",
-        legalLot: o["LEGAL LOT"] ? o["LEGAL LOT"].trim() : "",
-        subdivision: o["SUBDIVISION"] ? o["SUBDIVISION"].trim() : "",
-        municipalityTownship: o["MUNICIPALITY/TOWNSHIP"] ? o["MUNICIPALITY/TOWNSHIP"].trim() : "",
-        latitude: o["LATITUDE"] ? o["LATITUDE"] : "",
-        longitude: o["LONGITUDE"] ? o["LONGITUDE"] : "",
+        situsStreetAddress: o["SITUS STREET ADDRESS"] ? o["SITUS STREET ADDRESS"].trim().replace(/[=,"]/g, "") : "",
+        situsCity: o["SITUS CITY"] ? o["SITUS CITY"].trim().replace(/[=,"]/g, "") : "",
+        situsState: o["SITUS STATE"] ? o["SITUS STATE"].trim().replace(/[=,"]/g, "") : "",
+        situsZipCode: o["SITUS ZIP CODE"] ? o["SITUS ZIP CODE"].trim().replace(/[=,"]/g, "") : "",
+        county: o["COUNTY"] ? o["COUNTY"].trim().replace(/[=,"]/g, "") : "",
+        lotArea: o["LOT AREA"] ? Number(o["LOT AREA"].trim().replace(/[=,"]/g, "")) : 0,
+        lotAcreage: o["LOT ACREAGE"] ? Number(o["LOT ACREAGE"].trim().replace(/[=,"]/g, "")) : 0,
+        legalDescription: o["LEGAL DESCRIPTION"] ? o["LEGAL DESCRIPTION"].trim().replace(/[,"]/g, "") : "",
+        legalLot: o["LEGAL LOT"] ? o["LEGAL LOT"].trim().replace(/[=,"]/g, "") : "",
+        subdivision: o["SUBDIVISION"] ? o["SUBDIVISION"].trim().replace(/[=,"]/g, "") : "",
+        municipalityTownship: o["MUNICIPALITY/TOWNSHIP"] ? o["MUNICIPALITY/TOWNSHIP"].trim().replace(/[=,"]/g, "") : "",
+        latitude: o["LATITUDE"] ? o["LATITUDE"].trim().replace(/[=,"]/g, "") : "",
+        longitude: o["LONGITUDE"] ? o["LONGITUDE"].trim().replace(/[=,"]/g, "") : "",
         // 'ALTERNATE APN': o['ALTERNATE APN'].replace('\"', '').replace('\"', '').replace('=', ''),
         // 'APN - UNFORMATTED': o['APN - UNFORMATTED'].length > o['ALTERNATE APN'].length ? o['ALTERNATE APN'] : o['APN - UNFORMATTED'],
         // 'APN - UNFORMATTED': o['APN - UNFORMATTED'],
-        apnFormatted: o["APN - FORMATTED"] ? o["APN - FORMATTED"].trim() : "",
+        apnFormatted: o["APN - FORMATTED"] ? o["APN - FORMATTED"].trim().replace(/[=,"]/g, "") : "",
         // Flood zone A and AE  true;  X and blank false
-        inFloodZone: o["FLOOD ZONE CODE"] ? o["FLOOD ZONE CODE"].trim() : "",
-        ownerMailingName: o["OWNER MAILING NAME"] ? o["OWNER MAILING NAME"].trim() : "",
-        mailingStreetAddress: o["MAILING STREET ADDRESS"] ? o["MAILING STREET ADDRESS"].trim() : "",
-        mailCity: o["MAIL CITY"] ? o["MAIL CITY"].trim() : "",
-        mailState: o["MAIL STATE"] ? o["MAIL STATE"].trim() : "",
-        mailZipZip4: o["MAIL ZIP/ZIP+4"] ? o["MAIL ZIP/ZIP+4"].replace('"', "").replace('"', "").replace("=", "") : "",
-        marketTotalValue: marketValueArr[0] ? Number(marketValueArr[0]) : 0,
-        marketImprovementValue: marketImproveValueArr[0] ? Number(marketImproveValueArr[0]) : 0,
+        inFloodZone: o["FLOOD ZONE CODE"] ? o["FLOOD ZONE CODE"].trim().replace(/[=,"]/g, "") : "",
+        ownerMailingName: o["OWNER MAILING NAME"] ? o["OWNER MAILING NAME"].trim().replace(/[=,"]/g, "") : "",
+        mailingStreetAddress: o["MAILING STREET ADDRESS"]
+          ? o["MAILING STREET ADDRESS"].trim().replace(/[=,"]/g, "")
+          : "",
+        mailCity: o["MAIL CITY"] ? o["MAIL CITY"].trim().replace(/[=,"]/g, "") : "",
+        mailState: o["MAIL STATE"] ? o["MAIL STATE"].trim().replace(/[=,"]/g, "") : "",
+        mailZipZip4: o["MAIL ZIP/ZIP+4"] ? o["MAIL ZIP/ZIP+4"].trim().replace(/[=,"]/g, "") : "",
+        marketTotalValue: marketValueArr[0] ? Number(marketValueArr[0].trim().replace(/[=,"]/g, "")) : 0,
+        marketImprovementValue: marketImproveValueArr[0]
+          ? Number(marketImproveValueArr[0].trim().replace(/[=,"]/g, ""))
+          : 0,
         date: getFormattedDate(),
         id: 0,
         finalPPA: 0,
@@ -290,6 +301,7 @@ function calculateSoldArr(buyProperty, soldData, mileageArr) {
       }
     });
   });
+
   return { soldArr: soldArr, totalPPA: totalPPA };
 }
 
@@ -330,6 +342,10 @@ function mergeData(buyData, soldData, mileageArr) {
       }
 
       buyData[bk]["avgPPA2"] = ppa2 !== 0 && soldArr2.length !== 0 ? Math.round(ppa2 / soldArr2.length) : 0;
+      // if (buyData[bk]["situsStreetAddress"] === "907 Creechville Rd") {
+      //   console.log(buyData[bk]);
+      //   console.log(soldArr2);
+      // }
 
       // PPA 3:  All 5 avg. pricePerAcre
       buyData[bk]["avgPPA3"] =
