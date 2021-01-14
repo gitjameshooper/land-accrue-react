@@ -333,19 +333,15 @@ function mergeData(buyData, soldData, mileageArr) {
       let soldArr2 = _.sortBy(buyData[bk]["soldArr"], ["pricePerAcre"]).slice(1, 4),
         ppa2 = 0;
 
-      if (soldArr2[1] && soldArr2[2] && soldArr2[3]) {
-        ppa2 = soldArr2[1]["pricePerAcre"] + soldArr2[2]["pricePerAcre"] + soldArr2[3]["pricePerAcre"];
-      } else if (soldArr2[1] && soldArr2[2]) {
-        ppa2 = soldArr2[1]["pricePerAcre"] + soldArr2[2]["pricePerAcre"];
-      } else if (soldArr2[1]) {
-        ppa2 = soldArr2[1]["pricePerAcre"];
+      if (soldArr2[0] && soldArr2[1] && soldArr2[2]) {
+        ppa2 = soldArr2[0]["pricePerAcre"] + soldArr2[1]["pricePerAcre"] + soldArr2[2]["pricePerAcre"];
+      } else if (soldArr2[0] && soldArr2[1]) {
+        ppa2 = soldArr2[0]["pricePerAcre"] + soldArr2[1]["pricePerAcre"];
+      } else if (soldArr2[0]) {
+        ppa2 = soldArr2[0]["pricePerAcre"];
       }
 
       buyData[bk]["avgPPA2"] = ppa2 !== 0 && soldArr2.length !== 0 ? Math.round(ppa2 / soldArr2.length) : 0;
-      // if (buyData[bk]["situsStreetAddress"] === "907 Creechville Rd") {
-      //   console.log(buyData[bk]);
-      //   console.log(soldArr2);
-      // }
 
       // PPA 3:  All 5 avg. pricePerAcre
       buyData[bk]["avgPPA3"] =
