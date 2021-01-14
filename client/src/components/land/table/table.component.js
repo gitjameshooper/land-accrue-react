@@ -57,7 +57,7 @@ export default function DataTable(props) {
     });
   };
   const numberWithCommas = (x) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "0";
   };
   const changePrice = (e, rowData) => {
     let i = properties.findIndex((property) => property._id === rowData._id);
