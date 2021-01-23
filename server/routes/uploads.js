@@ -111,32 +111,36 @@ function getFormattedDate() {
   );
 }
 
+function regexFormat(str, type) {
+  if (type === "number") {
+    return Number(str.trim().replace(/[^0-9.]/gi, ""));
+  }
+  return str.trim().replace(/[^a-z0-9.\s-]/gi, "");
+}
+
 function formatSoldData(csv) {
   return new Promise((res, rej) => {
     let orderArr = [];
 
     csv.forEach((o) => {
       let acreSquareFeet = 43560,
-        priceArr = o["PRICE"]
-          .trim()
-          .replace(/[=$,"]/g, "")
-          .split(".");
+        price = regexFormat(o["PRICE"], "number");
       orderArr.push({
-        address: o["ADDRESS"] ? o["ADDRESS"].trim().replace(/[=,"]/g, "") : "",
-        city: o["CITY"] ? o["CITY"].trim().replace(/[=,"]/g, "") : "",
-        state: o["STATE OR PROVINCE"] ? o["STATE OR PROVINCE"].trim().replace(/[=,"]/g, "") : "",
-        zip: o["ZIP OR POSTAL CODE"] ? o["ZIP OR POSTAL CODE"].trim().replace(/[=,"]/g, "") : "",
-        soldPrice: priceArr[0] ? Number(priceArr[0].trim().replace(/[$=,"]/g, "")) : 0,
-        lotArea: o["LOT SIZE"] ? Number(o["LOT SIZE"].trim().replace(/[=,"]/g, "")) : 0,
+        address: o["ADDRESS"] ? regexFormat(o["ADDRESS"], "string") : "",
+        city: o["CITY"] ? regexFormat(o["CITY"], "string") : "",
+        state: o["STATE OR PROVINCE"] ? regexFormat(o["STATE OR PROVINCE"], "string") : "",
+        zip: o["ZIP OR POSTAL CODE"] ? regexFormat(o["ZIP OR POSTAL CODE"], "string") : "",
+        soldPrice: price ? price : 0,
+        lotArea: o["LOT SIZE"] ? regexFormat(o["LOT SIZE"], "number") : 0,
         lotAcreage: o["LOT SIZE"]
-          ? Number(parseFloat(o["LOT SIZE"].trim().replace(/[=,"]/g, "") / acreSquareFeet).toFixed(2))
+          ? Number(parseFloat(regexFormat(o["LOT SIZE"], "string") / acreSquareFeet).toFixed(2))
           : 0,
         pricePerAcre:
-          priceArr[0] && o["LOT SIZE"]
-            ? Math.round(Number(priceArr[0]) / (o["LOT SIZE"].trim().replace(/[=,"]/g, "") / acreSquareFeet))
+          price && o["LOT SIZE"]
+            ? Math.round(Number(price) / (regexFormat(o["LOT SIZE"], "number") / acreSquareFeet))
             : 0,
-        latitude: o["LATITUDE"] ? o["LATITUDE"] : "",
-        longitude: o["LONGITUDE"] ? o["LONGITUDE"] : "",
+        latitude: o["LATITUDE"] ? regexFormat(o["LATITUDE"], "string") : "",
+        longitude: o["LONGITUDE"] ? regexFormat(o["LONGITUDE"], "string") : "",
         url: o["URL (SEE http://www.redfin.com/buy-a-home/comparative-market-analysis FOR INFO ON PRICING)"] || "",
         distance: 0,
       });
@@ -150,44 +154,34 @@ function formatBuyData(csv) {
     let orderArr = [];
 
     csv.forEach((o) => {
-      let marketValueArr = o["MARKET TOTAL VALUE"]
-          .trim()
-          .replace(/[=$,"]/g, "")
-          .split("."),
-        marketImproveValueArr = o["MARKET IMPROVEMENT VALUE"]
-          .trim()
-          .replace(/[=$,"]/g, "")
-          .split(".");
       orderArr.push({
-        situsStreetAddress: o["SITUS STREET ADDRESS"] ? o["SITUS STREET ADDRESS"].trim().replace(/[=,"]/g, "") : "",
-        situsCity: o["SITUS CITY"] ? o["SITUS CITY"].trim().replace(/[=,"]/g, "") : "",
-        situsState: o["SITUS STATE"] ? o["SITUS STATE"].trim().replace(/[=,"]/g, "") : "",
-        situsZipCode: o["SITUS ZIP CODE"] ? o["SITUS ZIP CODE"].trim().replace(/[=,"]/g, "") : "",
-        county: o["COUNTY"] ? o["COUNTY"].trim().replace(/[=,"]/g, "") : "",
-        lotArea: o["LOT AREA"] ? Number(o["LOT AREA"].trim().replace(/[=,"]/g, "")) : 0,
-        lotAcreage: o["LOT ACREAGE"] ? Number(o["LOT ACREAGE"].trim().replace(/[=,"]/g, "")) : 0,
-        legalDescription: o["LEGAL DESCRIPTION"] ? o["LEGAL DESCRIPTION"].trim().replace(/[,"]/g, "") : "",
-        legalLot: o["LEGAL LOT"] ? o["LEGAL LOT"].trim().replace(/[=,"]/g, "") : "",
-        subdivision: o["SUBDIVISION"] ? o["SUBDIVISION"].trim().replace(/[=,"]/g, "") : "",
-        municipalityTownship: o["MUNICIPALITY/TOWNSHIP"] ? o["MUNICIPALITY/TOWNSHIP"].trim().replace(/[=,"]/g, "") : "",
-        latitude: o["LATITUDE"] ? o["LATITUDE"].trim().replace(/[=,"]/g, "") : "",
-        longitude: o["LONGITUDE"] ? o["LONGITUDE"].trim().replace(/[=,"]/g, "") : "",
+        situsStreetAddress: o["SITUS STREET ADDRESS"] ? regexFormat(o["SITUS STREET ADDRESS"], "string") : "",
+        situsCity: o["SITUS CITY"] ? regexFormat(o["SITUS CITY"], "string") : "",
+        situsState: o["SITUS STATE"] ? regexFormat(o["SITUS STATE"], "string") : "",
+        situsZipCode: o["SITUS ZIP CODE"] ? regexFormat(o["SITUS ZIP CODE"], "string") : "",
+        county: o["COUNTY"] ? regexFormat(o["COUNTY"], "string") : "",
+        lotArea: o["LOT AREA"] ? regexFormat(o["LOT AREA"], "number") : 0,
+        lotAcreage: o["LOT ACREAGE"] ? regexFormat(o["LOT ACREAGE"], "number") : 0,
+        legalDescription: o["LEGAL DESCRIPTION"] ? o["LEGAL DESCRIPTION"].trim() : "",
+        legalLot: o["LEGAL LOT"] ? regexFormat(o["LEGAL LOT"], "string") : "",
+        subdivision: o["SUBDIVISION"] ? regexFormat(o["SUBDIVISION"], "string") : "",
+        municipalityTownship: o["MUNICIPALITY/TOWNSHIP"] ? regexFormat(o["MUNICIPALITY/TOWNSHIP"], "string") : "",
+        latitude: o["LATITUDE"] ? regexFormat(o["LATITUDE"], "string") : "",
+        longitude: o["LONGITUDE"] ? regexFormat(o["LONGITUDE"], "string") : "",
         // 'ALTERNATE APN': o['ALTERNATE APN'].replace('\"', '').replace('\"', '').replace('=', ''),
         // 'APN - UNFORMATTED': o['APN - UNFORMATTED'].length > o['ALTERNATE APN'].length ? o['ALTERNATE APN'] : o['APN - UNFORMATTED'],
         // 'APN - UNFORMATTED': o['APN - UNFORMATTED'],
-        apnFormatted: o["APN - FORMATTED"] ? o["APN - FORMATTED"].trim().replace(/[=,"]/g, "") : "",
+        apnFormatted: o["APN - FORMATTED"] ? regexFormat(o["APN - FORMATTED"], "string") : "",
         // Flood zone A and AE  true;  X and blank false
-        inFloodZone: o["FLOOD ZONE CODE"] ? o["FLOOD ZONE CODE"].trim().replace(/[=,"]/g, "") : "",
-        ownerMailingName: o["OWNER MAILING NAME"] ? o["OWNER MAILING NAME"].trim().replace(/[=,"]/g, "") : "",
-        mailingStreetAddress: o["MAILING STREET ADDRESS"]
-          ? o["MAILING STREET ADDRESS"].trim().replace(/[=,"]/g, "")
-          : "",
-        mailCity: o["MAIL CITY"] ? o["MAIL CITY"].trim().replace(/[=,"]/g, "") : "",
-        mailState: o["MAIL STATE"] ? o["MAIL STATE"].trim().replace(/[=,"]/g, "") : "",
-        mailZipZip4: o["MAIL ZIP/ZIP+4"] ? o["MAIL ZIP/ZIP+4"].trim().replace(/[=,"]/g, "") : "",
-        marketTotalValue: marketValueArr[0] ? Number(marketValueArr[0].trim().replace(/[=,"]/g, "")) : 0,
-        marketImprovementValue: marketImproveValueArr[0]
-          ? Number(marketImproveValueArr[0].trim().replace(/[=,"]/g, ""))
+        inFloodZone: o["FLOOD ZONE CODE"] ? regexFormat(o["FLOOD ZONE CODE"], "string") : "",
+        ownerMailingName: o["OWNER MAILING NAME"] ? regexFormat(o["OWNER MAILING NAME"], "string") : "",
+        mailingStreetAddress: o["MAILING STREET ADDRESS"] ? regexFormat(o["MAILING STREET ADDRESS"], "string") : "",
+        mailCity: o["MAIL CITY"] ? regexFormat(o["MAIL CITY"], "string") : "",
+        mailState: o["MAIL STATE"] ? regexFormat(o["MAIL STATE"], "string") : "",
+        mailZipZip4: o["MAIL ZIP/ZIP+4"] ? regexFormat(o["MAIL ZIP/ZIP+4"], "string") : "",
+        marketTotalValue: o["MARKET TOTAL VALUE"] ? regexFormat(o["MARKET TOTAL VALUE"], "number") : 0,
+        marketImprovementValue: o["MARKET IMPROVEMENT VALUE"]
+          ? regexFormat(o["MARKET IMPROVEMENT VALUE"], "number")
           : 0,
         date: getFormattedDate(),
         id: 0,
@@ -207,7 +201,11 @@ function formatBuyData(csv) {
         statusColor: "",
         marketValueFlag: false,
         // 'propertyLink': 'https://www.google.com/search?q='+o['SITUS FULL ADDRESS'].trim().replace(/[ ]/g,'+').replace('++','+')
-        propertyLink: "https://www.google.com/maps/place/" + o["LATITUDE"] + "+" + o["LONGITUDE"],
+        propertyLink:
+          "https://www.google.com/maps/place/" +
+          regexFormat(o["LATITUDE"], "string") +
+          "+" +
+          regexFormat(o["LONGITUDE"], "string"),
       });
     });
     res(orderArr);
