@@ -297,7 +297,15 @@ function calculateSoldArr(buyProperty, soldData, mileageArr) {
         totalPPA += soldData[sk]["pricePerAcre"];
         soldArr.push(soldProp);
       }
+      // break loop if 5 sold properties found
+      if (soldArr.length >= 5) {
+        return false;
+      }
     });
+    // break loop if 5 sold properties found
+    if (soldArr.length >= 5) {
+      return false;
+    }
   });
 
   return { soldArr: soldArr, totalPPA: totalPPA };
@@ -425,14 +433,15 @@ async function addData(usStateName, usStateAbbv, countyName, maxMileage, next) {
     let usCounty =
       (await County.findOne({ countyId: countyId }).exec()) ||
       (await new County({ name: countyName, countyId: countyId, stateAbbv: usStateAbbv }).save());
-
     // Add Buy and sold properties into counties collection in DB
     let buyData = await csvToJson()
       .fromFile(`./csv/${usStateAbbv}/${countyName}/buy.csv`)
       .then((data) => formatBuyData(data));
+
     let soldData = await csvToJson()
       .fromFile(`./csv/${usStateAbbv}/${countyName}/sold.csv`)
       .then((data) => formatSoldData(data));
+
     // Merge data by making calculations
     return await mergeData(buyData, soldData, mileageArr).then((data) =>
       addProperties("totalProperties", usCounty, data)
