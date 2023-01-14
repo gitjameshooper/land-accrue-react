@@ -1,19 +1,22 @@
 {
-  "name": "lc-app",
-  "version": "1.0.0",
-  "author": "Jameshooper",
-  "description": "land accure pricing app",
-  "private": true,
-  "scripts": {
-    "start": "cd server && npm install && node index.js",
-    "build": "cd client && npm run build:prod",
-    "install-client": "cd client && npm install",
-    "heroku-postbuild": "npm run install-client && npm run build",
-    "backend": "nodemon server/index.js",
-    "frontend": "npm run start --prefix client",
-    "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\""
-  },
-  "dependencies": {
-    "concurrently": "^5.3.0"
-  }
+    "name": "lc-app",
+    "version": "1.0.0",
+    "author": "Jameshooper",
+    "description": "land accure pricing app",
+    "private": true,
+    "engines": {
+        "node": "12.19.0"
+    },
+    "scripts": {
+        "start": "cd server && npm install && node index.js",
+        "build": "cd client && npm run build:prod",
+        "install-client": "cd client && npm install",
+        "heroku-postbuild": "npm run install-client && npm run build",
+        "backend": "nodemon server/index.js",
+        "frontend": "npm run start --prefix client",
+        "dev": "concurrently \"npm run backend\" \"npm run start --prefix client\""
+    },
+    "dependencies": {
+        "concurrently": "^5.3.0"
+    }
 }
