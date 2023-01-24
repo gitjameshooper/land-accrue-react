@@ -5,16 +5,14 @@ import "./mile-slider.scss";
 
 export default function MileSlider(props) {
   const marks = [
-    { value: 2, label: "2" },
-    { value: 4, label: "4" },
-    { value: 6, label: "6" },
-    { value: 8, label: "8" },
+    { value: 5, label: "5" },
     { value: 10, label: "10" },
-    { value: 12, label: "12" },
-    { value: 14, label: "14" },
-    { value: 16, label: "16" },
-    { value: 18, label: "18" },
+    { value: 15, label: "15" },
     { value: 20, label: "20" },
+    { value: 25, label: "25" },
+    { value: 30, label: "30" },
+    { value: 35, label: "35" },
+    { value: 40, label: "40" },
   ];
   const updateMileage = (e, value) => {
     props.onChangeMileage(value);
@@ -22,11 +20,11 @@ export default function MileSlider(props) {
   return (
     <div className="mile-slider-component">
       <Slider
-        defaultValue={8}
+        defaultValue={40}
         aria-labelledby="discrete-slider-always"
-        step={1}
-        min={1}
-        max={20}
+        step={5}
+        min={5}
+        max={40}
         onChange={updateMileage}
         marks={marks}
         valueLabelDisplay="on"

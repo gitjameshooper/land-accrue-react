@@ -169,23 +169,25 @@ export default function DataTable(props) {
   return (
     <div ref={tableRef} className="table-component">
       <div className="toolbar">
+        {" "}
         {!store.land.tableLoading && (
           <div className="land-totals">
             <span className="items">
               <LabelIcon className="label-icon green" />
-              <span className="num-text">{landTotals.green}</span>
-            </span>
+              <span className="num-text"> {landTotals.green} </span>{" "}
+            </span>{" "}
             <span className="items">
               <LabelIcon className="label-icon yellow" />
-              <span className="num-text">{landTotals.yellow}</span>
-            </span>
+              <span className="num-text"> {landTotals.yellow} </span>{" "}
+            </span>{" "}
             <span className="items">
               <LabelIcon className="label-icon red" />
-              <span className="num-text">{landTotals.red}</span>
-            </span>
+              <span className="num-text"> {landTotals.red} </span>{" "}
+            </span>{" "}
           </div>
-        )}
+        )}{" "}
         <div className="actions-bar">
+          {" "}
           {store.user.loggedIn && store.land.countyId && (
             <a
               title="Download CSV"
@@ -196,13 +198,12 @@ export default function DataTable(props) {
               href={`/api/downloads/csv/${store.land.countyId}`}>
               <GetAppIcon />
             </a>
-          )}
+          )}{" "}
           <span title="Toggle Rows" className="toggle items" onClick={toggleRows}>
             <ImportExportIcon />
-          </span>
-        </div>
+          </span>{" "}
+        </div>{" "}
       </div>
-
       <MaterialTable
         isLoading={store.land.tableLoading}
         icons={tableIcons}
@@ -234,7 +235,8 @@ export default function DataTable(props) {
                   target="_blank"
                   rel="noopener noreferrer"
                   href={`${rowData["propertyLink"]}`}>
-                  {rowData["situsStreetAddress"]}
+                  {" "}
+                  {rowData["situsStreetAddress"]}{" "}
                 </a>
               ) : (
                 rowData["address"]
@@ -264,11 +266,9 @@ export default function DataTable(props) {
             render: (rowData) =>
               rowData["estValue1"] ? (
                 <span>
-                  1: ${numberWithCommas(rowData["estValue1"])}
-                  <br />
-                  2: ${numberWithCommas(rowData["estValue2"])}
-                  <br />
-                  3: ${numberWithCommas(rowData["estValue3"])}
+                  1: $ {numberWithCommas(rowData["estValue1"])} <br />
+                  2: $ {numberWithCommas(rowData["estValue2"])} <br />
+                  3: $ {numberWithCommas(rowData["estValue3"])}{" "}
                 </span>
               ) : (
                 ""
@@ -329,7 +329,7 @@ export default function DataTable(props) {
             },
           },
         ]}
-      />
+      />{" "}
     </div>
   );
 }
